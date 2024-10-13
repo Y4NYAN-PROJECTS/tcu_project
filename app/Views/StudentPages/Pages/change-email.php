@@ -2,7 +2,7 @@
 <?= $this->section('content'); ?>
 
 <div id="main-content">
-    <div class="page-heading mb-3">
+    <div class="page-heading mt-5">
         <div class="page-title">
             <div class="row">
                 <div class="col-12 col-md-6 order-md-1 order-last">
@@ -26,11 +26,13 @@
                 <form action="/StudentController/ChangeEmailPage" method="post">
                     <div class="row d-flex justify-content-center align-items-center mt-3">
                         <div class="col-md-8">
+                            <small>Note: You current email address is <strong class="text-primary"><?= session()->get('logged_email')?></strong>. To change your email kindly fill up the form below.</small>
+                            <hr class="text-primary mt-1">
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-12 mt-2">
                                     <div class="form-group">
                                         <label for="newEmail">New Email</label>
-                                        <input type="text" class="form-control" id="newEmail" name="new_email" autofocus>
+                                        <input type="text" class="form-control mt-2" id="newEmail" name="new_email" autofocus required>
                                         <div class="invalid-feedback">
                                             <i class="bx bx-radio-circle"></i>
                                             Invalid Email.
@@ -38,10 +40,10 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-12">
+                                <div class="col-md-12 mt-2">
                                     <div class="form-group">
                                         <label for="confirmEmail">Confirm Email</label>
-                                        <input type="text" class="form-control" id="confirmEmail" name="confirm_email">
+                                        <input type="text" class="form-control mt-2" id="confirmEmail" name="confirm_email" required>
                                         <div class="invalid-feedback">
                                             <i class="bx bx-radio-circle"></i>
                                             Email does not match.

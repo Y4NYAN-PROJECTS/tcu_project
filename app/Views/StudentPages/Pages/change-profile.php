@@ -2,7 +2,7 @@
 <?= $this->section('content'); ?>
 
 <div id="main-content">
-    <div class="page-heading mb-3">
+    <div class="page-heading mt-5">
         <div class="page-title">
             <div class="row">
                 <div class="col-12 col-md-6 order-md-1 order-last">
@@ -31,11 +31,37 @@
                         </div>
                         <div class="col-md-8">
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-sm-12 col-md-12 col-xl-4">
+                                    <div class="form-group">
+                                        <div class="form-group mb-4">
+                                            <label class="text-sm" for="">First Name</label>
+                                            <input type="text" id="new_full_name" class="form-control" name="new_first_name" placeholder="First Name" autofocus>
+                                            <div class="invalid-feedback">
+                                                <i class="bx bx-radio-circle"></i>
+                                                Contains special characters or numbers
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12 col-md-6 col-xl-4">
                                     <div class="form-group">
                                         <div class="form-group mb-3">
-                                            <label class="text-sm" for="">Full Name</label>
-                                            <input type="text" id="new_full_name" class="form-control" name="new_name" placeholder="Change name" autofocus>
+                                            <label class="text-sm" for="">Middle Name</label>
+                                            <input type="text" id="new_full_name" class="form-control" name="new_middle_name" placeholder="Middle Name" autofocus>
+                                            <div class="invalid-feedback">
+                                                <i class="bx bx-radio-circle"></i>
+                                                Contains special characters or numbers
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12 col-md-6 col-xl-4">
+                                    <div class="form-group">
+                                        <div class="form-group mb-3">
+                                            <label class="text-sm" for="">Last Name</label>
+                                            <input type="text" id="new_full_name" class="form-control" name="new_last_name" placeholder="Last Name" autofocus>
                                             <div class="invalid-feedback">
                                                 <i class="bx bx-radio-circle"></i>
                                                 Contains special characters or numbers

@@ -2,7 +2,7 @@
 <?= $this->section('content'); ?>
 
 <div id="main-content">
-    <div class="page-heading mb-3">
+    <div class="page-heading mt-5">
         <div class="page-title">
             <div class="row">
                 <div class="col-12 col-md-6 order-md-1 order-last">
@@ -26,11 +26,13 @@
                 <form action="/StudentController/ChangePasswordPage" method="post">
                     <div class="row d-flex justify-content-center align-items-center mt-3">
                         <div class="col-md-8">
+                            <small>Note: Remember your password. To change your password kindly fill up the form below.</small>
+                            <hr class="text-primary mt-1">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <div class="form-group">
+                                    <div class="form-group mt-2">
                                         <label for="newPassword">New Password</label>
-                                        <input type="password" class="form-control" id="newPassword" name="new_password" autofocus>
+                                        <input type="password" class="form-control mt-2" id="newPassword" name="new_password" autofocus>
                                         <div class="invalid-feedback">
                                             <i class="bx bx-radio-circle"></i>
                                             Password must be 8 characters long.
@@ -38,10 +40,10 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6">
+                                <div class="col-md-6 mt-2">
                                     <div class="form-group">
                                         <label for="oldPassword">Current Password</label>
-                                        <input type="password" class="form-control" id="oldPassword" name="old_password">
+                                        <input type="password" class="form-control mt-2" id="oldPassword" name="old_password">
                                         <div class="invalid-feedback">
                                             <i class="bx bx-radio-circle"></i>
                                             Password does not match.

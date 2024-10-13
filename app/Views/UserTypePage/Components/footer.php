@@ -2,7 +2,7 @@
     <div class="container">
         <div class="footer clearfix mb-0 text-muted">
             <div class="float-start">
-                <p>2024 &copy; Copyright © Philsca - Web-Based Research Management System with Data Analytics</p>
+                <p>Copyright 2024 &copy; Taguig City University - Digital Equipment and Appliances Logging System</p>
             </div>
             <div class="float-end">
                 <div class="theme-toggle d-flex align-items-center">

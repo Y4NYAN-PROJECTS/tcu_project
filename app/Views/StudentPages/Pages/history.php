@@ -3,7 +3,7 @@
 
 <div id="main-content">
     <div class="vh-100">
-        <div class="page-heading my-5">
+        <div class="page-heading mt-5">
             <div class="page-title">
                 <div class="row">
                     <div class="col-12 col-md-6 order-md-1 order-last">

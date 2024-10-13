@@ -34,7 +34,7 @@
         </div>
 
         <div class="float-end">
-            <p>Philippine State College of Aeronautics</p>
+           Copyright 2024 &copy; Taguig City University - Digital Equipment and Appliances Logging System
         </div>
     </div>
 </footer>

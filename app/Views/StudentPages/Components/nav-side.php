@@ -22,21 +22,21 @@
                     </a>
                 </li>
 
-                <li class="sidebar-item  <?= $nav_active == 'profile' ? 'active' : '' ?>">
+                <li class="sidebar-item  <?= $nav_active == 'form' ? 'active' : '' ?>">
                     <a href="/StudentController/EntranceFormPage" class='sidebar-link'>
                         <i class="bi bi-ui-checks"></i>
                         <span>Entrance Form</span>
                     </a>
                 </li>
 
-                <li class="sidebar-item  <?= $nav_active == 'profile' ? 'active' : '' ?>">
+                <li class="sidebar-item  <?= $nav_active == 'equipments' ? 'active' : '' ?>">
                     <a href="/StudentController/EquipmentsPage" class='sidebar-link'>
                         <i class="bi bi-laptop"></i>
                         <span>Equipments</span>
                     </a>
                 </li>
 
-                <li class="sidebar-item  <?= $nav_active == 'profile' ? 'active' : '' ?>">
+                <li class="sidebar-item  <?= $nav_active == 'history' ? 'active' : '' ?>">
                     <a href="/StudentController/HistoryPage" class='sidebar-link'>
                         <i class="bi bi-hourglass-split"></i>
                         <span>History</span>
