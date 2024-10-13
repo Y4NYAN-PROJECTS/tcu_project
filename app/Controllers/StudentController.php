@@ -33,6 +33,8 @@ class StudentController extends BaseController
 
     public function EntranceFormPage()
     {
+        // [ Active Navigation ]
+        session()->set('nav_active', 'form');
 
         $_student_user_code = session()->get('logged_code');
 
@@ -78,32 +80,33 @@ class StudentController extends BaseController
             $directoryPath = FCPATH . $img_path;
 
             if (!is_dir($directoryPath)) {
-            mkdir($directoryPath, 0777, true);
-        }
+                mkdir($directoryPath, 0777, true);
+            }
 
-        if($rqst_qrcode_image && $rqst_qrcode_image->isValid()){
-                $_qr_image=  $rqst_qrcode_file_name;
-                $_qrcode_path = "$img_path/$_qr_image";
+            if($rqst_qrcode_image && $rqst_qrcode_image->isValid()){
+                    $_qr_image=  $rqst_qrcode_file_name;
+                    $_qrcode_path = "$img_path/$_qr_image";
 
-                $_form_data = [
-                'form_code' => $rqst_form_code,
-                'user_id' => $_user_id,
-                'user_code' => $_user_code,
-                'full_name' => $_user_full_name,
-                'student_equipment_code' => $student_equipment_code,
-                'equipment_count' => $rqst_equipment_count,
-                'image_path' => $_qrcode_path,
-            ];
-            $FormModel->insert($_form_data);
-            $rqst_qrcode_image->move($directoryPath, $_qr_image);
-                return redirect()->back();
+                    $_form_data = [
+                    'form_code' => $rqst_form_code,
+                    'user_id' => $_user_id,
+                    'user_code' => $_user_code,
+                    'full_name' => $_user_full_name,
+                    'student_equipment_code' => $student_equipment_code,
+                    'equipment_count' => $rqst_equipment_count,
+                    'image_path' => $_qrcode_path,
+                ];
+                $FormModel->insert($_form_data);
+                $rqst_qrcode_image->move($directoryPath, $_qr_image);
+                    return redirect()->back();
+            }
         }
-        }
-
     }
 
     public function EquipmentsPage()
     {
+        // [ Active Navigation ]
+        session()->set('nav_active', 'equipments');
 
         $EquipmentTypeModel = new EquipmentTypeModel();
         $_display_equipment = $EquipmentTypeModel->findAll();
@@ -171,21 +174,16 @@ class StudentController extends BaseController
         return view('/StudentPages/Pages/history');
     }
 
-
-    // DRAFT
-
-    public function EquipmentDetailsPage($_student_equipment_code){
-
+    public function EquipmentDetailsPage($_student_equipment_code)
+    {
         $_student_user_code = session()->get('logged_code');
 
         $StudentEquipmentModel = new EquipmentStudentModel;
         $_student_equipment = $StudentEquipmentModel->where('student_equipment_code', $_student_equipment_code)->where('user_code', $_student_user_code)->first();
 
        if ($_student_equipment) {
-        $_data = [
-            'equimentDetails' => $_student_equipment, // This will now be a single array
-        ];
-    }
+            $_data = ['equimentDetails' => $_student_equipment];
+        }
 
         return view('/StudentPages/Pages/details', $_data);
     }
