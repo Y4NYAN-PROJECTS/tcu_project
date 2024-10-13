@@ -4,6 +4,9 @@ namespace App\Controllers;
 use App\Models\DepartmentModel;
 use App\Models\ProgramModel;
 use App\Models\UserModel;
+use App\Models\EquipmentTypeModel;
+use App\Models\EquipmentStudentModel;
+use App\Models\FormModel;
 
 class StudentController extends BaseController
 {
@@ -30,18 +33,134 @@ class StudentController extends BaseController
 
     public function EntranceFormPage()
     {
-        // [ Active Navigation ]
-        session()->set('nav_active', 'form');
 
-        return view('/StudentPages/Pages/entrance-form');
+        $_student_user_code = session()->get('logged_code');
+
+        $StudentEquipmentModel = new EquipmentStudentModel;
+        $_student_equipment = $StudentEquipmentModel->where('user_code', $_student_user_code)->findAll();
+
+        $FormModel = new FormModel();
+        $_student_form = $FormModel->where('user_code', $_student_user_code)->findAll();
+
+
+        $_data = [
+            'studentEquipment' => $_student_equipment,
+            'studentForm' => $_student_form,
+        ];
+
+        session()->setFlashdata('success', 'Welcome Back!');
+        return view('/StudentPages/Pages/entrance-form', $_data);
+    }
+
+     public function EntranceForm()
+    {
+        $_user_id = session()->get('logged_id');
+        $_user_code = session()->get('logged_code');
+        $_user_full_name = session()->get('logged_fullname');
+
+        $rqst_form_code = $this->request->getPost('form_code');
+        $rqst_selected_equipments = $this->request->getPost('student_equipment');
+        $rqst_equipment_count = $this->request->getPost('equipment_count');
+        $rqst_qrcode_image = $this->request->getFile('qr_code_file');
+        $rqst_qrcode_file_name = $this->request->getPost('qr_code_file_name');
+
+        if ($rqst_selected_equipments) {
+            $equipment_codes = [];
+
+            foreach ($rqst_selected_equipments as $id) {
+                $equipment_codes[] = htmlspecialchars($id);
+            }
+
+            $student_equipment_code = implode('|', $equipment_codes);
+            $FormModel = new FormModel();
+
+            $img_path = "/assets/qr_code";
+            $directoryPath = FCPATH . $img_path;
+
+            if (!is_dir($directoryPath)) {
+            mkdir($directoryPath, 0777, true);
+        }
+
+        if($rqst_qrcode_image && $rqst_qrcode_image->isValid()){
+                $_qr_image=  $rqst_qrcode_file_name;
+                $_qrcode_path = "$img_path/$_qr_image";
+
+                $_form_data = [
+                'form_code' => $rqst_form_code,
+                'user_id' => $_user_id,
+                'user_code' => $_user_code,
+                'full_name' => $_user_full_name,
+                'student_equipment_code' => $student_equipment_code,
+                'equipment_count' => $rqst_equipment_count,
+                'image_path' => $_qrcode_path,
+            ];
+            $FormModel->insert($_form_data);
+            $rqst_qrcode_image->move($directoryPath, $_qr_image);
+                return redirect()->back();
+        }
+        }
+
     }
 
     public function EquipmentsPage()
     {
-        // [ Active Navigation ]
-        session()->set('nav_active', 'equipments');
 
-        return view('/StudentPages/Pages/equipments');
+        $EquipmentTypeModel = new EquipmentTypeModel();
+        $_display_equipment = $EquipmentTypeModel->findAll();
+
+        $_data = [
+            'equip' => $_display_equipment,
+        ];
+        session()->setFlashdata('success', 'Welcome Back!');
+        return view('/StudentPages/Pages/equipments', $_data);
+    }
+
+    public function AddEquipment()
+    {
+        $StudentEquipmentModel = new EquipmentStudentModel;
+
+        $img_path = "/assets/student-equipment/";
+        $directoryPath = FCPATH . $img_path;
+
+        if (!is_dir($directoryPath)) {
+            mkdir($directoryPath, 0777, true);
+        }
+
+        $_full_name = session()->get('logged_fullname');
+        $_student_code = session()->get('logged_code');
+        $_student_id = session()->get('logged_id');
+        $_rqst_equipment_code = $this->request->getPost('equipment_type_code');
+        $_rqst_equipment_name = $this->request->getPost('equipment_name');
+        $_rqst_model = $this->request->getPost('model');
+        $_rqst_color = $this->request->getPost('color');
+        $_rqst_description = $this->request->getPost('description');
+        $_rqst_equipment_image = $this->request->getFile('equipment_image');
+
+        $_explode = explode(':', $_rqst_equipment_name);
+
+
+        if ($_rqst_equipment_image && $_rqst_equipment_image->isValid()) {
+            $_equipment_name = $_rqst_equipment_image->getName();
+            $_equipment_path = "$img_path/$_equipment_name";
+
+            $_equipment_image_data = [
+                'user_id' => $_student_id,
+                'user_code' => $_student_code,
+                'full_name' => $_full_name,
+                'equipment_id' => $_explode[0],
+                'equipment_name' => $_explode[1],
+                'equipment_code' => $_explode[2],
+                'model' => $_rqst_model,
+                'color' => $_rqst_color,
+                'description' => $_rqst_description,
+                'image_path' => $_equipment_path,
+                'student_equipment_code' => $_rqst_equipment_code,
+            ];
+            session()->setFlashdata('success', 'Successfully Added the Equipment');
+            $StudentEquipmentModel->insert($_equipment_image_data);
+            $_rqst_equipment_image->move($directoryPath, $_equipment_name);
+            return redirect()->back();
+        }
     }
 
     public function HistoryPage()
@@ -52,160 +171,23 @@ class StudentController extends BaseController
         return view('/StudentPages/Pages/history');
     }
 
-    public function UpdateProfilePage()
-    {
-        // [ Active Navigation ]
-        session()->set('nav_active', 'profile');
-        return view('/StudentPages/Pages/change-profile');
-    }
 
-    public function ProfileUpdate()
-    {
-        $user_id = session()->get('logged_id');
-        $old_first_name = session()->get('logged_firstname');
-        $old_middle_name = session()->get('logged_middlename');
-        $old_last_name = session()->get('logged_lastname');
-        $rqst_first_name = $this->request->getPost('new_first_name');
-        $rqst_middle_name = $this->request->getPost('new_middle_name');
-        $rqst_last_name = $this->request->getPost('new_last_name');
-        $rqst_file = $this->request->getFile('new_profile');
+    // DRAFT
 
-        $image_path = "/profilePictures";
-        $directoryPath = FCPATH . $image_path;
+    public function EquipmentDetailsPage($_student_equipment_code){
 
-        if (!is_dir($directoryPath)) {
-            mkdir($directoryPath, 0777, true);
-        }
+        $_student_user_code = session()->get('logged_code');
 
-        $updateData = [];
-        if(!empty($rqst_first_name)){
-            if ($rqst_first_name !== $old_first_name) {
-                $change_first_name = $rqst_first_name;
-                $updateData['first_name'] = $rqst_first_name;
-                session()->set('logged_firstname', $rqst_first_name);
-            }
-        }
+        $StudentEquipmentModel = new EquipmentStudentModel;
+        $_student_equipment = $StudentEquipmentModel->where('student_equipment_code', $_student_equipment_code)->where('user_code', $_student_user_code)->first();
 
-        if(!empty($rqst_middle_name)){
-            if ($rqst_middle_name !== $old_middle_name) {
-                $change_middle_name = $rqst_middle_name;
-                $updateData['middle_name'] = $rqst_middle_name;
-                session()->set('logged_middlename', $rqst_middle_name);
-            }
-        }
-
-        if(!empty($rqst_last_name)){
-            if ($rqst_last_name !== $old_last_name) {
-                $change_last_name = $rqst_last_name;
-                $updateData['last_name'] = $rqst_last_name;
-                session()->set('logged_lastname', $rqst_last_name);
-            }   
-        }
-
-        $first_name = $change_first_name ?? $old_first_name;
-        $middle_name = $change_middle_name ?? $old_middle_name;
-        $last_name = $change_last_name ?? $old_last_name;
-        $new_full_name = "$last_name, $first_name $middle_name";
-
-        if (!empty($updateData)) {
-            $updateData['full_name'] = $new_full_name;
-            $userModel = new UserModel();
-            if ($userModel->update($user_id, $updateData)) {
-                session()->set('logged_fullname', $new_full_name);
-                session()->setFlashdata('success', 'Account Updated Successfully.');
-            }
-        }
-
-        if ($rqst_file && $rqst_file->isValid()) {
-            $file_extension = $rqst_file->getClientExtension();
-            $new_filename = session()->get('logged_code') . '.' . $file_extension;
-            $profile_path = $image_path . "/$new_filename";
-            $target_file_path = $directoryPath . "/" . $new_filename;
-
-            if (file_exists($target_file_path)) {
-                unlink($target_file_path);
-            }
-
-            $userModel = new UserModel();
-            if ($userModel->update($user_id, ['profile_path' => $profile_path])) {
-                session()->set('logged_profile', $profile_path);
-                $rqst_file->move($directoryPath, $new_filename);
-            }
-        }
-
-        return redirect()->to('/StudentController/UpdateProfilePage');
-    }
-
-    public function ChangeEmailPage()
-    {
-        // [ Active Navigation ]
-        session()->set('nav_active', 'email');
-
-        $user_id = session()->get('logged_id');
-        $rqst_new_email = $this->request->getPost('new_email');
-        $rqst_check = $this->request->getPost('email_check');
-        $old_email = session()->get('logged_email');
-
-        $is_email_error = false;
-
-        if ($rqst_check) {
-            $userModel = new UserModel();
-            if ($rqst_new_email !== $old_email) {
-                if($userModel->update($user_id, ['email' => $rqst_new_email])){
-                    session()->setFlashdata('success', 'Change Email Successfully.');   
-                    session()->set('logged_email', $rqst_new_email);
-                }else{
-                    session()->setFlashdata('danger', 'Change Email Failed.');
-                }
-            } else {
-                $is_email_error = true;
-                session()->setFlashdata('danger', 'Change Email Failed.');
-            }
-        }
-
-        $data = [
-            'isPasswordError' => $is_email_error,
-            'isPasswordCheck' => $rqst_check
+       if ($_student_equipment) {
+        $_data = [
+            'equimentDetails' => $_student_equipment, // This will now be a single array
         ];
-
-        return view('/StudentPages/Pages/change-email', $data);
     }
 
-    public function ChangePasswordPage()
-    {
-        // [ Active Navigation ]
-        session()->set('nav_active', 'password');
-
-        $user_id = session()->get('logged_id');
-        $rqst_new = $this->request->getPost('new_password');
-        $hashedPassword = password_hash($rqst_new, PASSWORD_BCRYPT);
-        $rqst_currrent = $this->request->getPost('old_password');
-        $rqst_check = $this->request->getPost('password_check');
-
-        $is_password_error = false;
-
-        if ($rqst_check) {
-            $userModel = new UserModel();
-            $user_data = $userModel->where('user_id', $user_id)->first();
-
-            if (password_verify($rqst_currrent, $user_data['password'])) {
-                if($userModel->update($user_id, ['password' => $hashedPassword])){
-                    session()->setFlashdata('success', 'Change Password Successfully.');
-                } else{
-                    session()->setFlashdata('danger', 'Change Password Failed.');
-                }
-            } else {
-                $is_password_error = true;
-                session()->setFlashdata('danger', 'Change Password Failed.');
-            }
-        }
-
-        $data = [
-            'isPasswordError' => $is_password_error,
-            'isPasswordCheck' => $rqst_check
-        ];
-
-        return view('/StudentPages/Pages/change-password', $data);
+        return view('/StudentPages/Pages/details', $_data);
     }
 
 }
