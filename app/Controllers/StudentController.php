@@ -27,7 +27,7 @@ class StudentController extends BaseController
             'department' => $department,
             'program' => $program,
         ];
-        
+
         return view('/StudentPages/Pages/dashboard', $data);
     }
 
@@ -54,7 +54,7 @@ class StudentController extends BaseController
         return view('/StudentPages/Pages/entrance-form', $_data);
     }
 
-     public function EntranceForm()
+    public function EntranceForm()
     {
         $_user_id = session()->get('logged_id');
         $_user_code = session()->get('logged_code');
@@ -83,11 +83,11 @@ class StudentController extends BaseController
                 mkdir($directoryPath, 0777, true);
             }
 
-            if($rqst_qrcode_image && $rqst_qrcode_image->isValid()){
-                    $_qr_image=  $rqst_qrcode_file_name;
-                    $_qrcode_path = "$img_path/$_qr_image";
+            if ($rqst_qrcode_image && $rqst_qrcode_image->isValid()) {
+                $_qr_image = $rqst_qrcode_file_name;
+                $_qrcode_path = "$img_path/$_qr_image";
 
-                    $_form_data = [
+                $_form_data = [
                     'form_code' => $rqst_form_code,
                     'user_id' => $_user_id,
                     'user_code' => $_user_code,
@@ -98,7 +98,7 @@ class StudentController extends BaseController
                 ];
                 $FormModel->insert($_form_data);
                 $rqst_qrcode_image->move($directoryPath, $_qr_image);
-                    return redirect()->back();
+                return redirect()->back();
             }
         }
     }
@@ -181,11 +181,13 @@ class StudentController extends BaseController
         $StudentEquipmentModel = new EquipmentStudentModel;
         $_student_equipment = $StudentEquipmentModel->where('student_equipment_code', $_student_equipment_code)->where('user_code', $_student_user_code)->first();
 
-       if ($_student_equipment) {
+        if ($_student_equipment) {
             $_data = ['equimentDetails' => $_student_equipment];
         }
 
         return view('/StudentPages/Pages/details', $_data);
     }
+
+
 
 }
