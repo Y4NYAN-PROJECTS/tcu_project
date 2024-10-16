@@ -36,28 +36,31 @@ class StudentController extends BaseController
         // [ Active Navigation ]
         session()->set('nav_active', 'form');
 
-        $_student_user_code = session()->get('logged_code');
+        $student_user_code = session()->get('logged_code');
 
-        $StudentEquipmentModel = new EquipmentStudentModel;
-        $_student_equipment = $StudentEquipmentModel->where('user_code', $_student_user_code)->findAll();
+        $studentEquipmentModel = new EquipmentStudentModel;
+        $student_equipment = $studentEquipmentModel->where('user_code', $student_user_code)->findAll();
 
-        $FormModel = new FormModel();
-        $_student_form = $FormModel->where('user_code', $_student_user_code)->findAll();
+        $formModel = new FormModel();
+        $form_history = $formModel->where('user_code', $student_user_code)->findAll();
 
+        $equipmentTypeModel = new EquipmentTypeModel();
+        $equipmentTypes = $equipmentTypeModel->findAll();
 
-        $_data = [
-            'studentEquipment' => $_student_equipment,
-            'studentForm' => $_student_form,
+        $data = [
+            'equipments' => $student_equipment,
+            'equipmentTypes' => $equipmentTypes,
+            'studentForm' => $form_history,
         ];
 
-        return view('/StudentPages/Pages/entrance-form', $_data);
+        return view('/StudentPages/Pages/entrance-form', $data);
     }
 
     public function EntranceForm()
     {
-        $_user_id = session()->get('logged_id');
-        $_user_code = session()->get('logged_code');
-        $_user_full_name = session()->get('logged_fullname');
+        $user_id = session()->get('logged_id');
+        $user_code = session()->get('logged_code');
+        $user_full_name = session()->get('logged_fullname');
 
         $rqst_form_code = $this->request->getPost('form_code');
         $rqst_selected_equipments = $this->request->getPost('student_equipment');
@@ -82,20 +85,20 @@ class StudentController extends BaseController
 
             if ($rqst_qrcode_image && $rqst_qrcode_image->isValid()) {
                 $qr_image = $rqst_qrcode_file_name;
-                $_qrcode_path = "$img_path/$qr_image";
+                $qrcode_path = "$img_path/$qr_image";
 
-                $_form_data = [
+                $form_data = [
                     'form_code' => $rqst_form_code,
-                    'user_id' => $_user_id,
-                    'user_code' => $_user_code,
-                    'full_name' => $_user_full_name,
+                    'user_id' => $user_id,
+                    'user_code' => $user_code,
+                    'full_name' => $user_full_name,
                     'student_equipment_code' => $student_equipment_code,
                     'equipment_count' => $rqst_equipment_count,
-                    'image_path' => $_qrcode_path,
+                    'image_path' => $qrcode_path,
                 ];
 
                 $formModel = new FormModel();
-                $formModel->save($_form_data);
+                $formModel->save($form_data);
                 $rqst_qrcode_image->move($directoryPath, $qr_image);
                 return redirect()->back();
             }
@@ -115,12 +118,12 @@ class StudentController extends BaseController
         $studentEquipmentModel = new EquipmentStudentModel();
         $student_equipment_list = $studentEquipmentModel->where('user_code', $user_code)->findAll();
 
-        $_data = [
+        $data = [
             'equipments' => $equipment_list,
             'student_equipments' => $student_equipment_list,
         ];
 
-        return view('/StudentPages/Pages/equipments', $_data);
+        return view('/StudentPages/Pages/equipments', $data);
     }
 
     public function StudentEquipmentCreate()
@@ -136,7 +139,7 @@ class StudentController extends BaseController
 
         $user_id = session()->get('logged_id');
         $user_code = session()->get('logged_code');
-        // $full_name = session()->get('logged_fullname');
+        $full_name = session()->get('logged_fullname');
 
         $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@_-?';
         $characters_length = strlen($characters);
@@ -169,7 +172,7 @@ class StudentController extends BaseController
             $equipment_image_data = [
                 'user_id' => $user_id,
                 'user_code' => $user_code,
-                // 'full_name' => $full_name,
+                'full_name' => $full_name,
                 'equipment_id' => $explode[0],
                 'equipment_name' => $explode[1],
                 'equipment_code' => $explode[2],
@@ -181,7 +184,7 @@ class StudentController extends BaseController
             ];
             $studentEquipmentModel->save($equipment_image_data);
 
-            session()->setFlashdata('success', 'Successfully Added the Equipment');
+            session()->setFlashdata('success', 'Equipment Added Successfully');
             return redirect()->to('/StudentController/EquipmentsPage');
         } else {
             echo "fck";
@@ -196,18 +199,18 @@ class StudentController extends BaseController
         return view('/StudentPages/Pages/history');
     }
 
-    public function EquipmentDetailsPage($_student_equipment_code)
+    public function EquipmentDetailsPage($student_equipment_code)
     {
-        $_student_user_code = session()->get('logged_code');
+        $student_user_code = session()->get('logged_code');
 
         $StudentEquipmentModel = new EquipmentStudentModel;
-        $_student_equipment = $StudentEquipmentModel->where('student_equipment_code', $_student_equipment_code)->where('user_code', $_student_user_code)->first();
+        $student_equipment = $StudentEquipmentModel->where('student_equipment_code', $student_equipment_code)->where('user_code', $student_user_code)->first();
 
-        if ($_student_equipment) {
-            $_data = ['equimentDetails' => $_student_equipment];
+        if ($student_equipment) {
+            $data = ['equimentDetails' => $student_equipment];
         }
 
-        return view('/StudentPages/Pages/details', $_data);
+        return view('/StudentPages/Pages/details', $data);
     }
 
     public function UpdateProfilePage()

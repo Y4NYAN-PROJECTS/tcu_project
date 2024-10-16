@@ -1,27 +1,6 @@
 <?= $this->extend('/StudentPages/Components/main-layout'); ?>
 <?= $this->section('content'); ?>
 
-<style>
-  .selected {
-    background-color: blue;
-    color: white;
-    border-color: blue;
-  }
-
-  .selected::before {
-    content: '✓';
-    font-size: 16px;
-    color: white;
-    margin-right: 3px;
-  }
-
-  #qrcode,
-  #expirationContainer,
-  #downloadButton {
-    /* display: none; */
-  }
-</style>
-
 <div id="main-content">
   <div class="page-heading mt-5">
     <div class="page-title">
@@ -43,107 +22,105 @@
 
   <section class="section">
     <div class="card shadow-sm">
-      <div class="card-header mb-0 pb-0 text-center">
-        <h1>Entrance Form</h1>
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <div class="">
+          <h4 class="mb-0">Entrance Form</h4>
+          <small>Select equipments that you have.</small>
+        </div>
+        <a href="/StudentController/EquipmentsPage"><button class="btn btn-primary px-5">Add Equipment</button></a>
       </div>
 
       <hr class="mt-1">
 
-      <div class="card-body">
+      <div class="card-body mb-3">
         <div class="row d-flex justify-content-center align-items-center mt-3">
           <div class="col-md-8">
-
-            <div class="text-center">
-              <span>Select the equipment you are going to bring today. Click submit to get generatated QR-code that must be presented to the entrance.</span>
-              <hr class="mt-1">
-            </div>
-
-
-            <?php if (empty($studentEquipment)): ?>
+            <?php if (empty($equipments)): ?>
               <div class="text-center">
-                <small class="text-primary fst-italic">No equipment found! Click the button to add equipment.</small><br>
-                <a href="/StudentController/EquipmentsPage"><button class="btn btn-primary mt-2">Add Equipment</button></a>
+                <h2 class="fst-italic mb-0">No Equipments Found!</h2>
+                <small>No data found. Kindly add equipments first.</small>
               </div>
             <?php else: ?>
               <form id="entrance-form" method="POST" action="/StudentController/EntranceForm" enctype="multipart/form-data">
+                <h4>Select Equipments:</h4>
                 <div class="text-center px-5">
-                  <div id="selected-count" class="mb-3">Selected: 0</div>
-                  <?php foreach ($studentEquipment as $studentEquipments): ?>
-                    <a href="#" class="btn btn-outline-primary rounded-pill px-5 m-2" onclick="toggleSelection(this, '<?= $studentEquipments['student_equipment_code'] ?>')">
-                      <?= $studentEquipments['equipment_name'] ?> [<?= $studentEquipments['model'] ?>]
+                  <?php foreach ($equipments as $equipment): ?>
+                    <a href="#" class="btn btn-outline-primary rounded-pill mt-2" onclick="toggleSelection(this, '<?= $equipment['student_equipment_code'] ?>')">
+                      <?= $equipment['model'] ?>
                     </a>
                     <!-- [ Hidden Inputs ] -->
-                    <input type="checkbox" id="equipment-<?= $studentEquipments['student_equipment_code'] ?>" name="student_equipment[]" value="<?= $studentEquipments['student_equipment_code'] ?>" class="d-none">
+                    <input type="checkbox" id="equipment-<?= $equipment['student_equipment_code'] ?>" name="student_equipment[]" value="<?= $equipment['student_equipment_code'] ?>" class="d-none">
                   <?php endforeach; ?>
                 </div>
 
-
-                <input type="text" id="gen_code" name="form_code">
-                <input type="text" id="equipment-count" name="equipment_count">
+                <input type="hidden" id="form-code" name="form_code">
+                <input type="hidden" id="equipment-count" name="equipment_count">
                 <input type="file" id="qr-file" name="qr_code_file" class="d-none">
-                <input type="text" id="qr-file-name" name="qr_code_file_name">
-
-                <button type="submit" class="btn btn-primary form-control mt-3">Submit</button>
+                <input type="hidden" id="qr-file-name" name="qr_code_file_name">
+                <button type="submit" class="btn btn-primary form-control mt-3" id="form-submit" disabled>Submit</button>
               </form>
             <?php endif; ?>
           </div>
 
-          <div class="col-md-4">
+          <div class="col-md-12">
             <div class="text-center">
-              <div id="qrcode" class="d-flex justify-content-center align-items-center"></div>
-              <div id="qr-expiration-container">
-                <label class="form-label mt-3 text-dark">Expiration Date: <span id="qr-expiration-date"></span></label>
-              </div>
+              <div id="qrcode" class="mt-4 d-flex justify-content-center"></div>
             </div>
           </div>
         </div>
       </div>
-
-      <hr>
     </div>
-  </section>
 
-  <section class="section">
     <div class="card shadow-sm">
-      <div class="card-header mb-0 pb-0 text-center">
-        <h1>Equipment Information Table</h1>
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <div class="">
+          <h4 class="mb-0">Form History</h4>
+          <small>Below are list of your submitted form.</small>
+        </div>
       </div>
 
       <hr class="mt-1">
 
-      <div class="card">
-        <div class="card-body">
-          <table class="table table-bordered">
+      <div class="card-body mb-3">
+        <div class="table-responsive table-hover table-bordered">
+          <table class="table" id="table1">
             <thead>
               <tr>
                 <th>Form Code</th>
-                <th>Full Name</th>
-                <th>User Code</th>
                 <th>Student Equipment Code</th>
-                <th>Equipment Count</th>
+                <th>Date Submitted</th>
+                <th>Valid Until</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
               <?php foreach ($studentForm as $data): ?>
                 <tr>
-                  <td><?= $data['form_code']; ?></td>
-                  <td><?= $data['full_name']; ?></td>
-                  <td><?= $data['user_code']; ?></td>
-                  <td>
-                    <?php
-                    $codes = explode('|', $data['student_equipment_code']);
-                    foreach ($codes as $code): ?>
-                      <a href="/StudentController/EquipmentDetailsPage/<?= trim($code); ?>" style="display: block;"><?= trim($code); ?></a>
+                  <td class="col-2"><?= $data['form_code']; ?></td>
+                  <td class="col-4">
+                    <?php $equipment_codes = explode('|', $data['student_equipment_code']); ?>
+                    <?php foreach ($equipment_codes as $code): ?>
+                      <!-- Trigger Modal -->
+                      <a href="/StudentController/EquipmentDetailsPage/<?= trim($code); ?>">
+                        <?php foreach ($equipments as $equipment): ?>
+                          <?php if ($code == $equipment['student_equipment_code']): ?>
+                            [<?= $equipment['model'] ?>]
+                          <?php endif; ?>
+                        <?php endforeach; ?>
+                      </a>
                     <?php endforeach; ?>
                   </td>
-                  <td><?= $data['equipment_count']; ?></td>
+                  <td class="col-2"><?= $data['form_code']; ?></td>
+                  <td class="col-2"><?= $data['form_code']; ?></td>
+                  <td class="col-2">
+                    <button class="btn btn-sm btn-primary"><i class="bi bi-qr-code me-2"></i>QR Code</button>
+                  </td>
                 </tr>
               <?php endforeach; ?>
             </tbody>
           </table>
         </div>
       </div>
-
     </div>
   </section>
 </div>
@@ -156,11 +133,8 @@
   generateCode();
 
   function generateCode() {
-    var qrcodeValue = document.getElementById("gen_code");
-    var qrcodeExpirationDisplay = document.getElementById("qr-expiration-date");
-    var qrcodeExpirationContainer = document.getElementById("qr-expiration-container");
+    var qrcodeValue = document.getElementById("form-code");
     var qrcodeDisplay = document.getElementById("qrcode");
-
 
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     let code = '';
@@ -170,22 +144,15 @@
 
     qrcodeValue.value = code;
     qrcode.makeCode(code);
-
-    // Expiration Date
-    const expirationTime = new Date();
-    expirationTime.setHours(23, 59, 0, 0);
-    qrcodeExpirationDisplay.textContent = expirationTime.toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
-
-    qrcodeDisplay.style.display = 'block';
-    qrcodeExpirationContainer.style.display = 'block';
   }
+
 
   var form = document.getElementById('entrance-form');
   form.addEventListener('submit', function (event) {
     event.preventDefault();
 
     var qrcodeDisplay = document.getElementById("qrcode").getElementsByTagName("canvas")[0];
-    var qrcodeValue = document.getElementById("gen_code");
+    var qrcodeValue = document.getElementById("form-code");
     var qrcodeFile = document.getElementById("qr-file");
     var qrcodeFileName = document.getElementById("qr-file-name");
 
@@ -215,6 +182,7 @@
 
   function updateSelectedCount() {
     var countInput = document.getElementById('equipment-count');
+    var formButton = document.getElementById("form-submit");
     const checkboxes = document.querySelectorAll('input[type="checkbox"]');
     let count = 0;
     checkboxes.forEach(checkbox => {
@@ -222,8 +190,13 @@
         count++;
       }
     });
-    document.getElementById('selected-count').innerText = 'Selected: ' + count;
     countInput.value = count;
+
+    if (count < 1) {
+      formButton.disabled = true;
+    } else {
+      formButton.disabled = false;
+    }
   }
 
   // // Counter for selected equipment
@@ -231,7 +204,7 @@
 
   // // Function to generate QR Code and set expiration date
   // function generateCode() {
-  //   var qrcodeValue = document.getElementById("gen_code");
+  //   var qrcodeValue = document.getElementById("form-code");
 
   //   // If no equipment is selected, show a default QR code with no data
   //   if (equipmentCount === 0) {
@@ -277,7 +250,7 @@
 
   //   // Generate the QR code image file from the canvas
   //   var canvas = document.querySelector('#qrcode canvas');
-  //   var qrcodeValue = document.getElementById("gen_code"); // Get the generated code value
+  //   var qrcodeValue = document.getElementById("form-code"); // Get the generated code value
   //   if (canvas) {
   //     canvas.toBlob(function (blob) {
   //       // Use the generated code as the file name for the QR code
@@ -318,7 +291,7 @@
   //   var image = canvas.toDataURL("image/png");
   //   var link = document.createElement('a');
   //   link.href = image;
-  //   link.download = `${document.getElementById("gen_code").value}.png`;
+  //   link.download = `${document.getElementById("form-code").value}.png`;
   //   document.body.appendChild(link);
   //   link.click();
   //   document.body.removeChild(link);
