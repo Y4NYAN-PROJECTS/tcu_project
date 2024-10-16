@@ -56,6 +56,7 @@ class LoginController extends BaseController
                             'logged_middlename' => $check_user['middle_name'],
                             'logged_lastname' => $check_user['last_name'],
                             'logged_department' => $check_user['department_id'],
+                            'logged_program' => $check_user['program_id'],
                             'logged_email' => $check_user['email'],
                             'logged_username' => $check_user['username'],
                             'logged_profile' => $check_user['profile_path'],
