@@ -19,7 +19,7 @@
             </div>
         </div>
     </div>
-    
+
     <section class="section">
         <div class="row">
             <div class="col-lg-12">
@@ -40,10 +40,10 @@
                         <div class="text-center mb-3">
                             <img src="<?= session()->get('logged_profile') ?>" class="rounded-circle mx-auto mb-3" style="width: 20%; object-fit: cover; aspect-ratio: 1/1;">
                             <h3><?= session()->get('logged_fullname') ?></h3>
-                            
-                                <span class="badge bg-primary px-3 py-2 mb-2">Student Account</span><br>
+
+                            <span class="badge bg-primary px-3 py-2 mb-2">Administrator Account</span><br>
                         </div>
-                        
+
                         <hr>
                         <div class="text-center">
                             <div class="">
@@ -56,7 +56,7 @@
                 </div>
             </div>
         </div>
-        
+
     </section>
 </div>
 

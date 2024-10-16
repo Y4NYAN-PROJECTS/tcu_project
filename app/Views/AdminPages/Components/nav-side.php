@@ -13,6 +13,14 @@
 
         <div class="sidebar-menu">
             <ul class="menu">
+                <!-- <li class="sidebar-title">Account</li>
+                <li class="sidebar-item <?= $nav_active == 'account' ? 'active' : '' ?>">
+                    <a href="/AdminController/DashboardPage" class='sidebar-link'>
+                        <i class="bi bi-person"></i>
+                        <span><?= session()->get('logged_firstname') ?></span>
+                    </a>
+                </li> -->
+
                 <li class="sidebar-title">Menu</li>
 
                 <li class="sidebar-item <?= $nav_active == 'dashboard' ? 'active' : '' ?>">
@@ -22,17 +30,11 @@
                     </a>
                 </li>
 
-                <li class="sidebar-item  <?= $nav_active == 'form' ? 'active' : '' ?>">
-                    <a href="/AdminController/EntranceFormPage" class='sidebar-link'>
-                        <i class="bi bi-ui-checks"></i>
-                        <span>Entrance Form</span>
-                    </a>
-                </li>
 
-                <li class="sidebar-item  <?= $nav_active == 'equipments' ? 'active' : '' ?>">
-                    <a href="/AdminController/EquipmentsPage" class='sidebar-link'>
-                        <i class="bi bi-laptop"></i>
-                        <span>Equipments</span>
+                <li class="sidebar-item  <?= $nav_active == 'scan' ? 'active' : '' ?>">
+                    <a href="/AdminController/ScanQRPage" class='sidebar-link'>
+                        <i class="bi bi-qr-code-scan"></i>
+                        <span>Scan Now!</span>
                     </a>
                 </li>
 
