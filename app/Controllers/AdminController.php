@@ -46,7 +46,7 @@ class AdminController extends BaseController
 
 
         $_data = [
-            'adminEquipment' => $_admin_equipment,
+            'equipments' => $_admin_equipment,
             'adminForm' => $_admin_form,
         ];
 

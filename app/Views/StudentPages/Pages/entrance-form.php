@@ -58,7 +58,6 @@
               <hr class="mt-1">
             </div>
 
-
             <?php if (empty($studentEquipment)): ?>
               <div class="text-center">
                 <small class="text-primary fst-italic">No equipment found! Click the button to add equipment.</small><br>

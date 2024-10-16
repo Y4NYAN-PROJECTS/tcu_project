@@ -111,7 +111,7 @@
 
       <hr class="mt-1">
 
-      <div class="card">
+    <div class="card">
         <div class="card-body">
           <table class="table table-bordered">
             <thead>
@@ -134,6 +134,8 @@
                     $codes = explode('|', $data['student_equipment_code']);
                     foreach ($codes as $code): ?>
                       <a href="/AdminController/EquipmentDetailsPage/<?= trim($code); ?>" style="display: block;"><?= trim($code); ?></a>
+                        </a>
+
                     <?php endforeach; ?>
                   </td>
                   <td><?= $data['equipment_count']; ?></td>
@@ -143,6 +145,7 @@
           </table>
         </div>
       </div>
+
 
     </div>
   </section>
@@ -323,9 +326,6 @@
   //   link.click();
   //   document.body.removeChild(link);
   // }
-
-
-
 </script>
 
 <?= $this->endSection(); ?>
