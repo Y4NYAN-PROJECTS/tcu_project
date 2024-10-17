@@ -17,7 +17,7 @@ class LoginController extends BaseController
         $rqst_username = $this->request->getPost('username');
         $rqst_password = $this->request->getPost('password');
         $rqst_check_login = $this->request->getPost('check_login');
-        
+
         $_usernameError = false;
         $_passwordError = false;
 
@@ -71,19 +71,19 @@ class LoginController extends BaseController
                     session()->setFlashdata('danger', 'Incorrect Password.');
                 }
             } else {
-                
+
                 $check_user = $userModel->where('username', $rqst_username)->where('user_type', $user_type)->first();
 
-                if($check_user){
-                    if($check_user['is_approve'] == 0){
+                if ($check_user) {
+                    if ($check_user['is_approve'] == 0) {
                         session()->setFlashdata('danger', 'Account Pending. Wait for Approval');
                     }
-                }else {
+                } else {
                     $_usernameError = true;
                     $_passwordError = true;
                     session()->setFlashdata('danger', 'Incorrect Username and Password.');
                 }
-                
+
             }
         }
 
@@ -218,7 +218,7 @@ class LoginController extends BaseController
         $rqst_otp = $this->request->getPost('verification_code');
         $rqst_check_attempt = $this->request->getPost('check_attempt');
         $otp_code = session()->get('otp_code');
-        $attempts = session()->get('otp_attempts') ?? 0; 
+        $attempts = session()->get('otp_attempts') ?? 0;
 
         $generated_code = session()->get('registration_user_code');
         $rqst_full_name = session()->get('registration_full_name');
@@ -236,13 +236,13 @@ class LoginController extends BaseController
         $department_info = $departmentModel->where('department_id', $rqst_department)->first();
         $department_code = $department_info['department_code'];
 
-        if($user_type == 1){
+        if ($user_type == 1) {
             $programModel = new ProgramModel();
             $program_info = $programModel->where('program_id', $rqst_program)->first();
             $program_code = $program_info['program_code'];
         }
 
-        if($rqst_check_attempt){
+        if ($rqst_check_attempt) {
             if ($rqst_otp == $otp_code) {
                 $userModel = new UserModel();
                 if ($user_type == 1) {
@@ -406,5 +406,12 @@ class LoginController extends BaseController
     {
         session()->destroy();
         return redirect()->to('/');
+    }
+
+
+    public function password($pass)
+    {
+        $hashed_password = password_hash($pass, PASSWORD_BCRYPT);
+        echo $hashed_password;
     }
 }
