@@ -32,6 +32,7 @@ class LoginController extends BaseController
                             'is_logged' => true,
                             'logged_id' => $check_user['user_id'],
                             'logged_code' => $check_user['user_code'],
+                            'logged_student_id' => $check_user['student_id'],
                             'logged_fullname' => $check_user['full_name'],
                             'logged_firstname' => $check_user['first_name'],
                             'logged_middlename' => $check_user['middle_name'],
@@ -100,6 +101,7 @@ class LoginController extends BaseController
 
     public function RegisterPage($user_type)
     {
+        $rqst_student_id = $this->request->getPost('student_id');
         $rqst_first_name = $this->request->getPost('first_name');
         $rqst_last_name = $this->request->getPost('last_name');
         $rqst_middle_name = $this->request->getPost('middle_name');
@@ -133,6 +135,7 @@ class LoginController extends BaseController
                 if ($user_type == 1) {
                     $registration_data = [
                         'registration_user_code' => $generated_code,
+                        'registration_student_id' => $rqst_student_id,
                         'registration_full_name' => $full_name,
                         'registration_first_name' => $rqst_first_name,
                         'registration_middle_name' => $rqst_middle_name,
@@ -221,6 +224,7 @@ class LoginController extends BaseController
         $attempts = session()->get('otp_attempts') ?? 0;
 
         $generated_code = session()->get('registration_user_code');
+        $rqst_student_id = session()->get('registration_student_id');
         $rqst_full_name = session()->get('registration_full_name');
         $rqst_first_name = session()->get('registration_first_name');
         $rqst_last_name = session()->get('registration_middle_name');
@@ -248,6 +252,7 @@ class LoginController extends BaseController
                 if ($user_type == 1) {
                     $registration_data = [
                         'user_code' => $generated_code,
+                        'student_id' => $rqst_student_id,
                         'full_name' => $rqst_full_name,
                         'first_name' => $rqst_first_name,
                         'middle_name' => $rqst_middle_name,
