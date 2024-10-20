@@ -47,7 +47,7 @@ class AdminController extends BaseController
         return view('/AdminPages/Pages/scan-qr');
     }
 
-     public function ProgramPage()
+    public function ProgramPage()
     {
         // [ Active Navigation ]
         session()->set('nav_active', 'program');
@@ -71,15 +71,10 @@ class AdminController extends BaseController
         $rqst_department_id = $this->request->getPost('department_id');
         $rqst_program_acronym = $this->request->getPost('program_acronym');
         $rqst_program_title = $this->request->getPost('program_title');
-        
-        $departmentModel = new DepartmentModel();   
-        $department = $departmentModel->where('department_id', $rqst_department_id)->first();
-        $department_title = $department['department_title'];
 
         $programModel = new ProgramModel();
         $program_data = [
             'department_id' => $rqst_department_id,
-            'department_title' => $department_title,
             'program_acronym' => $rqst_program_acronym,
             'program_title' => $rqst_program_title,
         ];
@@ -119,18 +114,26 @@ class AdminController extends BaseController
         return redirect()->to('/AdminController/ProgramPage');
     }
 
-   public function ProgramDelete($program_id)
+    public function ProgramDelete($program_id)
     {
         $programModel = new ProgramModel();
-        
-        if ($programModel->where('program_id', $program_id)->delete()) {
-            session()->setFlashdata('success', 'Program Deleted Successfully.');
+
+        $userModel = new UserModel();
+        $relation_user = $userModel->where('program_id', $program_id)->findAll();
+
+        if (!$relation_user) {
+            if ($programModel->delete($program_id)) {
+                session()->setFlashdata('success', 'Program Deleted Successfully.');
+            } else {
+                session()->setFlashdata('danger', 'Program Deletion Failed.');
+            }
         } else {
             session()->setFlashdata('danger', 'Program Deletion Failed.');
         }
 
         return redirect()->to('/AdminController/ProgramPage');
     }
+
     public function DepartmentPage()
     {
         // [ Active Navigation ]
@@ -188,13 +191,26 @@ class AdminController extends BaseController
     public function DepartmentDelete($department_id)
     {
         $departmentModel = new DepartmentModel();
-        
-        if ($departmentModel->where('department_id', $department_id)->delete()) {
-            session()->setFlashdata('success', 'Department Deleted Successfully.');
+
+        $userModel = new UserModel();
+        $relation_user = $userModel->where('department_id', $department_id)->findAll();
+
+        $progranModel = new ProgramModel();
+        $relation_program = $progranModel->where('department_id', $department_id)->findAll();
+
+        if (!$relation_program && !$relation_user) {
+            $departmentModel = new DepartmentModel();
+            $departmentModel->delete($department_id);
+
+            if ($departmentModel->delete($department_id)) {
+                session()->setFlashdata('success', 'Department Deleted Successfully.');
+            } else {
+                session()->setFlashdata('danger', 'Department Deletion Failed.');
+            }
+
         } else {
             session()->setFlashdata('danger', 'Department Deletion Failed.');
         }
-
         return redirect()->to('/AdminController/DepartmentPage');
     }
 
@@ -252,7 +268,7 @@ class AdminController extends BaseController
     public function EquipmentDelete($equipment_id)
     {
         $equipmentTypeModel = new EquipmentTypeModel();
-        
+
         if ($equipmentTypeModel->where('equipment_id', $equipment_id)->delete()) {
             session()->setFlashdata('success', 'Equipment Deleted Successfully.');
         } else {
@@ -260,6 +276,27 @@ class AdminController extends BaseController
         }
 
         return redirect()->to('/AdminController/EquipmentPage');
+    }
+
+    public function AccountPage()
+    {
+        // [ Active Navigation ]
+        session()->set('nav_active', 'account');
+
+        $logged_department = session()->get('logged_department');
+        $departmentModel = new DepartmentModel();
+        $department = $departmentModel->where('department_id', $logged_department)->first();
+
+        $logged_program = session()->get('logged_program');
+        $programModel = new ProgramModel();
+        $program = $programModel->where('program_id', $logged_program)->first();
+
+        $data = [
+            'department' => $department,
+            'program' => $program,
+        ];
+
+        return view('/AdminPages/Pages/account', $data);
     }
 
     public function UpdateProfilePage()

@@ -13,14 +13,6 @@
 
         <div class="sidebar-menu">
             <ul class="menu">
-                <!-- <li class="sidebar-title">Account</li>
-                <li class="sidebar-item <?= $nav_active == 'account' ? 'active' : '' ?>">
-                    <a href="/AdminController/DashboardPage" class='sidebar-link'>
-                        <i class="bi bi-person"></i>
-                        <span><?= session()->get('logged_firstname') ?></span>
-                    </a>
-                </li> -->
-
                 <li class="sidebar-title">Menu</li>
 
                 <li class="sidebar-item <?= $nav_active == 'dashboard' ? 'active' : '' ?>">
@@ -30,24 +22,24 @@
                     </a>
                 </li>
 
-                 <li class="sidebar-item  <?= $nav_active == 'program' ? 'active' : '' ?>">
-                    <a href="/AdminController/ProgramPage" class='sidebar-link'>
-                        <i class="bi bi-qr-code-scan"></i>
-                        <span>Program</span>
+                <li class="sidebar-item  <?= $nav_active == 'department' ? 'active' : '' ?>">
+                    <a href="/AdminController/DepartmentPage" class='sidebar-link'>
+                        <i class="bi bi-buildings"></i>
+                        <span>Department</span>
                     </a>
                 </li>
 
-                 <li class="sidebar-item  <?= $nav_active == 'department' ? 'active' : '' ?>">
-                    <a href="/AdminController/DepartmentPage" class='sidebar-link'>
-                        <i class="bi bi-qr-code-scan"></i>
-                        <span>Department</span>
+                <li class="sidebar-item  <?= $nav_active == 'program' ? 'active' : '' ?>">
+                    <a href="/AdminController/ProgramPage" class='sidebar-link'>
+                        <i class="bi bi-bar-chart-steps"></i>
+                        <span>Program</span>
                     </a>
                 </li>
 
                 <li class="sidebar-item  <?= $nav_active == 'equipment' ? 'active' : '' ?>">
                     <a href="/AdminController/EquipmentPage" class='sidebar-link'>
-                        <i class="bi bi-qr-code-scan"></i>
-                        <span>Equipment</span>
+                        <i class="bi bi-wrench-adjustable-circle"></i>
+                        <span>Equipment Type</span>
                     </a>
                 </li>
 
@@ -63,6 +55,15 @@
                     <a href="/AdminController/HistoryPage" class='sidebar-link'>
                         <i class="bi bi-hourglass-split"></i>
                         <span>History</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-title">Account</li>
+
+                <li class="sidebar-item <?= $nav_active == 'account' ? 'active' : '' ?>">
+                    <a href="/AdminController/AccountPage" class='sidebar-link'>
+                        <i class="bi bi-person"></i>
+                        <span><?= session()->get('logged_firstname') ?></span>
                     </a>
                 </li>
 

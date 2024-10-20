@@ -2,25 +2,36 @@
 <?= $this->section('content'); ?>
 
 <div id="main-content">
-    <div class="page-heading mb-3">
+    <div class="page-heading mt-5">
         <div class="page-title">
-            <div class="d-flex justify-content-between align-items-center">
-                <h3>Equipment</h3>
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb mb-0">
-                        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Equipment</li>
-                    </ol>
-                </nav>
+            <div class="row">
+                <div class="col-12 col-md-6 order-md-1 order-first">
+                    <h3>Equipment Type</h3>
+                </div>
+                <div class="col-12 col-md-6 order-md-2 order-last">
+                    <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Equipment Type</li>
+                        </ol>
+                    </nav>
+                </div>
             </div>
         </div>
     </div>
 
     <section class="section">
         <div class="card shadow-sm">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">Equipment List</h5>
-                <button type="button" class="btn btn-primary px-5" data-bs-toggle="modal" data-bs-target="#new_department_modal">New Equipment</button>
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 mt-3">
+                        <h4 class="mb-0">Equipment Type List</h4>
+                        <small>Below are list of equipment types.</small>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 mt-3 text-sm-end">
+                        <button type="button" class="btn btn-primary px-5" data-bs-toggle="modal" data-bs-target="#new_equipment_modal">New Equipment</button>
+                    </div>
+                </div>
             </div>
 
             <hr class="mt-1">
@@ -30,8 +41,8 @@
                     <table class="table" id="table1">
                         <thead>
                             <tr>
-                                <th>Equipment Name</th>
-                                <th>Actions</th>
+                                <th class="col-11">Equipment Name</th>
+                                <th class="col-1">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -61,7 +72,7 @@
             </div>
         </div>
 
-        <div class="modal fade" id="new_department_modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal fade" id="new_equipment_modal" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
                 <div class="modal-content">
                     <div class="modal-header">

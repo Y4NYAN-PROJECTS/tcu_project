@@ -34,10 +34,10 @@
         <div class="page-heading mt-5">
             <div class="page-title">
                 <div class="row">
-                    <div class="col-12 col-md-6 order-md-1 order-last">
+                    <div class="col-12 col-md-6 order-md-1 order-first">
                         <h3>Scan Now</h3>
                     </div>
-                    <div class="col-12 col-md-6 order-md-2 order-first">
+                    <div class="col-12 col-md-6 order-md-2 order-last">
                         <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
@@ -51,13 +51,18 @@
 
         <section class="section">
             <div class="card shadow-sm">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <div class="">
-                        <h4 class="mb-0">Entrance Scanning</h4>
-                        <small>Scan QR Code to log equipments.</small>
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-6 mt-3">
+                            <h4 class="mb-0">Entrance Scanning</h4>
+                            <small>Scan QR Code to log equipments.</small>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-6 mt-3 text-sm-end">
+                            <button type="button" class="btn btn-primary px-5">History</button>
+                        </div>
                     </div>
-                    <button type="button" class="btn btn-primary px-5">History</button>
                 </div>
+
                 <hr class="mt-1">
 
                 <div class="card-body text-center">
@@ -71,6 +76,30 @@
                     </div>
                 </div>
             </div>
+
+            <div class="row text-center">
+                <div class="col-6">
+                    <div class="card bg-primary text-white">
+                        <div class="card-body">
+                            <small>
+                                <i class="bi bi-camera2 fs-3"></i>
+                                Camera
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="card bg-primary text-white">
+                        <div class="card-body">
+                            <small>
+                                <i class="bi bi-upc-scan fs-3"></i>
+                                Barcode
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </section>
     </div>
 </div>

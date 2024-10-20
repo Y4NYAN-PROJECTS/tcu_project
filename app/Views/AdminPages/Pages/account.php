@@ -6,13 +6,13 @@
         <div class="page-title">
             <div class="row">
                 <div class="col-12 col-md-6 order-md-1 order-first">
-                    <h3>Update Profile</h3>
+                    <h3>Account Profile</h3>
                 </div>
                 <div class="col-12 col-md-6 order-md-2 order-last">
                     <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                            <li class="breadcrumb-item active">Update Profile</li>
+                            <li class="breadcrumb-item active">Account Profile</li>
                         </ol>
                     </nav>
                 </div>
@@ -29,13 +29,14 @@
                             <img src="<?= session()->get('logged_profile') ?>" class="rounded-circle mx-auto mb-3" style="width: 15%; object-fit: cover; aspect-ratio: 1/1;">
                             <h3><?= session()->get('logged_fullname') ?></h3>
                         </div>
+                        <hr class="mb-5">
                         <div class="col-md-8">
                             <div class="row">
                                 <div class="col-sm-12 col-md-12 col-xl-4">
                                     <div class="form-group">
                                         <div class="form-group mb-4">
                                             <label class="text-sm" for="">First Name</label>
-                                            <input type="text" id="new_full_name" class="form-control" name="new_first_name" placeholder="First Name" autofocus>
+                                            <input type="text" class="form-control" value="<?= session()->get('logged_firstname') ?>" disabled>
                                             <div class="invalid-feedback">
                                                 <i class="bx bx-radio-circle"></i>
                                                 Contains special characters or numbers
@@ -48,7 +49,7 @@
                                     <div class="form-group">
                                         <div class="form-group mb-3">
                                             <label class="text-sm" for="">Middle Name</label>
-                                            <input type="text" id="new_full_name" class="form-control" name="new_middle_name" placeholder="Middle Name" autofocus>
+                                            <input type="text" class="form-control" value="<?= session()->get('logged_middlename') ?>" disabled>
                                             <div class="invalid-feedback">
                                                 <i class="bx bx-radio-circle"></i>
                                                 Contains special characters or numbers
@@ -61,7 +62,22 @@
                                     <div class="form-group">
                                         <div class="form-group mb-3">
                                             <label class="text-sm" for="">Last Name</label>
-                                            <input type="text" id="new_full_name" class="form-control" name="new_last_name" placeholder="Last Name" autofocus>
+                                            <input type="text" class="form-control" value="<?= session()->get('logged_lastname') ?>" disabled>
+                                            <div class="invalid-feedback">
+                                                <i class="bx bx-radio-circle"></i>
+                                                Contains special characters or numbers
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6 col-xl-6">
+                                    <div class="form-group">
+                                        <div class="form-group mb-4">
+                                            <label class="text-sm" for="">Department</label>
+                                            <input type="text" class="form-control" value="<?= $department['department_title'] ?>" disabled>
                                             <div class="invalid-feedback">
                                                 <i class="bx bx-radio-circle"></i>
                                                 Contains special characters or numbers
@@ -70,17 +86,19 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-12">
-                                    <div class="form-group mb-3">
-                                        <label for="confirmEmail">Change Profile Image</label>
-                                        <small class="text-muted">(Formats: JPG, PNG | Max size: 5MB)</small>
-                                        <input type="file" class="image-crop-filepond" image-crop-aspect-ratio="1:1" data-max-file-size="5MB" data-max-files="1" name="new_profile">
+                                <div class="col-sm-12 col-md-6 col-xl-6">
+                                    <div class="form-group">
+                                        <div class="form-group mb-3">
+                                            <label class="text-sm" for="">Program</label>
+                                            <input type="text" class="form-control" value="<?= $program['program_title'] ?>" disabled>
+                                            <div class="invalid-feedback">
+                                                <i class="bx bx-radio-circle"></i>
+                                                Contains special characters or numbers
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-
-                            <input type="hidden" name="email_check" value="true">
-                            <button type="submit" class="btn btn-primary form-control mt-3" id="submitButton" onclick="return confirm('Are you sure you want to update profile?');">Save Changes</button>
                         </div>
                     </div>
                 </form>

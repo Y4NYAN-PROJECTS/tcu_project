@@ -2,25 +2,36 @@
 <?= $this->section('content'); ?>
 
 <div id="main-content">
-    <div class="page-heading mb-3">
+    <div class="page-heading mt-5">
         <div class="page-title">
-            <div class="d-flex justify-content-between align-items-center">
-                <h3>Department</h3>
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb mb-0">
-                        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Department</li>
-                    </ol>
-                </nav>
+            <div class="row">
+                <div class="col-12 col-md-6 order-md-1 order-first">
+                    <h3>Department</h3>
+                </div>
+                <div class="col-12 col-md-6 order-md-2 order-last">
+                    <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Department</li>
+                        </ol>
+                    </nav>
+                </div>
             </div>
         </div>
     </div>
 
     <section class="section">
         <div class="card shadow-sm">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">Department List</h5>
-                <button type="button" class="btn btn-primary px-5" data-bs-toggle="modal" data-bs-target="#new_department_modal">New Department</button>
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
+                        <h4 class="mb-0">Department List</h4>
+                        <small>Below are list of departments.</small>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-6 mt-3 text-sm-end">
+                        <button type="button" class="btn btn-primary px-5" data-bs-toggle="modal" data-bs-target="#new_department_modal">New Department</button>
+                    </div>
+                </div>
             </div>
 
             <hr class="mt-1">

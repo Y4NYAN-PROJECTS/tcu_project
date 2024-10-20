@@ -5,13 +5,13 @@
     <div class="page-heading mt-5">
         <div class="page-title">
             <div class="row">
-                <div class="col-12 col-md-6 order-md-1 order-last">
+                <div class="col-12 col-md-6 order-md-1 order-first">
                     <h3>Change Email</h3>
                 </div>
-                <div class="col-12 col-md-6 order-md-2 order-first">
+                <div class="col-12 col-md-6 order-md-2 order-last">
                     <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="/AdminController/DashboardPage">Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
                             <li class="breadcrumb-item active">Change Email</li>
                         </ol>
                     </nav>
@@ -26,7 +26,7 @@
                 <form action="/AdminController/ChangeEmailPage" method="post">
                     <div class="row d-flex justify-content-center align-items-center mt-3">
                         <div class="col-md-8">
-                            <small>Note: You current email address is <strong class="text-primary"><?= session()->get('logged_email')?></strong>. To change your email kindly fill up the form below.</small>
+                            <small>Note: You current email address is <strong class="text-primary"><?= session()->get('logged_email') ?></strong>. To change your email kindly fill up the form below.</small>
                             <hr class="text-primary mt-1">
                             <div class="row">
                                 <div class="col-md-12 mt-2">

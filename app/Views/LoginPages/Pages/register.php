@@ -25,6 +25,17 @@
         <?php endif; ?>
 
         <form action="/LoginController/RegisterPage/<?= $userTypeId ?>" method="post">
+            <?php if ($userTypeId == 1): ?>
+                <div class="form-group mt-3">
+                    <label class="text-sm" for="">Student ID</label>
+                    <input type="text" id="student_id" class="form-control" name="student_id" placeholder="ex. 00-0000" autofocus required>
+                    <div class="invalid-feedback">
+                        <i class="bx bx-radio-circle"></i>
+                        Invalid Student ID
+                    </div>
+                </div>
+            <?php endif; ?>
+
             <div class="form-group mt-3">
                 <label class="text-sm" for="">First Name</label>
                 <input type="text" id="first_name" class="form-control" name="first_name" placeholder="John" autofocus required>
@@ -63,6 +74,7 @@
                     </select>
                 </div>
             <?php endif; ?>
+
 
             <?php if ($userTypeId == 1): ?>
                 <div class="form-group mt-3">
@@ -136,6 +148,17 @@
 
 
 <script>
+    document.getElementById('student_id').addEventListener('input', function (e) {
+        let value = e.target.value;
+        value = value.replace(/\D/g, '');
+
+        if (value.length > 2) {
+            value = value.slice(0, 2) + '-' + value.slice(2);
+        }
+
+        e.target.value = value;
+    });
+
     document.addEventListener("DOMContentLoaded", function () {
         var firstName = <?= json_encode($firstName) ?>;
         var middleName = <?= json_encode($middleName) ?>;
@@ -172,6 +195,7 @@
         }
     });
 
+    const studentIdInput = document.getElementById('student_id');
     const firstNameInput = document.getElementById('first_name');
     const middleNameInput = document.getElementById('middle_name');
     const lastNameInput = document.getElementById('last_name');
@@ -183,6 +207,24 @@
     const helpMessage = document.getElementById('helpMessage');
     const department = document.getElementById("department");
     const program = document.getElementById("program");
+
+    studentIdInput.addEventListener('input', function () {
+        const formatPattern = /^\d{2}-\d{5}$/;
+
+        let value = studentIdInput.value.replace(/\D/g, '');
+        if (value.length > 2) {
+            value = value.slice(0, 2) + '-' + value.slice(2);
+        }
+        studentIdInput.value = value;
+
+        if (formatPattern.test(studentIdInput.value)) {
+            studentIdInput.classList.remove("is-invalid");
+            submitButton.disabled = false;
+        } else {
+            studentIdInput.classList.add("is-invalid");
+            submitButton.disabled = true;
+        }
+    });
 
     emailInput.addEventListener('input', function () {
         const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;

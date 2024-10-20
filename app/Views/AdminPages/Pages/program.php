@@ -2,25 +2,36 @@
 <?= $this->section('content'); ?>
 
 <div id="main-content">
-    <div class="page-heading mb-3">
+    <div class="page-heading mt-5">
         <div class="page-title">
-            <div class="d-flex justify-content-between align-items-center">
-                <h3>Program</h3>
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb mb-0">
-                        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Program</li>
-                    </ol>
-                </nav>
+            <div class="row">
+                <div class="col-12 col-md-6 order-md-1 order-first">
+                    <h3>Program</h3>
+                </div>
+                <div class="col-12 col-md-6 order-md-2 order-last">
+                    <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Program</li>
+                        </ol>
+                    </nav>
+                </div>
             </div>
         </div>
     </div>
 
     <section class="section">
         <div class="card shadow-sm">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">Program List</h5>
-                <button type="button" class="btn btn-primary px-5" data-bs-toggle="modal" data-bs-target="#new_program_modal">New Program</button>
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
+                        <h4 class="mb-0">Program List</h4>
+                        <small>Below are list of programs.</small>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-6 mt-3 text-sm-end">
+                        <button type="button" class="btn btn-primary px-5" data-bs-toggle="modal" data-bs-target="#new_program_modal">New Program</button>
+                    </div>
+                </div>
             </div>
 
             <hr class="mt-1">
@@ -39,7 +50,13 @@
                         <tbody>
                             <?php foreach ($programs as $program): ?>
                                 <tr>
-                                    <td><?= $program['department_title'] ?></td>
+                                    <td>
+                                        <?php foreach ($departments as $department): ?>
+                                            <?php if ($program['department_id'] == $department['department_id']): ?>
+                                                <?= $department['department_title'] ?>
+                                            <?php endif; ?>
+                                        <?php endforeach; ?>
+                                    </td>
                                     <td><?= $program['program_acronym'] ?></td>
                                     <td><?= $program['program_title'] ?></td>
                                     <td>
@@ -82,9 +99,9 @@
                             <div class="row">
                                 <div class="col-sm-12 col-md-6">
                                     <div class="form-group mb-3">
-                                        <label for="">Institute</label>
+                                        <label for="">Department</label>
                                         <select class="form-select" name="department_id" id="" required>
-                                            <option value="">Select Institute</option>
+                                            <option value="">Select Department</option>
                                             <?php foreach ($departments as $department): ?>
                                                 <option value="<?= $department['department_id'] ?>"><?= $department['department_title'] ?></option>
                                             <?php endforeach; ?>
