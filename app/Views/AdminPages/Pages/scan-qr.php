@@ -1,34 +1,6 @@
 <?= $this->extend('/AdminPages/Components/main-layout'); ?>
 <?= $this->section('content'); ?>
 
-<style>
-    #my-qr-reader {
-        padding: 20px !important;
-        border: 1.5px solid #b2b2b2 !important;
-        border-radius: 8px;
-    }
-
-    #my-qr-reader img[alt="Info icon"] {
-        display: none;
-    }
-
-    #my-qr-reader img[alt="Camera based scan"] {
-        width: 100px !important;
-        height: 100px !important;
-    }
-
-    #html5-qrcode-anchor-scan-type-change {
-        text-decoration: none !important;
-        color: #1d9bf0;
-    }
-
-    video {
-        width: 100% !important;
-        border: 1px solid #b2b2b2 !important;
-        border-radius: 0.25em;
-    }
-</style>
-
 <div id="main-content">
     <div class="vh-100">
         <div class="page-heading mt-5">
@@ -68,35 +40,33 @@
                 <div class="card-body text-center">
                     <h3 class="mb-0">QR Code Scanning</h3>
                     <small>Value: <small id="scanned-qr-code-value">Scanning QR</small></small>
-                    <div class="d-flex justify-content-center mt-3">
-                        <div id="reader" style="width: 600px;"></div>
-                        <form id="qrForm" action="/studentcontroller/scannedQRCode" method="POST">
-                            <input type="hidden" name="scanned-qr-code-value" id="scanned-qr-code-value">
-                        </form>
+                    <div class="d-flex justify-content-center my-2" id="camera-scanner">
+                        <div id="reader" style="width: 100%; max-width: 600px; height: auto;"></div>
                     </div>
+
+                    <div class="d-flex justify-content-center my-5 d-none" id="barcode-scanner">
+                        <input type="text" class="form-control form-control-xl text-center" name="barcode_input" id="barcode-input" placeholder="Scanning..." oninput="validateNumber(this)" autofocus>
+                    </div>
+
+                    <form id="qrForm" action="/AdminController/scannedQRCode" method="POST">
+                        <input type="hidden" name="scanned-qr-code-value" id="scanned-qr-code-value">
+                    </form>
                 </div>
             </div>
 
             <div class="row text-center">
                 <div class="col-6">
-                    <div class="card bg-primary text-white">
-                        <div class="card-body">
-                            <small>
-                                <i class="bi bi-camera2 fs-3"></i>
-                                Camera
-                            </small>
-                        </div>
-                    </div>
+                    <button type="button" class="btn btn-primary w-100" id="camera-button">
+                        <i class="bi bi-camera2 fs-2"></i><br>
+                        <small>Camera Scanner</small>
+                    </button>
                 </div>
+
                 <div class="col-6">
-                    <div class="card bg-primary text-white">
-                        <div class="card-body">
-                            <small>
-                                <i class="bi bi-upc-scan fs-3"></i>
-                                Barcode
-                            </small>
-                        </div>
-                    </div>
+                    <button type="button" class="btn btn-primary w-100" id="barcode-button">
+                        <i class="bi bi-upc-scan fs-2"></i><br>
+                        <small>Barcode Scanner</small>
+                    </button>
                 </div>
             </div>
 
@@ -107,9 +77,53 @@
 <script src="https://unpkg.com/html5-qrcode"></script>
 
 <script>
+    var barcodeScanner = document.getElementById('barcode-scanner');
+    var cameraScanner = document.getElementById('camera-scanner');
+    var cameraButton = document.getElementById('camera-button');
+    var barcodeButton = document.getElementById('barcode-button');
+    var barcodeInput = document.getElementById('barcode-input');
+
+    function toggleScanners(isCameraScanner) {
+        if (isCameraScanner) {
+            cameraScanner.classList.remove('d-none');
+            barcodeScanner.classList.add('d-none');
+        } else {
+            cameraScanner.classList.add('d-none');
+            barcodeScanner.classList.remove('d-none');
+            setTimeout(() => barcodeInput.focus(), 0);
+        }
+    }
+
+    cameraButton.addEventListener('click', function () {
+        toggleScanners(true);
+    });
+
+    barcodeButton.addEventListener('click', function () {
+        toggleScanners(false);
+    });
+
+    toggleScanners(true);
+
+    // Barcode Scanner
+    function validateNumber(input) {
+        input.value = input.value.replace(/[^0-9]/g, '').slice(0, 12);
+    }
+
+    function setFocusOnBarcodeInput() {
+        barcodeInput.focus();
+    }
+
+    barcodeInput.addEventListener('blur', setFocusOnBarcodeInput);
+    barcodeInput.addEventListener('input', function () {
+        if (barcodeInput.value.length >= 12) {
+            document.getElementById("qrForm").submit();
+        }
+    });
+
+    // Camera Scanner
     const qrCodeSuccessCallback = (decodedText, decodedResult) => {
         document.getElementById('scanned-qr-code-value').textContent = decodedText;
-        // document.getElementById('qrForm').submit();
+        document.getElementById('qrForm').submit();
     };
 
     const qrCodeErrorCallback = (errorMessage) => {
