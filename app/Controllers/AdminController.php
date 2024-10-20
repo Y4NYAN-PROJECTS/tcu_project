@@ -47,6 +47,220 @@ class AdminController extends BaseController
         return view('/AdminPages/Pages/scan-qr');
     }
 
+     public function ProgramPage()
+    {
+        // [ Active Navigation ]
+        session()->set('nav_active', 'program');
+
+        $programModel = new ProgramModel();
+        $program_list = $programModel->findAll();
+
+        $departmentModel = new DepartmentModel();
+        $department_list = $departmentModel->findAll();
+
+        $data = [
+            'programs' => $program_list,
+            'departments' => $department_list
+        ];
+
+        return view('/AdminPages/Pages/program', $data);
+    }
+
+    public function ProgramCreate()
+    {
+        $rqst_department_id = $this->request->getPost('department_id');
+        $rqst_program_acronym = $this->request->getPost('program_acronym');
+        $rqst_program_title = $this->request->getPost('program_title');
+        
+        $departmentModel = new DepartmentModel();   
+        $department = $departmentModel->where('department_id', $rqst_department_id)->first();
+        $department_title = $department['department_title'];
+
+        $programModel = new ProgramModel();
+        $program_data = [
+            'department_id' => $rqst_department_id,
+            'department_title' => $department_title,
+            'program_acronym' => $rqst_program_acronym,
+            'program_title' => $rqst_program_title,
+        ];
+        $programModel->save($program_data);
+
+        session()->setFlashdata('success', 'New Program Added Successfully.');
+        return redirect()->to('/AdminController/ProgramPage');
+    }
+
+    public function ProgramUpdate()
+    {
+        $rqst_program_id = $this->request->getPost('program_id');
+        $rqst_department_id = $this->request->getPost('department_id');
+        $rqst_program_acronym = $this->request->getPost('program_acronym');
+        $rqst_program_title = $this->request->getPost('program_title');
+
+        $departmentModel = new DepartmentModel();
+        $department = $departmentModel->where('department_id', $rqst_department_id)->first();
+        $department_title = $department['department_title'];
+
+        $programModel = new ProgramModel();
+        $program_data = [
+            'department_id' => $rqst_department_id,
+            'department_title' => $department_title,
+            'program_acronym' => $rqst_program_acronym,
+            'program_title' => $rqst_program_title,
+        ];
+
+        $update = $programModel->update($rqst_program_id, $program_data);
+
+        if ($update) {
+            session()->setFlashdata('success', 'Program Updated Successfully.');
+        } else {
+            session()->setFlashdata('danger', 'Program Update Failed.');
+        }
+
+        return redirect()->to('/AdminController/ProgramPage');
+    }
+
+   public function ProgramDelete($program_id)
+    {
+        $programModel = new ProgramModel();
+        
+        if ($programModel->where('program_id', $program_id)->delete()) {
+            session()->setFlashdata('success', 'Program Deleted Successfully.');
+        } else {
+            session()->setFlashdata('danger', 'Program Deletion Failed.');
+        }
+
+        return redirect()->to('/AdminController/ProgramPage');
+    }
+    public function DepartmentPage()
+    {
+        // [ Active Navigation ]
+        session()->set('nav_active', 'department');
+
+        $departmentModel = new DepartmentModel();
+        $department_list = $departmentModel->findAll();
+
+        $data = [
+            'departments' => $department_list,
+        ];
+
+        return view('/AdminPages/Pages/department', $data);
+    }
+
+    public function DepartmentCreate()
+    {
+        $rqst_department_acronym = $this->request->getPost('department_acronym');
+        $rqst_department_title = $this->request->getPost('department_title');
+
+        $departmentModel = new DepartmentModel();
+        $department_data = [
+            'department_title' => $rqst_department_title,
+            'department_acronym' => $rqst_department_acronym,
+        ];
+        $departmentModel->save($department_data);
+
+        session()->setFlashdata('success', 'New Department Added Successfully.');
+        return redirect()->to('/AdminController/DepartmentPage');
+    }
+
+    public function DepartmentUpdate()
+    {
+        $rqst_department_id = $this->request->getPost('department_id');
+        $rqst_department_acronym = $this->request->getPost('department_acronym');
+        $rqst_department_title = $this->request->getPost('department_title');
+
+        $departmentModel = new DepartmentModel();
+        $department_data = [
+            'department_acronym' => $rqst_department_acronym,
+            'department_title' => $rqst_department_title,
+        ];
+
+        $update = $departmentModel->update($rqst_department_id, $department_data);
+        if ($update) {
+            session()->setFlashdata('success', 'Department Updated Successfully.');
+        } else {
+            session()->setFlashdata('danger', 'Department Update Failed.');
+        }
+
+        session()->setFlashdata('success', 'Department Updated Successfully.');
+        return redirect()->to('/AdminController/DepartmentPage');
+    }
+
+    public function DepartmentDelete($department_id)
+    {
+        $departmentModel = new DepartmentModel();
+        
+        if ($departmentModel->where('department_id', $department_id)->delete()) {
+            session()->setFlashdata('success', 'Department Deleted Successfully.');
+        } else {
+            session()->setFlashdata('danger', 'Department Deletion Failed.');
+        }
+
+        return redirect()->to('/AdminController/DepartmentPage');
+    }
+
+    public function EquipmentPage()
+    {
+        // [ Active Navigation ]
+        session()->set('nav_active', 'equipment');
+
+        $equipmentTypeModel = new EquipmentTypeModel();
+        $equipment_type_list = $equipmentTypeModel->findAll();
+
+        $data = [
+            'equipments' => $equipment_type_list,
+        ];
+
+        return view('/AdminPages/Pages/equipment-type', $data);
+    }
+
+    public function EquipmentCreate()
+    {
+
+        $rqst_equipment_name = $this->request->getPost('equipment_name');
+
+        $equipmentTypeModel = new EquipmentTypeModel();
+        $equipment_data = [
+            'equipment_name' => $rqst_equipment_name,
+        ];
+        $equipmentTypeModel->save($equipment_data);
+
+        session()->setFlashdata('success', 'New Department Added Successfully.');
+        return redirect()->to('/AdminController/EquipmentPage');
+    }
+
+    public function EquipmentUpdate()
+    {
+        $rqst_equipment_id = $this->request->getPost('equipment_id');
+        $rqst_equipment_name = $this->request->getPost('equipment_name');
+
+        $equipmentTypeModel = new EquipmentTypeModel();
+        $equipment_data = [
+            'equipment_name' => $rqst_equipment_name,
+        ];
+
+        $update = $equipmentTypeModel->update($rqst_equipment_id, $equipment_data);
+        if ($update) {
+            session()->setFlashdata('success', 'Equipment Updated Successfully.');
+        } else {
+            session()->setFlashdata('danger', 'Equipment Update Failed.');
+        }
+
+        session()->setFlashdata('success', 'equipment Updated Successfully.');
+        return redirect()->to('/AdminController/EquipmentPage');
+    }
+
+    public function EquipmentDelete($equipment_id)
+    {
+        $equipmentTypeModel = new EquipmentTypeModel();
+        
+        if ($equipmentTypeModel->where('equipment_id', $equipment_id)->delete()) {
+            session()->setFlashdata('success', 'Equipment Deleted Successfully.');
+        } else {
+            session()->setFlashdata('danger', 'Equipment Deletion Failed.');
+        }
+
+        return redirect()->to('/AdminController/EquipmentPage');
+    }
 
     public function UpdateProfilePage()
     {

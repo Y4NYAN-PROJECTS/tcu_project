@@ -30,6 +30,27 @@
                     </a>
                 </li>
 
+                 <li class="sidebar-item  <?= $nav_active == 'program' ? 'active' : '' ?>">
+                    <a href="/AdminController/ProgramPage" class='sidebar-link'>
+                        <i class="bi bi-qr-code-scan"></i>
+                        <span>Program</span>
+                    </a>
+                </li>
+
+                 <li class="sidebar-item  <?= $nav_active == 'department' ? 'active' : '' ?>">
+                    <a href="/AdminController/DepartmentPage" class='sidebar-link'>
+                        <i class="bi bi-qr-code-scan"></i>
+                        <span>Department</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item  <?= $nav_active == 'equipment' ? 'active' : '' ?>">
+                    <a href="/AdminController/EquipmentPage" class='sidebar-link'>
+                        <i class="bi bi-qr-code-scan"></i>
+                        <span>Equipment</span>
+                    </a>
+                </li>
+
 
                 <li class="sidebar-item  <?= $nav_active == 'scan' ? 'active' : '' ?>">
                     <a href="/AdminController/ScanQRPage" class='sidebar-link'>

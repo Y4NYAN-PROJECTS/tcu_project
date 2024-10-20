@@ -4,7 +4,7 @@
 <div class="vh-100 d-flex flex-column justify-content-center align-items-center">
     <div class="page-heading">
         <div class="text-center">
-            <img src="/assets/tcu/logo-square.png" style="max-height: 100px; width: auto;" alt="Philsca Logo">
+            <img src="/assets/tcu/logo-square.png" style="max-height: 100px; width: auto;" alt="TCU Logo">
 
             <h1 class="mb-0 mt-2">Email Verification</h1>
             <p>Please check your email for OTP Code. You have attempted <strong><?= session('otp_attempts') ?? 0; ?></strong> out of 5 attempts.</p>

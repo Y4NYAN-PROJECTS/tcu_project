@@ -8,5 +8,5 @@ class ProgramModel extends Model
 {
     protected $table = 'tbl_program';
     protected $primaryKey = 'program_id';
-    protected $allowedFields = ['program_code', 'program_acronym', 'program_title', 'date_created'];
+    protected $allowedFields = ['department_id', 'department_title',  'program_code', 'program_acronym', 'program_title', 'date_created'];
 }
