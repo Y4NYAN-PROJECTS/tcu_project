@@ -14,11 +14,11 @@
         </div>
         <hr class="mb-0">
 
-        <?php if ($user_type_id == 0): ?>
+        <?php if ($user_type_id == 1): ?>
             <div class="pt-3 pb-2 text-center">
                 <span class="badge bg-primary px-3 py-2">Administrator Login</span>
             </div>
-        <?php elseif ($user_type_id == 1): ?>
+        <?php elseif ($user_type_id == 2): ?>
             <div class="pt-3 pb-2 text-center">
                 <span class="badge bg-primary px-3 py-2">Student Login</span>
             </div>

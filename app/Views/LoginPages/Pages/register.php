@@ -14,18 +14,18 @@
         </div>
         <hr class="mb-0">
 
-        <?php if ($userTypeId == 0): ?>
+        <?php if ($userTypeId == 1): ?>
             <div class="pt-3 text-center">
                 <span class="badge bg-primary px-3 py-2">Administrator Registration</span>
             </div>
-        <?php elseif ($userTypeId == 1): ?>
+        <?php elseif ($userTypeId == 2): ?>
             <div class="pt-3 text-center">
                 <span class="badge bg-primary px-3 py-2">Student Registration</span>
             </div>
         <?php endif; ?>
 
         <form action="/LoginController/RegisterPage/<?= $userTypeId ?>" method="post">
-            <?php if ($userTypeId == 1): ?>
+            <?php if ($userTypeId == 2): ?>
                 <div class="form-group mt-3">
                     <label class="text-sm" for="">Student ID</label>
                     <input type="text" id="student_id" class="form-control" name="student_id" placeholder="ex. 00-0000" autofocus required>
@@ -63,7 +63,7 @@
                 </div>
             </div>
 
-            <?php if ($userTypeId == 0): ?>
+            <?php if ($userTypeId == 1): ?>
                 <div class="form-group mt-3">
                     <label class="text-sm" for="">Department</label>
                     <select class="form-control form-select" name="department" id="department" required>
@@ -76,7 +76,7 @@
             <?php endif; ?>
 
 
-            <?php if ($userTypeId == 1): ?>
+            <?php if ($userTypeId == 2): ?>
                 <div class="form-group mt-3">
                     <label class="text-sm" for="">Department</label>
                     <select class="form-control form-select" name="department" id="department" required>

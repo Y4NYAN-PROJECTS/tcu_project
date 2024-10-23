@@ -67,6 +67,13 @@
                     </a>
                 </li>
 
+                <li class="sidebar-item  <?= $nav_active == 'pending' ? 'active' : '' ?>">
+                    <a href="/AdminController/AccountsPendingPage" class='sidebar-link'>
+                        <i class="bi bi-gear"></i>
+                        <span>Pending</span>
+                    </a>
+                </li>
+
                 <li class="sidebar-title">Settings</li>
 
                 <li class="sidebar-item  <?= $nav_active == 'profile' ? 'active' : '' ?>">

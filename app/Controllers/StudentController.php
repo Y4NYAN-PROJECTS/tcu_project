@@ -154,13 +154,14 @@ class StudentController extends BaseController
         $rqst_color = $this->request->getPost('color');
         $rqst_description = $this->request->getPost('description');
         $rqst_equipment_image = $this->request->getFile('equipment_image');
+        $rqst_other_equipment = $this->request->getPost('other_equipment');
 
         $explode = explode(':', $rqst_equipment_name);
 
         if ($rqst_equipment_image && $rqst_equipment_image->isValid()) {
             $file_extension = $rqst_equipment_image->getClientExtension();
             $equipment_name = $student_equipment_code . '.' . $file_extension;
-            $equipment_path = $img_path . "/$equipment_name";
+            $equipment_path = $img_path . "$equipment_name";
             $target_file_path = $directoryPath . "/" . $equipment_name;
 
             if (file_exists($target_file_path)) {
@@ -169,7 +170,23 @@ class StudentController extends BaseController
 
             $rqst_equipment_image->move($directoryPath, $equipment_name);
 
-            $equipment_image_data = [
+            if($rqst_equipment_name === "other"){
+
+                $equipment_image_data = [
+                'user_id' => $user_id,
+                'user_code' => $user_code,
+                'full_name' => $full_name,
+                'equipment_name' => $rqst_other_equipment,
+                'equipment_code' => "OTHERS",
+                'model' => $rqst_model,
+                'color' => $rqst_color,
+                'description' => $rqst_description,
+                'image_path' => $equipment_path,
+                'student_equipment_code' => $student_equipment_code,
+            ];
+            $studentEquipmentModel->save($equipment_image_data);
+            } else {
+                $equipment_image_data = [
                 'user_id' => $user_id,
                 'user_code' => $user_code,
                 'full_name' => $full_name,
@@ -183,6 +200,8 @@ class StudentController extends BaseController
                 'student_equipment_code' => $student_equipment_code,
             ];
             $studentEquipmentModel->save($equipment_image_data);
+            }
+            
 
             session()->setFlashdata('success', 'Equipment Added Successfully');
             return redirect()->to('/StudentController/EquipmentsPage');

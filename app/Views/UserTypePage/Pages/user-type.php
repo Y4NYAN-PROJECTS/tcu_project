@@ -14,7 +14,7 @@
     <div class="page-content">
         <div class="row ">
             <div class="col-md-4 col-sm-12 mb-3">
-                <a href="/LoginController/LoginPage/1" class="type-select">
+                <a href="/LoginController/LoginPage/2" class="type-select">
                     <div id="user-type" class="card border-0 rounded h-100">
                         <div class="card-body pb-0 px-5 d-flex flex-column align-items-center">
                             <img src="/assets/tcu/student.jpg" class="img-fluid" style="height: 100px;" alt="Student">
@@ -25,7 +25,7 @@
             </div>
 
             <div class="col-md-4 col-sm-12 mb-3">
-                <a href="/LoginController/LoginPage/0" class="type-select">
+                <a href="/LoginController/LoginPage/1" class="type-select">
                     <div id="user-type" class="card border-0 rounded h-100">
                         <div class="card-body pb-0 px-5 d-flex flex-column align-items-center">
                             <img src="/assets/tcu/admin.jpg" class="img-fluid" style="height: 100px;" alt="Administrator">
@@ -36,7 +36,7 @@
             </div>
 
             <div class="col-md-4 col-sm-12 mb-3">
-                <a href="/VisitorController/DashboardPage" class="type-select">
+                <a href="/VisitorController/DashboardPage/5" class="type-select">
                     <div id="user-type" class="card border-0 rounded h-100">
                         <div class="card-body pb-0 px-5 d-flex flex-column align-items-center">
                             <img src="/assets/tcu/visitor.jpg" class="img-fluid" style="height: 100px;" alt="Visitor">

@@ -27,7 +27,7 @@ class LoginController extends BaseController
         if ($rqst_check_login) {
             if ($check_user) {
                 if (password_verify($rqst_password, $check_user['password'])) {
-                    if ($user_type == 1) {
+                    if ($user_type == 2) {
                         $user_data = [
                             'is_logged' => true,
                             'logged_id' => $check_user['user_id'],
@@ -47,7 +47,7 @@ class LoginController extends BaseController
                         session()->set($user_data);
                         session()->setFlashdata('success', 'Successfully Logged In.');
                         return redirect()->to('/StudentController/DashboardPage');
-                    } else if ($user_type == 0) {
+                    } else if ($user_type == 1) {
                         $user_data = [
                             'is_logged' => true,
                             'logged_id' => $check_user['user_id'],
@@ -132,7 +132,7 @@ class LoginController extends BaseController
 
         if ($rqst_check_register) {
             if (!$check_username) {
-                if ($user_type == 1) {
+                if ($user_type == 2) {
                     $registration_data = [
                         'registration_user_code' => $generated_code,
                         'registration_student_id' => $rqst_student_id,
@@ -149,7 +149,7 @@ class LoginController extends BaseController
                     ];
                     session()->set($registration_data);
                     return redirect()->to("/LoginController/SendOTP");
-                } else if ($user_type == 0) {
+                } else if ($user_type == 1) {
                     $registration_data = [
                         'registration_user_code' => $generated_code,
                         'registration_full_name' => $full_name,
@@ -240,7 +240,7 @@ class LoginController extends BaseController
         $department_info = $departmentModel->where('department_id', $rqst_department)->first();
         $department_code = $department_info['department_code'];
 
-        if ($user_type == 1) {
+        if ($user_type == 2) {
             $programModel = new ProgramModel();
             $program_info = $programModel->where('program_id', $rqst_program)->first();
             $program_code = $program_info['program_code'];
@@ -249,7 +249,7 @@ class LoginController extends BaseController
         if ($rqst_check_attempt) {
             if ($rqst_otp == $otp_code) {
                 $userModel = new UserModel();
-                if ($user_type == 1) {
+                if ($user_type == 2) {
                     $registration_data = [
                         'user_code' => $generated_code,
                         'student_id' => $rqst_student_id,
@@ -267,7 +267,7 @@ class LoginController extends BaseController
                         'user_type' => $user_type,
                     ];
                     $userModel->save($registration_data);
-                } else if ($user_type == 0) {
+                } else if ($user_type == 1) {
                     $registration_data = [
                         'user_code' => $generated_code,
                         'full_name' => $rqst_full_name,

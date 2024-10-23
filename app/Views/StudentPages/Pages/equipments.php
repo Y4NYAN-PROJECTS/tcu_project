@@ -34,7 +34,14 @@
             <hr class="mt-0">
 
             <div class="card-body">
-                <div class="table-responsive table-hover table-bordered">
+                <div class="row">
+                    <div class="col-sm-12 col-md-4">
+                        <div class="text-center">
+                            <div id="qrcode" class="mt-4 d-flex justify-content-center"></div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-8">
+                        <div class="table-responsive table-hover table-bordered">
                     <table class="table" id="table1">
                         <thead>
                             <tr>
@@ -73,6 +80,8 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
 
         <div class="modal fade" id="new_equipment_modal" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
@@ -89,7 +98,7 @@
                     <form action="/StudentController/StudentEquipmentCreate" method="post" enctype="multipart/form-data">
                         <div class="modal-body m-3">
                             <div class="row">
-                                <div class="col-sm-12 col-md-5">
+                                <div class="col-sm-12 col-md-6">
                                     <div class="form-group mb-3">
                                         <label for="">Equipment Type</label>
                                         <select class="form-select mt-1" name="equipment_name" id="equipmentSelect" required>
@@ -99,25 +108,34 @@
                                                     <?= $equips['equipment_name'] ?>
                                                 </option>
                                             <?php endforeach; ?>
+                                            <option value="other">Others</option>
                                         </select>
                                     </div>
                                 </div>
-
-                                <div class="col-sm-12 col-md-7">
+                                        
+                                <div class="col-sm-12 col-md-6 d-none" id="other_equipment">
+                                    <div class="form-group mb-3">
+                                        <label for="">Other Equipment</label>
+                                        <small class="text-muted"> (Please specify the equipment)</small>
+                                        <input type="text" class="form-control mt-1" name="other_equipment" id="" placeholder="Other equipment" autofocus>
+                                    </div>
+                                </div>
+                                   
+                                    <div class="col-sm-12 col-md-6" id="brandModelContainer">
                                     <div class="form-group mb-3">
                                         <label for="">Brand and Model</label>
-                                        <input type="text" class="form-control mt-1" name="model" id="" placeholder="Ex. Logitech 1520" required>
+                                        <input type="text" class="form-control mt-1" name="model" id="brandModelInput" placeholder="Ex. Logitech 1520" required>
                                     </div>
                                 </div>
 
-                                <div class="col-sm-12 col-md-5">
+                                <div class="col-sm-12 col-md-6">
                                     <div class="form-group mb-3">
                                         <label for="">Color</label>
                                         <input type="text" class="form-control mt-1" name="color" id="" placeholder="Equipment Color" required>
                                     </div>
                                 </div>
 
-                                <div class="col-sm-12 col-md-7">
+                                <div class="col-sm-12 col-md-6" id="description-container">
                                     <div class="form-group mb-3">
                                         <label for="">More Description</label>
                                         <small class="text-muted">(Input N/A if no futher description.)</small>
@@ -151,18 +169,41 @@
     </section>
 </div>
 
+<script src="/assets/compiled/js/qrcode/config.js"></script>
+
 <script>
+
+    var qrcode = new QRCode('qrcode');
+    
+    qrcode.makeCode("<?= session()->get('logged_code') ?>");
+    
+    const equipmentSelect = document.getElementById('equipmentSelect');
+    const otherEquipmentContainer = document.getElementById('other_equipment');
+    const descriptionContainer = document.getElementById('description-container');
+
+    equipmentSelect.addEventListener('change', function () {
+        if (equipmentSelect.value === 'other') {
+            otherEquipmentContainer.classList.remove('d-none'); 
+            descriptionContainer.classList.remove('col-md-6');
+            descriptionContainer.classList.add('col-md-12'); 
+        } else {
+            otherEquipmentContainer.classList.add('d-none');
+            descriptionContainer.classList.remove('col-md-12');
+            descriptionContainer.classList.add('col-md-6');
+        }
+    });
+
 
     // G E N E R A T E   C O D E
 
-    function generateCode() {
-        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        let code = '';
-        for (let i = 0; i < 12; i++) {
-            code += characters.charAt(Math.floor(Math.random() * characters.length));
-        }
-        return code;
-    }
+    // function generateCode() {
+    //     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    //     let code = '';
+    //     for (let i = 0; i < 12; i++) {
+    //         code += characters.charAt(Math.floor(Math.random() * characters.length));
+    //     }
+    //     return code;
+    // }
 
     document.getElementById('equipment').addEventListener('submit', function (event) {
         let codeInput = document.querySelector('input[name="equipment_type_code"]');
@@ -178,7 +219,7 @@
         const equipmentDetailsHeader = document.getElementById('equipmentDetailsHeader');
         const equipmentDetailsTitle = document.getElementById('equipmentDetailsTitle');
         const equipmentDetailsSection = document.querySelector('input[name="equipment_name"]');
-        const equipmentDetailsRow = equipmentDetailsSection.closest('.row'); // Get the parent row element
+        const equipmentDetailsRow = equipmentDetailsSection.closest('.row'); 
 
         if (selectedValue) {
             // Show all the equipment details fields when the "Add" button is clicked

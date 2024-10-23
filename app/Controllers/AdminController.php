@@ -299,6 +299,47 @@ class AdminController extends BaseController
         return view('/AdminPages/Pages/account', $data);
     }
 
+     public function AccountsPendingPage()
+    {
+        // [ Active Navigation ]
+        session()->set('nav_active', 'pending');
+
+        $userModel = new UserModel();
+        $user_pending_list = $userModel->where('is_approve', 0)->findAll();
+
+        $departmentModel = new DepartmentModel();
+        $department_list = $departmentModel->findAll();
+
+        $programModel = new ProgramModel();
+        $program_list = $programModel->findAll();
+
+        $data = [
+            'pendings' => $user_pending_list,
+            'departments' => $department_list,
+            'programs' => $program_list,
+        ];
+
+        return view('AdminPages/Pages/accounts-pending', $data);
+    }
+
+    public function AccountApprove($user_code)
+    {
+        $userModel = new UserModel();
+        $userModel->update($user_code, ['is_approve' => 1]);
+
+        session()->setFlashdata('success', 'Account Approved Successfully.');
+        return redirect()->to("/AdminController/AccountsPendingPage");
+    }
+
+    public function AccountDecline($user_code)
+    {
+        $userModel = new UserModel();
+        $userModel->update($user_code, ['is_approve' => 2]);
+
+        session()->setFlashdata('success', 'Account Declined Successfully.');
+        return redirect()->to("/AdminController/AccountsPendingPage");
+    }
+
     public function UpdateProfilePage()
     {
         // [ Active Navigation ]
