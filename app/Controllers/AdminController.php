@@ -8,6 +8,7 @@ use App\Models\EquipmentTypeModel;
 use App\Models\EquipmentStudentModel;
 use App\Models\EquipmentSchoolModel;
 use App\Models\FormModel;
+use Dompdf\Dompdf;
 
 class AdminController extends BaseController
 {
@@ -298,78 +299,93 @@ class AdminController extends BaseController
         return view('/AdminPages/Pages/equipments-register', $data);
     }
 
-  public function EquipmentRegister()
-{
-    $rqst_building = $this->request->getPost('building');
-    $rqst_room_number = $this->request->getPost('room_number');
-    $rqst_equipment_type = $this->request->getPost('equipment_type');
-    $rqst_serial_number = $this->request->getPost('serial_number');
-    $rqst_model = $this->request->getPost('model');
-    $rqst_color = $this->request->getPost('color');
-    $rqst_status = $this->request->getPost('status');
-    $rqst_description = $this->request->getPost('description');
-    $rqst_equipment_image = $this->request->getFile('equipment_image');
-    $rqst_qrcode_image = $this->request->getFile('qrcode_file');
+    public function EquipmentRegister()
+    {
+        $rqst_building = $this->request->getPost('building');
+        $rqst_room_number = $this->request->getPost('room_number');
+        $rqst_equipment_type = $this->request->getPost('equipment_type');
+        $rqst_serial_number = $this->request->getPost('serial_number');
+        $rqst_model = $this->request->getPost('model');
+        $rqst_color = $this->request->getPost('color');
+        $rqst_status = $this->request->getPost('status');
+        $rqst_description = $this->request->getPost('description');
+        $rqst_equipment_image = $this->request->getFile('equipment_image');
+        $rqst_qrcode_image = $this->request->getFile('qrcode_file');
 
-    $img_path = "$rqst_building/$rqst_room_number/$rqst_serial_number";
-    $directoryPath = FCPATH . $img_path;
+        $img_path = "$rqst_building/$rqst_room_number/$rqst_serial_number";
+        $directoryPath = FCPATH . $img_path;
 
-    if (!is_dir($directoryPath)) {
-        mkdir($directoryPath, 0777, true);
-    }
-
-    $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@_-?';
-    $characters_length = strlen($characters);
-    $school_equipment_code = '';
-
-    for ($i = 0; $i < 12; $i++) {
-        $school_equipment_code .= $characters[rand(0, $characters_length - 1)];
-    }
-
-    if ($rqst_equipment_image->isValid() && $rqst_qrcode_image->isValid()) {
-
-        $file_extension = $rqst_equipment_image->getClientExtension();
-        $equipment_name = $rqst_equipment_type . '.' . $file_extension;
-        $qrcode_name = $rqst_serial_number . '.png'; 
-
-        $equipment_path = $img_path . '/' . $equipment_name;
-        $qrcode_path = $img_path . '/' . $qrcode_name;
-
-        $target_equipment_path = $directoryPath . '/' . $equipment_name;
-        $target_qrcode_path = $directoryPath . '/' . $qrcode_name;
-
-        if (file_exists($target_equipment_path)) {
-            unlink($target_equipment_path);
+        if (!is_dir($directoryPath)) {
+            mkdir($directoryPath, 0777, true);
         }
 
-        if (file_exists($target_qrcode_path)) {
-            unlink($target_qrcode_path);
+        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@_-?';
+        $characters_length = strlen($characters);
+        $school_equipment_code = '';
+
+        for ($i = 0; $i < 12; $i++) {
+            $school_equipment_code .= $characters[rand(0, $characters_length - 1)];
         }
 
-        $rqst_equipment_image->move($directoryPath, $equipment_name);
+        if ($rqst_equipment_image->isValid() && $rqst_qrcode_image->isValid()) {
 
-        $rqst_qrcode_image->move($directoryPath, $qrcode_name);
+            $file_extension = $rqst_equipment_image->getClientExtension();
+            $equipment_name = $rqst_equipment_type . '.' . $file_extension;
+            $qrcode_name = $rqst_serial_number . '.png'; 
 
-        $equipmentSchoolModel = new EquipmentSchoolModel();
-        $equipment_image_data = [
-            'school_equipment_code' => $school_equipment_code,
-            'serial_number' => $rqst_serial_number,
-            'building' => $rqst_building,
-            'room_number' => $rqst_room_number,
-            'equipment_name' => $rqst_equipment_type,
-            'brand_model' => $rqst_model,
-            'color' => $rqst_color,
-            'description' => $rqst_description,
-            'status' => $rqst_status,
-            'school_equpment_image_path' => $equipment_path,
-            'qrcode_image_path' => $qrcode_path,
-        ];
-        $equipmentSchoolModel->save($equipment_image_data);
+            $equipment_path = $img_path . '/' . $equipment_name;
+            $qrcode_path = $img_path . '/' . $qrcode_name;
 
-        session()->setFlashdata('success', 'Equipment Registered Successfully');
-        return redirect()->back();
+            $target_equipment_path = $directoryPath . '/' . $equipment_name;
+            $target_qrcode_path = $directoryPath . '/' . $qrcode_name;
+
+            if (file_exists($target_equipment_path)) {
+                unlink($target_equipment_path);
+            }
+
+            if (file_exists($target_qrcode_path)) {
+                unlink($target_qrcode_path);
+            }
+
+            $rqst_equipment_image->move($directoryPath, $equipment_name);
+
+            $rqst_qrcode_image->move($directoryPath, $qrcode_name);
+
+            $equipmentSchoolModel = new EquipmentSchoolModel();
+            $equipment_image_data = [
+                'school_equipment_code' => $school_equipment_code,
+                'serial_number' => $rqst_serial_number,
+                'building' => $rqst_building,
+                'room_number' => $rqst_room_number,
+                'equipment_name' => $rqst_equipment_type,
+                'brand_model' => $rqst_model,
+                'color' => $rqst_color,
+                'description' => $rqst_description,
+                'status' => $rqst_status,
+                'school_equpment_image_path' => $equipment_path,
+                'qrcode_image_path' => $qrcode_path,
+            ];
+            $equipmentSchoolModel->save($equipment_image_data);
+
+            session()->setFlashdata('success', 'Equipment Registered Successfully');
+            return redirect()->back();
+        }
     }
-}
+
+    public function GeneratePDF()
+    {
+        $schoolEquipmentModel = new EquipmentSchoolModel();
+        $equipment_list = $schoolEquipmentModel->findAll();
+
+        $data['equipment_list'] = $equipment_list;
+
+        $dompdf = new Dompdf();
+        $html = view('/AdminPages/Pages/pdf-template', $data);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+        $dompdf->stream("output.pdf", ['Attachment' => false]);
+    }
 
 
     public function AccountPage()

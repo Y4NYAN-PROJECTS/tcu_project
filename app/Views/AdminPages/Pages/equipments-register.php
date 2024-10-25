@@ -28,6 +28,7 @@
                     <small>Below are the University's equipments.</small>
                 </div>
                 <button type="button" class="btn btn-primary px-5" data-bs-toggle="modal" data-bs-target="#new_equipment_modal">Register Equipment</button>
+                <a type="button" class="btn btn-primary px-5" href="/AdminController/GeneratePDF">Print</a>
             </div>
 
 
