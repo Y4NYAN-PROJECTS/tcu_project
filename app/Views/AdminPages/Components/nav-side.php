@@ -58,6 +58,16 @@
                     </a>
                 </li>
 
+                <li class="sidebar-title">Equipment Registration</li>
+
+                <li class="sidebar-item <?= $nav_active == 'equipment-register' ? 'active' : '' ?>">
+                    <a href="/AdminController/EquipmentRegistrationPage" class='sidebar-link'>
+                        <i class="bi bi-person"></i>
+                        <span>Equiment Registration</span>
+                    </a>
+                </li>
+
+
                 <li class="sidebar-title">Account</li>
 
                 <li class="sidebar-item <?= $nav_active == 'account' ? 'active' : '' ?>">

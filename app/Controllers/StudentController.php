@@ -201,8 +201,6 @@ class StudentController extends BaseController
             ];
             $studentEquipmentModel->save($equipment_image_data);
             }
-            
-
             session()->setFlashdata('success', 'Equipment Added Successfully');
             return redirect()->to('/StudentController/EquipmentsPage');
         } else {

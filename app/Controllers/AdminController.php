@@ -6,6 +6,7 @@ use App\Models\ProgramModel;
 use App\Models\UserModel;
 use App\Models\EquipmentTypeModel;
 use App\Models\EquipmentStudentModel;
+use App\Models\EquipmentSchoolModel;
 use App\Models\FormModel;
 
 class AdminController extends BaseController
@@ -278,6 +279,99 @@ class AdminController extends BaseController
         return redirect()->to('/AdminController/EquipmentPage');
     }
 
+    // EQUIPMENT REGISTRATION
+
+    public function EquipmentRegistrationPage(){
+
+        // [ Active Navigation ]
+        session()->set('nav_active', 'equipment-register');
+
+        $user_code = session()->get('logged_code');
+
+        $schoolEquipmentModel = new EquipmentSchoolModel();
+        $school_equipment_list = $schoolEquipmentModel->findAll();
+
+        $data = [
+            'school_equipments' => $school_equipment_list,
+        ];
+
+        return view('/AdminPages/Pages/equipments-register', $data);
+    }
+
+  public function EquipmentRegister()
+{
+    $rqst_building = $this->request->getPost('building');
+    $rqst_room_number = $this->request->getPost('room_number');
+    $rqst_equipment_type = $this->request->getPost('equipment_type');
+    $rqst_serial_number = $this->request->getPost('serial_number');
+    $rqst_model = $this->request->getPost('model');
+    $rqst_color = $this->request->getPost('color');
+    $rqst_status = $this->request->getPost('status');
+    $rqst_description = $this->request->getPost('description');
+    $rqst_equipment_image = $this->request->getFile('equipment_image');
+    $rqst_qrcode_image = $this->request->getFile('qrcode_file');
+
+    $img_path = "$rqst_building/$rqst_room_number/$rqst_serial_number";
+    $directoryPath = FCPATH . $img_path;
+
+    if (!is_dir($directoryPath)) {
+        mkdir($directoryPath, 0777, true);
+    }
+
+    $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@_-?';
+    $characters_length = strlen($characters);
+    $school_equipment_code = '';
+
+    for ($i = 0; $i < 12; $i++) {
+        $school_equipment_code .= $characters[rand(0, $characters_length - 1)];
+    }
+
+    if ($rqst_equipment_image->isValid() && $rqst_qrcode_image->isValid()) {
+
+        $file_extension = $rqst_equipment_image->getClientExtension();
+        $equipment_name = $rqst_equipment_type . '.' . $file_extension;
+        $qrcode_name = $rqst_serial_number . '.png'; 
+
+        $equipment_path = $img_path . '/' . $equipment_name;
+        $qrcode_path = $img_path . '/' . $qrcode_name;
+
+        $target_equipment_path = $directoryPath . '/' . $equipment_name;
+        $target_qrcode_path = $directoryPath . '/' . $qrcode_name;
+
+        if (file_exists($target_equipment_path)) {
+            unlink($target_equipment_path);
+        }
+
+        if (file_exists($target_qrcode_path)) {
+            unlink($target_qrcode_path);
+        }
+
+        $rqst_equipment_image->move($directoryPath, $equipment_name);
+
+        $rqst_qrcode_image->move($directoryPath, $qrcode_name);
+
+        $equipmentSchoolModel = new EquipmentSchoolModel();
+        $equipment_image_data = [
+            'school_equipment_code' => $school_equipment_code,
+            'serial_number' => $rqst_serial_number,
+            'building' => $rqst_building,
+            'room_number' => $rqst_room_number,
+            'equipment_name' => $rqst_equipment_type,
+            'brand_model' => $rqst_model,
+            'color' => $rqst_color,
+            'description' => $rqst_description,
+            'status' => $rqst_status,
+            'school_equpment_image_path' => $equipment_path,
+            'qrcode_image_path' => $qrcode_path,
+        ];
+        $equipmentSchoolModel->save($equipment_image_data);
+
+        session()->setFlashdata('success', 'Equipment Registered Successfully');
+        return redirect()->back();
+    }
+}
+
+
     public function AccountPage()
     {
         // [ Active Navigation ]
@@ -298,8 +392,7 @@ class AdminController extends BaseController
 
         return view('/AdminPages/Pages/account', $data);
     }
-
-     public function AccountsPendingPage()
+    public function AccountsPendingPage()
     {
         // [ Active Navigation ]
         session()->set('nav_active', 'pending');

@@ -35,7 +35,7 @@
       <div class="card-body mb-3">
         <div class="row d-flex justify-content-center align-items-center mt-3">
           <div class="col-md-8">
-            <?php if (empty($equipments)): ?>
+            <?php if (empty($school_equipments)): ?>
               <div class="text-center">
                 <h2 class="fst-italic mb-0">No Equipments Found!</h2>
                 <small>No data found. Kindly add equipments first.</small>
