@@ -36,7 +36,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-sm-12 col-md-12">
-                         <?php if (empty($equipments)): ?>
+                         <?php if (empty($school_equipments)): ?>
                         <div class="text-center">
                             <h2 class="fst-italic mb-0">No Equipments Found!</h2>
                             <small>No data found. Kindly register equipments first.</small>
@@ -49,10 +49,11 @@
                                 <th>Serial Number</th>
                                 <th>Building</th>
                                 <th>Room Number</th>
-                                <th>Type</th>
+                                <th>Equipment</th>
                                 <th>Model</th>
                                 <th>Color</th>
                                 <th>Description</th>
+                                <th>Status</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -62,7 +63,7 @@
                                     <td><?= $equipment['serial_number'] ?></td>
                                     <td><?= $equipment['building'] ?></td>
                                     <td><?= $equipment['room_number'] ?></td>
-                                    <td><?= $equipment['equipment_type'] ?></td>
+                                    <td><?= $equipment['equipment_name'] ?></td>
                                     <td><?= $equipment['brand_model'] ?></td>
                                     <td><?= $equipment['color'] ?></td>
                                     <td><?= $equipment['description'] ?></td>
@@ -73,9 +74,9 @@
                                                 <i class="bi bi-error-circle"></i> Actions
                                             </button>
                                             <div class="dropdown-menu shadow-lg">
-                                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#update_equipment_modal" data-id="<?= $equipment['student_equipment_code'] ?>"><i class="bi bi-pencil-square me-3"></i> Update</a>
+                                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#update_equipment_modal"><i class="bi bi-pencil-square me-3"></i> Update</a>
 
-                                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#update_equipment_modal" data-id="<?= $equipment['student_equipment_code'] ?>"><i class="bi bi-box-arrow-in-up-right me-3"></i> More Details</a>
+                                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#update_equipment_modal"><i class="bi bi-box-arrow-in-up-right me-3"></i> More Details</a>
                                             </div>
                                         </div>
                                     </td>
