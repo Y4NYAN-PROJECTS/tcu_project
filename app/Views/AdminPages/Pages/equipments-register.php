@@ -37,60 +37,60 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-sm-12 col-md-12">
-                         <?php if (empty($school_equipments)): ?>
-                        <div class="text-center">
-                            <h2 class="fst-italic mb-0">No Equipments Found!</h2>
-                            <small>No data found. Kindly register equipments first.</small>
-                        </div>
+                        <?php if (empty($school_equipments)): ?>
+                            <div class="text-center">
+                                <h2 class="fst-italic mb-0">No Equipments Found!</h2>
+                                <small>No data found. Kindly register equipments first.</small>
+                            </div>
                         <?php else: ?>
-                        <div class="table-responsive table-hover table-bordered">
-                    <table class="table" id="table1">
-                        <thead>
-                            <tr>
-                                <th>Serial Number</th>
-                                <th>Building</th>
-                                <th>Room Number</th>
-                                <th>Equipment</th>
-                                <th>Model</th>
-                                <th>Color</th>
-                                <th>Description</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($school_equipments as $equipment): ?>
-                                <tr>
-                                    <td><?= $equipment['serial_number'] ?></td>
-                                    <td><?= $equipment['building'] ?></td>
-                                    <td><?= $equipment['room_number'] ?></td>
-                                    <td><?= $equipment['equipment_name'] ?></td>
-                                    <td><?= $equipment['brand_model'] ?></td>
-                                    <td><?= $equipment['color'] ?></td>
-                                    <td><?= $equipment['description'] ?></td>
-                                    <td><?= $equipment['status'] ?></td>
-                                    <td>
-                                        <div class="">
-                                            <button class="btn btn-primary btn-sm dropdown-toggle me-1" type="button" id="dropdownMenuButtonIcon" data-bs-toggle="dropdown">
-                                                <i class="bi bi-error-circle"></i> Actions
-                                            </button>
-                                            <div class="dropdown-menu shadow-lg">
-                                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#update_equipment_modal"><i class="bi bi-pencil-square me-3"></i> Update</a>
+                            <div class="table-responsive table-hover table-bordered">
+                                <table class="table" id="table1">
+                                    <thead>
+                                        <tr>
+                                            <th>Serial Number</th>
+                                            <th>Building</th>
+                                            <th>Room Number</th>
+                                            <th>Equipment</th>
+                                            <th>Model</th>
+                                            <th>Color</th>
+                                            <th>Description</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($school_equipments as $equipment): ?>
+                                            <tr>
+                                                <td><?= $equipment['serial_number'] ?></td>
+                                                <td><?= $equipment['building'] ?></td>
+                                                <td><?= $equipment['room_number'] ?></td>
+                                                <td><?= $equipment['equipment_name'] ?></td>
+                                                <td><?= $equipment['brand_model'] ?></td>
+                                                <td><?= $equipment['color'] ?></td>
+                                                <td><?= $equipment['description'] ?></td>
+                                                <td><?= $equipment['status'] ?></td>
+                                                <td>
+                                                    <div class="">
+                                                        <button class="btn btn-primary btn-sm dropdown-toggle me-1" type="button" id="dropdownMenuButtonIcon" data-bs-toggle="dropdown">
+                                                            <i class="bi bi-error-circle"></i> Actions
+                                                        </button>
+                                                        <div class="dropdown-menu shadow-lg">
+                                                            <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#update_equipment_modal"><i class="bi bi-pencil-square me-3"></i> Update</a>
 
-                                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#update_equipment_modal"><i class="bi bi-box-arrow-in-up-right me-3"></i> More Details</a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                            <?php endif; ?>
-                        </tbody>
-                    </table>
+                                                            <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#update_equipment_modal"><i class="bi bi-box-arrow-in-up-right me-3"></i> More Details</a>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
 
         <div class="modal fade" id="new_equipment_modal" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
@@ -107,8 +107,6 @@
                     <form action="/AdminController/EquipmentRegister" id="school-equipment" method="post" enctype="multipart/form-data">
                         <div class="modal-body m-3">
                             <div class="row">
-
-
                                 <div class="col-sm-12 col-md-6" id="brandModelContainer">
                                     <div class="form-group mb-3">
                                         <label for="">Building</label>
@@ -129,7 +127,7 @@
                                         <input type="text" class="form-control mt-1" name="serial_number" id="school_equipment_serial_number" placeholder="Ex. 123ABC" required>
                                     </div>
                                 </div>
-                                   
+
 
                                 <div class="col-sm-12 col-md-6" id="brandModelContainer">
                                     <div class="form-group mb-3">
@@ -180,7 +178,7 @@
 
                                 <div class="col-md-12 d-none" id="school-equipment-qrcode">
                                     <div class="text-center">
-                                    <div id="qrcode" class="mt-4 d-flex justify-content-center"></div>
+                                        <div id="qrcode" class="mt-4 d-flex justify-content-center"></div>
                                     </div>
                                 </div>
                             </div>
@@ -214,30 +212,30 @@
     }
 
     var qrcodeInput = document.getElementById('school_equipment_serial_number');
-    qrcodeInput.addEventListener('input', generateQRCode);  
+    qrcodeInput.addEventListener('input', generateQRCode);
 
     var form = document.getElementById('school-equipment');
     form.addEventListener('submit', function (event) {
         event.preventDefault();
-        
+
         generateQRCode();
 
         var qrcodeDisplay = document.getElementById("qrcode").getElementsByTagName("canvas")[0];
         var qrcodeValue = document.getElementById("school_equipment_serial_number").value;
         var qrcodeFile = document.getElementById("qr-file");
         var qrcodeFileName = document.getElementById("qr-file-name");
-        
+
         if (qrcodeDisplay) {
             qrcodeDisplay.toBlob(function (blob) {
-                var fileName = `${qrcodeValue}.png`; 
+                var fileName = `${qrcodeValue}.png`;
                 var file = new File([blob], fileName, { type: "image/png" });
-                
+
                 var dataTransfer = new DataTransfer();
                 dataTransfer.items.add(file);
                 qrcodeFile.files = dataTransfer.files;
 
                 qrcodeFileName.value = fileName;
-                form.submit(); 
+                form.submit();
             });
         } else {
             alert("QR code image is not available.");
@@ -273,7 +271,7 @@
         const equipmentDetailsHeader = document.getElementById('equipmentDetailsHeader');
         const equipmentDetailsTitle = document.getElementById('equipmentDetailsTitle');
         const equipmentDetailsSection = document.querySelector('input[name="equipment_name"]');
-        const equipmentDetailsRow = equipmentDetailsSection.closest('.row'); 
+        const equipmentDetailsRow = equipmentDetailsSection.closest('.row');
 
         if (selectedValue) {
             // Show all the equipment details fields when the "Add" button is clicked

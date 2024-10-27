@@ -36,7 +36,7 @@
             </div>
 
             <div class="col-md-4 col-sm-12 mb-3">
-                <a href="/VisitorController/DashboardPage/5" class="type-select">
+                <a href="/VisitorController/EquipmentForm" class="type-select">
                     <div id="user-type" class="card border-0 rounded h-100">
                         <div class="card-body pb-0 px-5 d-flex flex-column align-items-center">
                             <img src="/assets/tcu/visitor.jpg" class="img-fluid" style="height: 100px;" alt="Visitor">
