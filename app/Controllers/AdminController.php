@@ -286,7 +286,7 @@ class AdminController extends BaseController
     {
 
         // [ Active Navigation ]
-        session()->set('nav_active', 'equipment-register');
+        session()->set('nav_active', 'school-equipment');
 
         $user_code = session()->get('logged_code');
 
@@ -441,7 +441,7 @@ class AdminController extends BaseController
     public function AccountsPendingPage()
     {
         // [ Active Navigation ]
-        session()->set('nav_active', 'pending');
+        session()->set('nav_active', 'accounts');
 
         $userModel = new UserModel();
         $user_pending_list = $userModel->where('is_approve', 0)->findAll();

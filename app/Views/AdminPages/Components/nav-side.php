@@ -13,6 +13,15 @@
 
         <div class="sidebar-menu">
             <ul class="menu">
+                <li class="sidebar-title">Account</li>
+
+                <li class="sidebar-item <?= $nav_active == 'account' ? 'active' : '' ?>">
+                    <a href="/AdminController/AccountPage" class='sidebar-link'>
+                        <i class="bi bi-person"></i>
+                        <span><?= session()->get('logged_firstname') ?></span>
+                    </a>
+                </li>
+
                 <li class="sidebar-title">Menu</li>
 
                 <li class="sidebar-item <?= $nav_active == 'dashboard' ? 'active' : '' ?>">
@@ -43,6 +52,25 @@
                     </a>
                 </li>
 
+                <li class="sidebar-item has-sub <?= $nav_active == 'accounts' ? 'active' : '' ?>">
+                    <a href="#" class='sidebar-link'>
+                        <i class="bi bi-people"></i>
+                        <span>Accounts</span>
+                    </a>
+                    <ul class="submenu">
+                        <li class="submenu-item">
+                            <a href="/AdminController/AccountsPendingPage" class="submenu-link">Administrator</a>
+                        </li>
+
+                        <li class="submenu-item">
+                            <a href="/AdminController/AccountsPendingPage" class="submenu-link">Students</a>
+                        </li>
+
+                        <li class="submenu-item">
+                            <a href="/AdminController/AccountsPendingPage" class="submenu-link">Pending</a>
+                        </li>
+                    </ul>
+                </li>
 
                 <li class="sidebar-item  <?= $nav_active == 'scan' ? 'active' : '' ?>">
                     <a href="/AdminController/ScanQRPage" class='sidebar-link'>
@@ -58,30 +86,26 @@
                     </a>
                 </li>
 
-                <li class="sidebar-title">Equipment Registration</li>
+                <li class="sidebar-title">School Equipments</li>
 
-                <li class="sidebar-item <?= $nav_active == 'equipment-register' ? 'active' : '' ?>">
-                    <a href="/AdminController/EquipmentRegistrationPage" class='sidebar-link'>
-                        <i class="bi bi-person"></i>
-                        <span>Equiment Registration</span>
+                <li class="sidebar-item has-sub <?= $nav_active == 'school-equipment' ? 'active' : '' ?>">
+                    <a href="#" class='sidebar-link'>
+                        <i class="bi bi-newspaper"></i>
+                        <span>Equipments</span>
                     </a>
-                </li>
+                    <ul class="submenu">
+                        <li class="submenu-item">
+                            <a href="/AdminController/EquipmentRegistrationPage" class="submenu-link">Registration</a>
+                        </li>
 
+                        <li class="submenu-item">
+                            <a href="/AdminController/EquipmentListPage" class="submenu-link">List</a>
+                        </li>
 
-                <li class="sidebar-title">Account</li>
-
-                <li class="sidebar-item <?= $nav_active == 'account' ? 'active' : '' ?>">
-                    <a href="/AdminController/AccountPage" class='sidebar-link'>
-                        <i class="bi bi-person"></i>
-                        <span><?= session()->get('logged_firstname') ?></span>
-                    </a>
-                </li>
-
-                <li class="sidebar-item  <?= $nav_active == 'pending' ? 'active' : '' ?>">
-                    <a href="/AdminController/AccountsPendingPage" class='sidebar-link'>
-                        <i class="bi bi-gear"></i>
-                        <span>Pending</span>
-                    </a>
+                        <li class="submenu-item">
+                            <a href="/AdminController/EquipmentAnalyticsPage" class="submenu-link">Analytics</a>
+                        </li>
+                    </ul>
                 </li>
 
                 <li class="sidebar-title">Settings</li>
