@@ -11,16 +11,23 @@
     <form action="/VisitorController/EquipmentLog" method="post" enctype="multipart/form-data">
         <div class="card-body">
             <input type="hidden" name="equipment_count" id="equipment_count" value="1">
-            <div class="row mt-3">
+            <div class="row">
                 <h3>Visitor Information</h3>
-                <div class="col-sm-12 col-md-6" id="brandModelContainer">
+                <div class="col-sm-12 col-md-6">
                     <div class="form-group mb-3">
-                        <label for="">Full Name</label>
-                        <input type="text" class="form-control mt-1" name="full_name" placeholder="John Doe" required>
+                        <label for="">First Name</label>
+                        <input type="text" class="form-control mt-1" name="first_name" placeholder="John" required>
                     </div>
                 </div>
 
                 <div class="col-sm-12 col-md-6">
+                    <div class="form-group mb-3">
+                        <label for="">Last Name</label>
+                        <input type="text" class="form-control mt-1" name="last_name" placeholder="Doe" required>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-12">
                     <div class="form-group mb-3">
                         <label for="confirmEmail">Valid ID</label>
                         <small class="text-muted">(Formats: JPG, PNG | Max size: 5MB)</small>
@@ -80,7 +87,7 @@
         <div class="card-footer mt-0">
             <div class="text-center mb-4">
                 <div class="form-group d-flex justify-content-center align-items-center">
-                    <input type="checkbox" class="form-check-input form-check-primary me-2" name="agree_tac" required>
+                    <input type="checkbox" class="form-check-input form-check-primary me-2" name="agree_tac" id="tac-checkbox" required>
                     <a href="#" data-bs-toggle="modal" data-bs-target="#modal_terms_and_condition" class="text-sm">I agree to the Terms and Condition</a>
                 </div>
             </div>
@@ -166,10 +173,10 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
                         <i class="bx bx-x d-block d-sm-none"></i>
-                        <span class="d-none d-sm-block">Cancel</span>
+                        <span class="d-none d-sm-block">Decline</span>
                     </button>
-                    <button type="submit" class="btn btn-primary ms-1">
-                        <span class="px-3">Save Changes</span>
+                    <button type="submit" class="btn btn-primary ms-1" id="modal-accept">
+                        <span class="px-3">Accept</span>
                     </button>
                 </div>
             </form>
@@ -181,6 +188,20 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
+        const modalAcceptButton = document.getElementById("modal-accept");
+        const tacCheckbox = document.getElementById("tac-checkbox");
+
+        modalAcceptButton.addEventListener("click", function (event) {
+            event.preventDefault();
+
+            if (!tacCheckbox.checked) {
+                tacCheckbox.checked = true;
+            }
+
+            const modal = bootstrap.Modal.getInstance(document.getElementById('modal_terms_and_condition'));
+            modal.hide();
+        });
+
         let equipmentCount = 1;
 
         const equipmentNumber = document.getElementById("equipment_no");

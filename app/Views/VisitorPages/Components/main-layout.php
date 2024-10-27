@@ -33,6 +33,9 @@
     <div class="container">
         <!-- [ Body ] -->
         <?= $this->renderSection('content'); ?>
+
+        <!-- [ Toast ] -->
+        <?= $this->include('VisitorPages/Components/toast.php'); ?>
     </div>
 
     <script src="/assets/static/js/components/dark.js"></script>

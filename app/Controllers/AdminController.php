@@ -7,7 +7,6 @@ use App\Models\UserModel;
 use App\Models\EquipmentTypeModel;
 use App\Models\EquipmentStudentModel;
 use App\Models\EquipmentSchoolModel;
-use App\Models\FormModel;
 use Dompdf\Dompdf;
 
 class AdminController extends BaseController
