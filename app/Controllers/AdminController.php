@@ -282,7 +282,8 @@ class AdminController extends BaseController
 
     // EQUIPMENT REGISTRATION
 
-    public function EquipmentRegistrationPage(){
+    public function EquipmentRegistrationPage()
+    {
 
         // [ Active Navigation ]
         session()->set('nav_active', 'equipment-register');
@@ -310,9 +311,8 @@ class AdminController extends BaseController
         $rqst_status = $this->request->getPost('status');
         $rqst_description = $this->request->getPost('description');
         $rqst_equipment_image = $this->request->getFile('equipment_image');
-        $rqst_qrcode_image = $this->request->getFile('qrcode_file');
 
-        $img_path = "$rqst_building/$rqst_room_number/$rqst_serial_number";
+        $img_path = "/$rqst_building/$rqst_room_number/$rqst_serial_number/";
         $directoryPath = FCPATH . $img_path;
 
         if (!is_dir($directoryPath)) {
@@ -327,29 +327,21 @@ class AdminController extends BaseController
             $school_equipment_code .= $characters[rand(0, $characters_length - 1)];
         }
 
-        if ($rqst_equipment_image->isValid() && $rqst_qrcode_image->isValid()) {
+        if ($rqst_equipment_image->isValid()) {
 
             $file_extension = $rqst_equipment_image->getClientExtension();
             $equipment_name = $rqst_equipment_type . '.' . $file_extension;
-            $qrcode_name = $rqst_serial_number . '.png'; 
 
-            $equipment_path = $img_path . '/' . $equipment_name;
-            $qrcode_path = $img_path . '/' . $qrcode_name;
+            $equipment_path = $img_path . $equipment_name;
 
             $target_equipment_path = $directoryPath . '/' . $equipment_name;
-            $target_qrcode_path = $directoryPath . '/' . $qrcode_name;
 
             if (file_exists($target_equipment_path)) {
                 unlink($target_equipment_path);
             }
 
-            if (file_exists($target_qrcode_path)) {
-                unlink($target_qrcode_path);
-            }
 
             $rqst_equipment_image->move($directoryPath, $equipment_name);
-
-            $rqst_qrcode_image->move($directoryPath, $qrcode_name);
 
             $equipmentSchoolModel = new EquipmentSchoolModel();
             $equipment_image_data = [
@@ -363,7 +355,6 @@ class AdminController extends BaseController
                 'description' => $rqst_description,
                 'status' => $rqst_status,
                 'school_equpment_image_path' => $equipment_path,
-                'qrcode_image_path' => $qrcode_path,
             ];
             $equipmentSchoolModel->save($equipment_image_data);
 
@@ -385,6 +376,45 @@ class AdminController extends BaseController
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
         $dompdf->stream("output.pdf", ['Attachment' => false]);
+    }
+
+    public function UpdateSchoolEquipment()
+    {
+
+        $schoolEquipmentID = $this->request->getPost('school_equipment_id');
+        $updateStatus = $this->request->getPost('update_status');
+        $updateDesciption = $this->request->getPost('update_description');
+
+        $schoolEquipmentModel = new EquipmentSchoolModel();
+        $data = [
+            'status' => $updateStatus,
+            'description' => $updateDesciption,
+        ];
+        $schoolEquipmentModel->update($schoolEquipmentID, $data);
+        session()->setFlashdata('success', 'Equipment Updated Successfully');
+        return redirect()->back();
+
+    }
+
+    public function ViewDetailsSchoolEquipment($school_equipment_id)
+    {
+
+        $schoolEquipmentModel = new EquipmentSchoolModel();
+        $schoolEquipmentModel->where('school_equipment_id', $school_equipment_id)->first();
+
+        return redirect()->back();
+
+    }
+
+    public function DeleteSchoolEquipment($school_equipment_id)
+    {
+
+        $schoolEquipmentModel = new EquipmentSchoolModel();
+        $schoolEquipmentModel->where('school_equipment_id', $school_equipment_id)->delete();
+
+        session()->setFlashdata('success', 'Equipment Deleted Successfully.');
+        return redirect()->back();
+
     }
 
 

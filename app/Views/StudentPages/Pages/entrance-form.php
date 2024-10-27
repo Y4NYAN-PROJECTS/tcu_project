@@ -41,15 +41,18 @@
                 <small>No data found. Kindly add equipments first.</small>
               </div>
             <?php else: ?>
-              <form id="entrance-form" method="POST" action="/StudentController/EntranceForm" enctype="multipart/form-data">
+              <form id="entrance-form" method="POST" action="/StudentController/EntranceForm"
+                enctype="multipart/form-data">
                 <h4>Select Equipments:</h4>
                 <div class="text-center px-5">
                   <?php foreach ($equipments as $equipment): ?>
-                    <a href="#" class="btn btn-outline-primary rounded-pill mt-2" onclick="toggleSelection(this, '<?= $equipment['student_equipment_code'] ?>')">
+                    <a href="#" class="btn btn-outline-primary rounded-pill mt-2"
+                      onclick="toggleSelection(this, '<?= $equipment['student_equipment_code'] ?>')">
                       <?= $equipment['model'] ?>
                     </a>
                     <!-- [ Hidden Inputs ] -->
-                    <input type="checkbox" id="equipment-<?= $equipment['student_equipment_code'] ?>" name="student_equipment[]" value="<?= $equipment['student_equipment_code'] ?>" class="d-none">
+                    <input type="checkbox" id="equipment-<?= $equipment['student_equipment_code'] ?>"
+                      name="student_equipment[]" value="<?= $equipment['student_equipment_code'] ?>" class="d-none">
                   <?php endforeach; ?>
                 </div>
 

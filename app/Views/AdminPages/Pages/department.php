@@ -65,7 +65,7 @@
                                                 </a>
                                             </div>
                                         </div>
-                                    </td>
+                                    </td> 
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
