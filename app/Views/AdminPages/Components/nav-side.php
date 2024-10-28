@@ -4,7 +4,8 @@
     <div class="sidebar-wrapper active">
         <div class="sidebar-header position-relative">
             <div class="logo text-center">
-                <a href="#"><img src="/assets/tcu/logo-square.png" style="width: auto; height: 100px;" alt="Logo" srcset=""></a>
+                <a href="#"><img src="/assets/tcu/logo-square.png" style="width: auto; height: 100px;" alt="Logo"
+                        srcset=""></a>
             </div>
             <h5 class="mt-3 text-center">Digital Equipment and Appliances Logging System</h5>
         </div>
@@ -59,11 +60,11 @@
                     </a>
                     <ul class="submenu">
                         <li class="submenu-item">
-                            <a href="/AdminController/AccountsPendingPage" class="submenu-link">Administrator</a>
+                            <a href="/AdminController/AccountAdmin" class="submenu-link">Administrator</a>
                         </li>
 
                         <li class="submenu-item">
-                            <a href="/AdminController/AccountsPendingPage" class="submenu-link">Students</a>
+                            <a href="/AdminController/AccountStudents" class="submenu-link">Students</a>
                         </li>
 
                         <li class="submenu-item">
@@ -133,7 +134,8 @@
 
                 <br>
 
-                <a href="/LoginController/Logout" class="btn btn-secondary w-100"><i class="bi bi-box-arrow-in-left me-2"></i><small>Logout</small></a>
+                <a href="/LoginController/Logout" class="btn btn-secondary w-100"><i
+                        class="bi bi-box-arrow-in-left me-2"></i><small>Logout</small></a>
             </ul>
         </div>
     </div>

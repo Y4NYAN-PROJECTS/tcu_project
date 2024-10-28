@@ -7,6 +7,7 @@ use App\Models\UserModel;
 use App\Models\EquipmentTypeModel;
 use App\Models\EquipmentStudentModel;
 use App\Models\EquipmentSchoolModel;
+use App\Models\LogsModel;
 use Dompdf\Dompdf;
 
 class AdminController extends BaseController
@@ -46,6 +47,48 @@ class AdminController extends BaseController
         session()->set('nav_active', 'scan');
 
         return view('/AdminPages/Pages/scan-qr');
+    }
+
+    public function scannedQRCode()
+    {
+        $scanned_value = $this->request->getPost('scanned_qr_code_value');
+
+        $studentEquipment = new UserModel();
+        $user_information = $studentEquipment->where('user_code', $scanned_value)->first();
+
+        $user_id = $user_information['user_id'];
+        $user_code = $user_information['user_code'];
+        $full_name = $user_information['full_name'];
+
+        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $characters_length = strlen($characters);
+        $log_code = '';
+
+        for ($i = 0; $i < 12; $i++) {
+            $log_code .= $characters[rand(0, $characters_length - 1)];
+        }
+
+        date_default_timezone_set('Asia/Manila');
+        $current_date = date('Y-m-d');
+        $current_time = date('H:i:s');
+
+        $logsModel = new LogsModel();
+        $logs_check = $logsModel->where('date_created', $current_date)->where('user_code', $scanned_value)->first();
+        if (!$logs_check) {
+            $logs_data = [
+                'log_code' => $log_code,
+                'user_id' => $user_id,
+                'user_code' => $user_code,
+                'full_name' => $full_name,
+                'time_in' => $current_time,
+            ];
+            $logsModel->save($logs_data);
+        } else {
+            $logs_id = $logs_check['logs_id'];
+            $logsModel->update($logs_id, ['time_out' => $current_time]);
+        }
+
+        return redirect()->back();
     }
 
     public function ProgramPage()
@@ -416,7 +459,6 @@ class AdminController extends BaseController
 
     }
 
-
     public function AccountPage()
     {
         // [ Active Navigation ]
@@ -443,7 +485,7 @@ class AdminController extends BaseController
         session()->set('nav_active', 'accounts');
 
         $userModel = new UserModel();
-        $user_pending_list = $userModel->where('is_approve', 0)->findAll();
+        $user_pending_list = $userModel->where('user_type', 2)->where('is_approve', 0)->findAll();
 
         $departmentModel = new DepartmentModel();
         $department_list = $departmentModel->findAll();
@@ -476,6 +518,87 @@ class AdminController extends BaseController
 
         session()->setFlashdata('success', 'Account Declined Successfully.');
         return redirect()->to("/AdminController/AccountsPendingPage");
+    }
+
+    public function AccountStudents()
+    {
+        $userModel = new UserModel();
+        $user_student_list = $userModel->where('user_type', 2)->where('is_approve', 1)->findAll();
+
+
+        $departmentModel = new DepartmentModel();
+        $department_list = $departmentModel->findAll();
+
+        $programModel = new ProgramModel();
+        $program_list = $programModel->findAll();
+
+        $data = [
+            'student_list' => $user_student_list,
+            'departments' => $department_list,
+            'programs' => $program_list,
+        ];
+        return view('/AdminPages/Pages/accounts-students', $data);
+    }
+
+    public function DeleteAccountStudent($student_id)
+    {
+        $userModel = new UserModel();
+        $userModel->where('user_code', $student_id)->delete();
+
+        session()->setFlashdata('success', 'Student Account Deleted Successfully.');
+        return redirect()->back();
+
+    }
+
+    public function AccountAdmin()
+    {
+        $userModel = new UserModel();
+        $user_admin_list = $userModel->where('user_type', 1)->where('is_approve', 1)->findAll();
+
+
+        $departmentModel = new DepartmentModel();
+        $department_list = $departmentModel->findAll();
+
+        $programModel = new ProgramModel();
+        $program_list = $programModel->findAll();
+
+        $data = [
+            'admin_list' => $user_admin_list,
+            'departments' => $department_list,
+            'programs' => $program_list,
+        ];
+        return view('/AdminPages/Pages/accounts-admin', $data);
+    }
+
+    public function DeleteAccountAdmin($admin_id)
+    {
+        $userModel = new UserModel();
+        $userModel->where('user_code', $admin_id)->delete();
+
+        session()->setFlashdata('success', 'Admin Account Deleted Successfully.');
+        return redirect()->back();
+
+    }
+
+    public function AccountView($id)
+    {
+        $userModel = new UserModel();
+        $view_profile = $userModel->where('user_id', $id)->first();
+
+        $departmentModel = new DepartmentModel();
+        $department_name = $departmentModel->where('department_code', $view_profile['department_code'])->first();
+
+        $programModel = new ProgramModel();
+        $program_name = $programModel->where('program_code', $view_profile['program_code'])->first();
+
+
+        $data = [
+            'profile' => $view_profile,
+            'department' => $department_name,
+            'program' => $program_name,
+
+        ];
+        return view('/AdminPages/Pages/account-view', $data);
     }
 
     public function UpdateProfilePage()

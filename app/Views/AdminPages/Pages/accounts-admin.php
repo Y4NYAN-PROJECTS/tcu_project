@@ -24,15 +24,15 @@
     <section class="section">
         <div class="card shadow-sm">
             <div class="card-header mb-0 pb-0 text-center">
-                <h5>Pendings</h5>
+                <h5>Student Account List</h5>
             </div>
 
             <hr class="mt-1">
 
             <div class="card-body">
-                <?php if (empty($pendings)): ?>
+                <?php if (empty($admin_list)): ?>
                     <div class="text-center">
-                        <h2 class="fst-italic mb-0">No Pending Accounts Found!</h2>
+                        <h2 class="fst-italic mb-0">No Admin Accounts Found!</h2>
                         <small>No records available.</small>
                     </div>
                 <?php else: ?>
@@ -40,7 +40,6 @@
                         <table class="table" id="table1">
                             <thead>
                                 <tr>
-                                    <th>User Type</th>
                                     <th>Full Name</th>
                                     <th>Email Adrress</th>
                                     <th>Username</th>
@@ -51,17 +50,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($pendings as $user): ?>
+                                <?php foreach ($admin_list as $user): ?>
                                     <tr>
-                                        <td>
-                                            <?php
-                                            if ($user['user_type'] == 2) {
-                                                echo 'Student';
-                                            } elseif ($user['user_type'] == 1) {
-                                                echo 'Admin';
-                                            }
-                                            ?>
-                                        </td>
                                         <td><?= $user['full_name'] ?></td>
                                         <td><?= $user['email'] ?></td>
                                         <td><?= $user['username'] ?></td>
@@ -96,8 +86,8 @@
                                                         href="/AdminController/AccountView/<?= $user['user_id'] ?>"><i
                                                             class="bi bi-box-arrow-in-up-right me-3"></i> View Profile</a>
                                                     <a class="dropdown-item text-danger"
-                                                        href="/AdminController/AccountDecline/<?= $user['user_id'] ?>"><i
-                                                            class="bi bi-x me-3"></i> Decline</a>
+                                                        href="/AdminController/DeleteAccountAdmin/<?= $user['user_id'] ?>"><i
+                                                            class="bi bi-x me-3"></i> Remove</a>
                                                 </div>
                                             </div>
                                         </td>
