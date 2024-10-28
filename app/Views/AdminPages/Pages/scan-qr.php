@@ -45,7 +45,8 @@
                     </div>
 
                     <div class="d-flex justify-content-center my-5 d-none" id="barcode-scanner">
-                        <input type="text" class="form-control form-control-xl text-center" name="barcode_input" id="barcode-input" placeholder="Scanning..." oninput="validateNumber(this)" autofocus>
+                        <input type="text" class="form-control form-control-xl text-center" name="barcode_input"
+                            id="barcode-input" placeholder="Scanning..." oninput="validateNumber(this)" autofocus>
                     </div>
 
                     <form id="qrForm" action="/AdminController/scannedQRCode" method="POST">
@@ -115,7 +116,7 @@
 
     barcodeInput.addEventListener('blur', setFocusOnBarcodeInput);
     barcodeInput.addEventListener('input', function () {
-        if (barcodeInput.value.length >= 12) {
+        if (barcodeInput.value.length >= 6) {
             document.getElementById("qrForm").submit();
         }
     });
