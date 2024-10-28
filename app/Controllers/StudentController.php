@@ -89,7 +89,7 @@ class StudentController extends BaseController
         $user_code = session()->get('logged_code');
         $full_name = session()->get('logged_fullname');
 
-        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@_-?';
+        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $characters_length = strlen($characters);
         $student_equipment_code = '';
 
@@ -175,8 +175,6 @@ class StudentController extends BaseController
 
         return redirect()->back();
     }
-
-
     public function HistoryPage()
     {
         // [ Active Navigation ]
