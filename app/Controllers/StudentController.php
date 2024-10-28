@@ -10,6 +10,27 @@ use App\Models\FormModel;
 
 class StudentController extends BaseController
 {
+    public function AccountPage()
+    {
+        // [ Active Navigation ]
+        session()->set('nav_active', 'account');
+
+        $logged_department = session()->get('logged_department');
+        $departmentModel = new DepartmentModel();
+        $department = $departmentModel->where('department_id', $logged_department)->first();
+
+        $logged_program = session()->get('logged_program');
+        $programModel = new ProgramModel();
+        $program = $programModel->where('program_id', $logged_program)->first();
+
+        $data = [
+            'department' => $department,
+            'program' => $program,
+        ];
+
+        return view('/StudentPages/Pages/account', $data);
+    }
+
     public function DashboardPage()
     {
         // [ Active Navigation ]
@@ -31,79 +52,6 @@ class StudentController extends BaseController
         return view('/StudentPages/Pages/dashboard', $data);
     }
 
-    // public function EntranceFormPage()
-    // {
-    //     // [ Active Navigation ]
-    //     session()->set('nav_active', 'form');
-
-    //     $student_user_code = session()->get('logged_code');
-
-    //     $studentEquipmentModel = new EquipmentStudentModel;
-    //     $student_equipment = $studentEquipmentModel->where('user_code', $student_user_code)->findAll();
-
-    //     $formModel = new FormModel();
-    //     $form_history = $formModel->where('user_code', $student_user_code)->findAll();
-
-    //     $equipmentTypeModel = new EquipmentTypeModel();
-    //     $equipmentTypes = $equipmentTypeModel->findAll();
-
-    //     $data = [
-    //         'equipments' => $student_equipment,
-    //         'equipmentTypes' => $equipmentTypes,
-    //         'studentForm' => $form_history,
-    //     ];
-
-    //     return view('/StudentPages/Pages/entrance-form', $data);
-    // }
-
-    // public function EntranceForm()
-    // {
-    //     $user_id = session()->get('logged_id');
-    //     $user_code = session()->get('logged_code');
-    //     $user_full_name = session()->get('logged_fullname');
-
-    //     $rqst_form_code = $this->request->getPost('form_code');
-    //     $rqst_selected_equipments = $this->request->getPost('student_equipment');
-    //     $rqst_equipment_count = $this->request->getPost('equipment_count');
-    //     $rqst_qrcode_image = $this->request->getFile('qr_code_file');
-    //     $rqst_qrcode_file_name = $this->request->getPost('qr_code_file_name');
-
-    //     if ($rqst_selected_equipments) {
-    //         $equipment_codes = [];
-
-    //         foreach ($rqst_selected_equipments as $id) {
-    //             $equipment_codes[] = htmlspecialchars($id);
-    //         }
-
-    //         $student_equipment_code = implode('|', $equipment_codes);
-    //         $img_path = "/qrCodes";
-    //         $directoryPath = FCPATH . $img_path;
-
-    //         if (!is_dir($directoryPath)) {
-    //             mkdir($directoryPath, 0777, true);
-    //         }
-
-    //         if ($rqst_qrcode_image && $rqst_qrcode_image->isValid()) {
-    //             $qr_image = $rqst_qrcode_file_name;
-    //             $qrcode_path = "$img_path/$qr_image";
-
-    //             $form_data = [
-    //                 'form_code' => $rqst_form_code,
-    //                 'user_id' => $user_id,
-    //                 'user_code' => $user_code,
-    //                 'full_name' => $user_full_name,
-    //                 'student_equipment_code' => $student_equipment_code,
-    //                 'equipment_count' => $rqst_equipment_count,
-    //                 'image_path' => $qrcode_path,
-    //             ];
-
-    //             $formModel = new FormModel();
-    //             $formModel->save($form_data);
-    //             $rqst_qrcode_image->move($directoryPath, $qr_image);
-    //             return redirect()->back();
-    //         }
-    //     }
-    // }
 
     public function EquipmentsPage()
     {
@@ -203,8 +151,6 @@ class StudentController extends BaseController
             }
             session()->setFlashdata('success', 'Equipment Added Successfully');
             return redirect()->to('/StudentController/EquipmentsPage');
-        } else {
-            echo "fck";
         }
     }
 

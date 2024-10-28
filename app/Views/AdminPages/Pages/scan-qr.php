@@ -38,15 +38,14 @@
                 <hr class="mt-1">
 
                 <div class="card-body text-center">
-                    <h3 class="mb-0">QR Code Scanning</h3>
+                    <h3 class="mb-0 mt-3">QR Code Scanning</h3>
                     <small>Value: <small id="scanned-qr-code-value">Scanning QR</small></small>
                     <div class="d-flex justify-content-center my-2" id="camera-scanner">
                         <div id="reader" style="width: 100%; max-width: 600px; height: auto;"></div>
                     </div>
 
                     <div class="d-flex justify-content-center my-5 d-none" id="barcode-scanner">
-                        <input type="text" class="form-control form-control-xl text-center" name="barcode_input"
-                            id="barcode-input" placeholder="Scanning..." oninput="validateNumber(this)" autofocus>
+                        <input type="text" class="form-control form-control-xl text-center" name="barcode_input" id="barcode-input" placeholder="Scanning..." oninput="validateNumber(this)" autofocus>
                     </div>
 
                     <form id="qrForm" action="/AdminController/scannedQRCode" method="POST">
@@ -58,14 +57,14 @@
             <div class="row text-center">
                 <div class="col-6">
                     <button type="button" class="btn btn-primary w-100" id="camera-button">
-                        <i class="bi bi-camera2 fs-2"></i><br>
+                        <i class="bi bi-camera2 me-2"></i>
                         <small>Camera Scanner</small>
                     </button>
                 </div>
 
                 <div class="col-6">
                     <button type="button" class="btn btn-primary w-100" id="barcode-button">
-                        <i class="bi bi-upc-scan fs-2"></i><br>
+                        <i class="bi bi-upc-scan me-2"></i>
                         <small>Barcode Scanner</small>
                     </button>
                 </div>

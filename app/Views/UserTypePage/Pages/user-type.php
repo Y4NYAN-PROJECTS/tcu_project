@@ -46,14 +46,6 @@
                 </a>
             </div>
         </div>
-
-        <div class="text-center py-3">
-            <a href="/LandingController/LandingPage" class="text-decoration-none">
-                <span class="text-sm text-muted">
-                    <i class="bi bi-chevron-left"></i> Return
-                </span>
-            </a>
-        </div>
     </div>
 </div>
 

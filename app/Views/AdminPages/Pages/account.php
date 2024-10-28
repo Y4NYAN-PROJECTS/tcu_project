@@ -27,7 +27,8 @@
                     <div class="row d-flex justify-content-center align-items-center mt-3">
                         <div class="text-center mb-3">
                             <img src="<?= session()->get('logged_profile') ?>" class="rounded-circle mx-auto mb-3" style="width: 15%; object-fit: cover; aspect-ratio: 1/1;">
-                            <h3><?= session()->get('logged_fullname') ?></h3>
+                            <h2><?= session()->get('logged_fullname') ?></h2>
+                            <small>Administrator</small>
                         </div>
                         <hr class="mb-5">
                         <div class="col-md-8">
@@ -63,34 +64,6 @@
                                         <div class="form-group mb-3">
                                             <label class="text-sm" for="">Last Name</label>
                                             <input type="text" class="form-control" value="<?= session()->get('logged_lastname') ?>" disabled>
-                                            <div class="invalid-feedback">
-                                                <i class="bx bx-radio-circle"></i>
-                                                Contains special characters or numbers
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-sm-12 col-md-6 col-xl-6">
-                                    <div class="form-group">
-                                        <div class="form-group mb-4">
-                                            <label class="text-sm" for="">Department</label>
-                                            <input type="text" class="form-control" value="<?= $department['department_title'] ?>" disabled>
-                                            <div class="invalid-feedback">
-                                                <i class="bx bx-radio-circle"></i>
-                                                Contains special characters or numbers
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-12 col-md-6 col-xl-6">
-                                    <div class="form-group">
-                                        <div class="form-group mb-3">
-                                            <label class="text-sm" for="">Program</label>
-                                            <input type="text" class="form-control" value="<?= $program['program_title'] ?>" disabled>
                                             <div class="invalid-feedback">
                                                 <i class="bx bx-radio-circle"></i>
                                                 Contains special characters or numbers

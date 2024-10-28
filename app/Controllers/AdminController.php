@@ -437,6 +437,7 @@ class AdminController extends BaseController
 
         return view('/AdminPages/Pages/account', $data);
     }
+
     public function AccountsPendingPage()
     {
         // [ Active Navigation ]

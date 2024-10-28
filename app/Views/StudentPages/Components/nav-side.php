@@ -4,8 +4,7 @@
     <div class="sidebar-wrapper active">
         <div class="sidebar-header position-relative">
             <div class="logo text-center">
-                <a href="#"><img src="/assets/tcu/logo-square.png" style="width: auto; height: 100px;" alt="Logo"
-                        srcset=""></a>
+                <a href="#"><img src="/assets/tcu/logo-square.png" style="width: auto; height: 100px;" alt="Logo" srcset=""></a>
             </div>
             <h5 class="mt-3 text-center">Digital Equipment and Appliances Logging System</h5>
         </div>
@@ -14,6 +13,15 @@
 
         <div class="sidebar-menu">
             <ul class="menu">
+                <li class="sidebar-title">Account</li>
+
+                <li class="sidebar-item <?= $nav_active == 'account' ? 'active' : '' ?>">
+                    <a href="/StudentController/AccountPage" class='sidebar-link'>
+                        <i class="bi bi-person"></i>
+                        <span><?= session()->get('logged_firstname') ?></span>
+                    </a>
+                </li>
+
                 <li class="sidebar-title">Menu</li>
 
                 <li class="sidebar-item <?= $nav_active == 'dashboard' ? 'active' : '' ?>">
@@ -62,8 +70,7 @@
 
                 <br>
 
-                <a href="/LoginController/Logout" class="btn btn-secondary w-100"><i
-                        class="bi bi-box-arrow-in-left me-2"></i><small>Logout</small></a>
+                <a href="/LoginController/Logout" class="btn btn-secondary w-100"><i class="bi bi-box-arrow-in-left me-2"></i><small>Logout</small></a>
             </ul>
         </div>
     </div>

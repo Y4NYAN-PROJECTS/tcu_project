@@ -24,11 +24,11 @@
         <div class="card shadow-sm">
             <div class="card-header">
                 <div class="row">
-                    <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 mt-3">
                         <h4 class="mb-0">Program List</h4>
                         <small>Below are list of programs.</small>
                     </div>
-                    <div class="col-sm-12 col-md-6 col-lg-6 mt-3 text-sm-end">
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 mt-3 text-sm-end">
                         <button type="button" class="btn btn-primary px-5" data-bs-toggle="modal" data-bs-target="#new_program_modal">New Program</button>
                     </div>
                 </div>

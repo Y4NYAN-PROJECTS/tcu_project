@@ -5,10 +5,10 @@
     <div class="page-heading mt-5">
         <div class="page-title">
             <div class="row">
-                <div class="col-12 col-md-6 order-md-1 order-last">
-                    <h3>Equipments List</h3>
+                <div class="col-12 col-md-6 order-md-1 order-first">
+                    <h3>Equipments</h3>
                 </div>
-                <div class="col-12 col-md-6 order-md-2 order-first">
+                <div class="col-12 col-md-6 order-md-2 order-last">
                     <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
@@ -22,15 +22,17 @@
 
     <section class="section">
         <div class="card shadow-sm">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <div class="">
-                    <h4 class="mb-0">Equipments Table</h4>
-                    <small>Below are your equipments.</small>
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 mt-3">
+                        <h4 class="mb-0">Equipments List</h4>
+                        <small>Below are your list of equipments.</small>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 mt-3 text-sm-end">
+                        <button type="button" class="btn btn-primary px-5" data-bs-toggle="modal" data-bs-target="#new_equipment_modal">New Equipment</button>
+                    </div>
                 </div>
-                <button type="button" class="btn btn-primary px-5" data-bs-toggle="modal"
-                    data-bs-target="#new_equipment_modal">Add Equipment</button>
             </div>
-
 
             <hr class="mt-0">
 
@@ -44,9 +46,8 @@
                     <?php else: ?>
                         <div class="col-sm-12 col-md-4 d-none">
                             <div class="text-center">
-                                <div id="qrcode" class="mt-4 d-flex justify-content-center mb-3"></div>
-                                <button type="button" class="btn btn-primary px-5" data-bs-toggle="modal"
-                                    data-bs-target="#show_qrcode">Show QR Code</button>
+                                <div id="qrcode" class="d-flex justify-content-center p-5 bg-white"></div>
+                                <button type="button" class="btn btn-sm btn-primary px-5 mt-2" data-bs-toggle="modal" data-bs-target="#show_qrcode">Show QR Code</button>
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-8" id="equipmentTableContainer">
@@ -72,205 +73,182 @@
                                                 <td><?= $equipment['description'] ?></td>
                                                 <td>
                                                     <div class="">
-                                                        <button class="btn btn-primary btn-sm dropdown-toggle me-1"
-                                                            type="button" id="dropdownMenuButtonIcon" data-bs-toggle="dropdown">
+                                                        <button class="btn btn-primary btn-sm dropdown-toggle me-1" type="button" id="dropdownMenuButtonIcon" data-bs-toggle="dropdown">
                                                             <i class="bi bi-error-circle"></i> Actions
                                                         </button>
                                                         <div class="dropdown-menu shadow-lg">
-                                                            <a class="dropdown-item" href="#" data-bs-toggle="modal"
-                                                                data-bs-target="#view_details_equipment_modal"
-                                                                data-view-equipment-name="<?= $equipment['equipment_name'] ?>"
-                                                                data-view-brand-model="<?= $equipment['model'] ?>"
-                                                                data-view-color="<?= $equipment['color'] ?>"
-                                                                data-view-description="<?= $equipment['description'] ?>"
-                                                                data-view-image="<?= $equipment['image_path'] ?>"><i
-                                                                    class="bi bi-box-arrow-in-up-right me-3"></i> More
+                                                            <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#view_details_equipment_modal" data-view-equipment-name="<?= $equipment['equipment_name'] ?>" data-view-brand-model="<?= $equipment['model'] ?>" data-view-color="<?= $equipment['color'] ?>" data-view-description="<?= $equipment['description'] ?>" data-view-image="<?= $equipment['image_path'] ?>"><i class="bi bi-box-arrow-in-up-right me-3"></i> More
                                                                 Details</a>
-                                                            <a class="dropdown-item text-danger"
-                                                                href="/StudentController/DeleteEquipment/<?= $equipment['student_equipment_id'] ?>"><i
-                                                                    class="bi bi-trash me-3"></i> Delete</a>
+                                                            <a class="dropdown-item text-danger" href="/StudentController/DeleteEquipment/<?= $equipment['student_equipment_id'] ?>"><i class="bi bi-trash me-3"></i> Delete</a>
                                                         </div>
                                                     </div>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="new_equipment_modal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="mx-3 mt-3">
+                            <h2>Add Equipment</h2>
+                            <small class="text-muted mb-0">Please fill this form to add a new equipment.</small>
+                        </div>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <i data-feather="x"></i>
+                        </button>
+                    </div>
+                    <form action="/StudentController/StudentEquipmentCreate" method="post" enctype="multipart/form-data">
+                        <div class="modal-body m-3" style="max-height: 60vh; overflow-y: auto;">
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label for="">Equipment Type</label>
+                                        <select class="form-select mt-1" name="equipment_name" id="equipmentSelect" required>
+                                            <option value="">Select Equipment</option>
+                                            <?php foreach ($equipments as $equips): ?>
+                                                <option value="<?= $equips['equipment_id'] ?>:<?= $equips['equipment_name'] ?>:<?= $equips['equipment_code'] ?>">
+                                                    <?= $equips['equipment_name'] ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                            <option value="other">Others</option>
+                                        </select>
+                                    </div>
                                 </div>
-                                </td>
-                                </tr>
-                            <?php endforeach; ?>
-                            </tbody>
-                            </table>
+
+                                <div class="col-sm-12 col-md-6 d-none" id="other_equipment">
+                                    <div class="form-group mb-3">
+                                        <label for="">Other Equipment</label>
+                                        <small class="text-muted"> (Please specify the equipment)</small>
+                                        <input type="text" class="form-control mt-1" name="other_equipment" id="" placeholder="Other equipment" autofocus>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12 col-md-6" id="brandModelContainer">
+                                    <div class="form-group mb-3">
+                                        <label for="">Brand and Model</label>
+                                        <input type="text" class="form-control mt-1" name="model" id="brandModelInput" placeholder="Ex. Logitech 1520" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12 col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label for="">Color</label>
+                                        <input type="text" class="form-control mt-1" name="color" id="" placeholder="Equipment Color" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12 col-md-6" id="description-container">
+                                    <div class="form-group mb-3">
+                                        <label for="">More Description</label>
+                                        <small class="text-muted">(Input N/A if no futher description.)</small>
+                                        <input type="text" class="form-control mt-1" name="description" id="" placeholder="Ex. RGB Lights" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="form-group mb-3">
+                                        <label for="confirmEmail">Picture</label>
+                                        <small class="text-muted">(Formats: JPG, PNG | Max size: 5MB)</small>
+                                        <input type="file" class="image-crop-filepond" image-crop-aspect-ratio="1:1" data-max-file-size="5MB" data-max-files="1" name="equipment_image" required>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    <?php endif; ?>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                <i class="bx bx-x d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block">Cancel</span>
+                            </button>
+                            <button type="submit" class="btn btn-primary ms-1">
+                                <span class="px-3">Submit</span>
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
-</div>
 
-<div class="modal fade" id="new_equipment_modal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div class="mx-3 mt-3">
-                    <h2>Add Equipment</h2>
-                    <small class="text-muted mb-0">Please fill this form to add a new equipment.</small>
-                </div>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <i data-feather="x"></i>
-                </button>
-            </div>
-            <form action="/StudentController/StudentEquipmentCreate" method="post" enctype="multipart/form-data">
-                <div class="modal-body m-3" style="max-height: 60vh; overflow-y: auto;">
-                    <div class="row">
-                        <div class="col-sm-12 col-md-6">
-                            <div class="form-group mb-3">
-                                <label for="">Equipment Type</label>
-                                <select class="form-select mt-1" name="equipment_name" id="equipmentSelect" required>
-                                    <option value="">Select Equipment</option>
-                                    <?php foreach ($equipments as $equips): ?>
-                                        <option
-                                            value="<?= $equips['equipment_id'] ?>:<?= $equips['equipment_name'] ?>:<?= $equips['equipment_code'] ?>">
-                                            <?= $equips['equipment_name'] ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                    <option value="other">Others</option>
-                                </select>
-                            </div>
+        <div class="modal fade" id="view_details_equipment_modal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="mx-3">
+                            <h2 class="mb-0">Equipment Details</h2>
+                            <small class="text-muted mb-0">Below are details of the equipment.</small>
                         </div>
-
-                        <div class="col-sm-12 col-md-6 d-none" id="other_equipment">
-                            <div class="form-group mb-3">
-                                <label for="">Other Equipment</label>
-                                <small class="text-muted"> (Please specify the equipment)</small>
-                                <input type="text" class="form-control mt-1" name="other_equipment" id=""
-                                    placeholder="Other equipment" autofocus>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <i data-feather="x"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body m-3">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-7">
+                                <img src="" id="modal-view-image" alt="Logo" style="width: 100%; max-width: 100%; max-height: 270px; object-fit: contain;" srcset="">
                             </div>
-                        </div>
 
-                        <div class="col-sm-12 col-md-6" id="brandModelContainer">
-                            <div class="form-group mb-3">
-                                <label for="">Brand and Model</label>
-                                <input type="text" class="form-control mt-1" name="model" id="brandModelInput"
-                                    placeholder="Ex. Logitech 1520" required>
-                            </div>
-                        </div>
+                            <div class="col-sm-12 col-md-5">
 
-                        <div class="col-sm-12 col-md-6">
-                            <div class="form-group mb-3">
-                                <label for="">Color</label>
-                                <input type="text" class="form-control mt-1" name="color" id=""
-                                    placeholder="Equipment Color" required>
-                            </div>
-                        </div>
-
-                        <div class="col-sm-12 col-md-6" id="description-container">
-                            <div class="form-group mb-3">
-                                <label for="">More Description</label>
-                                <small class="text-muted">(Input N/A if no futher description.)</small>
-                                <input type="text" class="form-control mt-1" name="description" id=""
-                                    placeholder="Ex. RGB Lights" required>
-                            </div>
-                        </div>
-
-                        <div class="col-md-12">
-                            <div class="form-group mb-3">
-                                <label for="confirmEmail">Picture</label>
-                                <small class="text-muted">(Formats: JPG, PNG | Max size: 5MB)</small>
-                                <input type="file" class="image-crop-filepond" image-crop-aspect-ratio="1:1"
-                                    data-max-file-size="5MB" data-max-files="1" name="equipment_image">
+                                <div class="ms-3">
+                                    <small>Equipment: <h5 id="modal-view-equipment-name"></h5></small>
+                                    <small>Brand / Model: <h5 id="modal-view-model"></h5></small>
+                                    <small>Color: <h5 id="modal-view-color"></h5></small>
+                                    <small>Description: <h5 id="modal-view-description"></h5></small>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-                        <i class="bx bx-x d-block d-sm-none"></i>
-                        <span class="d-none d-sm-block">Cancel</span>
-                    </button>
-                    <button type="submit" class="btn btn-primary ms-1">
-                        <span class="px-3">Submit</span>
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="view_details_equipment_modal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-centered modal-dialog-scrollable"
-        role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div class="mx-3">
-                    <h2>Equipment Details</h2>
-                </div>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <i data-feather="x"></i>
-                </button>
-            </div>
-            <div class="modal-body m-3">
-                <div class="row">
-                    <div class="col-sm-12 col-md-7">
-                        <img src="" id="modal-view-image" alt="Logo"
-                            style="width: 100%; max-width: 100%; max-height: 270px; object-fit: contain;" srcset="">
-                    </div>
-
-                    <div class="col-sm-12 col-md-5">
-
-                        <div class="ms-3">
-                            <small>Equipment: <h5 id="modal-view-equipment-name"></h5></small>
-
-                            <small>Brand / Model: <h5 id="modal-view-model"></h5></small>
-                            <small>Color: <h5 id="modal-view-color"></h5></small>
-                            <small>Description: <h5 id="modal-view-description"></h5></small>
-                        </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                            <i class="bx bx-x d-block d-sm-none"></i>
+                            <span class="d-none d-sm-block">Close</span>
+                        </button>
                     </div>
                 </div>
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-                    <i class="bx bx-x d-block d-sm-none"></i>
-                    <span class="d-none d-sm-block">Close</span>
-                </button>
             </div>
         </div>
-    </div>
-</div>
 
-<div class="modal fade" id="show_qrcode" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div class="mx-3 mt-3">
-                    <h2>QR Code</h2>
-                </div>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <i data-feather="x"></i>
-                </button>
-            </div>
-            <div class="modal-body mb-3">
-                <div class="col-sm-12 col-md-12">
-                    <div class="text-center">
-                        <div id="modal-student-qrcode" class="mt-4 d-flex justify-content-center"></div>
+        <div class="modal fade" id="show_qrcode" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="mx-3 mt-3">
+                            <h2 class="mb-0">QR Code</h2>
+                            <small>Show this to be scanned.</small>
+                        </div>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <i data-feather="x"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body mb-3">
+                        <div class="col-sm-12 col-md-12">
+                            <div class="text-center">
+                                <div id="modal-student-qrcode" class="mt-4 d-flex justify-content-center p-5 bg-white"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="modal-qrcode-download" class="btn btn-success d-flex align-items-center" onclick="downloadQRCode()">
+                            <i class="bi bi-download me-2 mb-2"></i>
+                            <span>Download</span>
+                        </button>
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-                    <i class="bx bx-x d-block d-sm-none"></i>
-                    <span class="d-none d-sm-block">Close</span>
-                </button>
-                <button type="button" id="modal-qrcode-download" class="btn btn-success d-flex align-items-center"
-                    onclick="downloadQRCode()">
-                    <i class="bi bi-download me-2 mb-2"></i>
-                    <span>Download</span>
-                </button>
-            </div>
         </div>
-    </div>
-</div>
 
 
-</section>
+    </section>
 </div>
 
 <script src="/assets/compiled/js/qrcode/config.js"></script>
