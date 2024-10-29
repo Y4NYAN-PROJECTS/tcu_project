@@ -29,8 +29,7 @@
                         <small>Below are your list of equipments.</small>
                     </div>
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6 mt-3 text-sm-end">
-                        <button type="button" class="btn btn-primary px-5" data-bs-toggle="modal"
-                            data-bs-target="#new_equipment_modal">New Equipment</button>
+                        <button type="button" class="btn btn-primary px-5" data-bs-toggle="modal" data-bs-target="#new_equipment_modal">New Equipment</button>
                     </div>
                 </div>
             </div>
@@ -48,8 +47,7 @@
                         <div class="col-sm-12 col-md-4 d-none">
                             <div class="text-center">
                                 <div id="qrcode" class="d-flex justify-content-center p-3 bg-white"></div>
-                                <button type="button" class="btn btn-sm btn-primary px-5" data-bs-toggle="modal"
-                                    data-bs-target="#show_qrcode">Show QR Code</button>
+                                <button type="button" class="btn btn-sm btn-primary px-5" data-bs-toggle="modal" data-bs-target="#show_qrcode">Show QR Code</button>
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-8" id="equipmentTableContainer">
@@ -75,23 +73,13 @@
                                                 <td><?= $equipment['description'] ?></td>
                                                 <td>
                                                     <div class="">
-                                                        <button class="btn btn-primary btn-sm dropdown-toggle me-1"
-                                                            type="button" id="dropdownMenuButtonIcon" data-bs-toggle="dropdown">
+                                                        <button class="btn btn-primary btn-sm dropdown-toggle me-1" type="button" id="dropdownMenuButtonIcon" data-bs-toggle="dropdown">
                                                             <i class="bi bi-error-circle"></i> Actions
                                                         </button>
                                                         <div class="dropdown-menu shadow-lg">
-                                                            <a class="dropdown-item" href="#" data-bs-toggle="modal"
-                                                                data-bs-target="#view_details_equipment_modal"
-                                                                data-view-equipment-name="<?= $equipment['equipment_name'] ?>"
-                                                                data-view-brand-model="<?= $equipment['model'] ?>"
-                                                                data-view-color="<?= $equipment['color'] ?>"
-                                                                data-view-description="<?= $equipment['description'] ?>"
-                                                                data-view-image="<?= $equipment['image_path'] ?>"><i
-                                                                    class="bi bi-box-arrow-in-up-right me-3"></i> More
+                                                            <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#view_details_equipment_modal" data-view-equipment-name="<?= $equipment['equipment_name'] ?>" data-view-brand-model="<?= $equipment['model'] ?>" data-view-color="<?= $equipment['color'] ?>" data-view-description="<?= $equipment['description'] ?>" data-view-image="<?= $equipment['image_path'] ?>"><i class="bi bi-box-arrow-in-up-right me-3"></i> More
                                                                 Details</a>
-                                                            <a class="dropdown-item text-danger"
-                                                                href="/StudentController/DeleteEquipment/<?= $equipment['student_equipment_id'] ?>"><i
-                                                                    class="bi bi-trash me-3"></i> Delete</a>
+                                                            <a class="dropdown-item text-danger" href="/StudentController/DeleteEquipment/<?= $equipment['student_equipment_id'] ?>"><i class="bi bi-trash me-3"></i> Delete</a>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -107,7 +95,7 @@
         </div>
 
         <div class="modal fade" id="new_equipment_modal" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <div class="mx-3 mt-3">
@@ -118,19 +106,16 @@
                             <i data-feather="x"></i>
                         </button>
                     </div>
-                    <form action="/StudentController/StudentEquipmentCreate" method="post"
-                        enctype="multipart/form-data">
+                    <form action="/StudentController/StudentEquipmentCreate" method="post" enctype="multipart/form-data">
                         <div class="modal-body m-3" style="max-height: 60vh; overflow-y: auto;">
                             <div class="row">
                                 <div class="col-sm-12 col-md-6">
                                     <div class="form-group mb-3">
                                         <label for="">Equipment Type</label>
-                                        <select class="form-select mt-1" name="equipment_name" id="equipmentSelect"
-                                            required>
+                                        <select class="form-select mt-1" name="equipment_name" id="equipmentSelect" required>
                                             <option value="">Select Equipment</option>
                                             <?php foreach ($equipments as $equips): ?>
-                                                <option
-                                                    value="<?= $equips['equipment_id'] ?>:<?= $equips['equipment_name'] ?>:<?= $equips['equipment_code'] ?>">
+                                                <option value="<?= $equips['equipment_id'] ?>:<?= $equips['equipment_name'] ?>:<?= $equips['equipment_code'] ?>">
                                                     <?= $equips['equipment_name'] ?>
                                                 </option>
                                             <?php endforeach; ?>
@@ -143,24 +128,21 @@
                                     <div class="form-group mb-3">
                                         <label for="">Other Equipment</label>
                                         <small class="text-muted"> (Please specify the equipment)</small>
-                                        <input type="text" class="form-control mt-1" name="other_equipment" id=""
-                                            placeholder="Other equipment" autofocus>
+                                        <input type="text" class="form-control mt-1" name="other_equipment" id="" placeholder="Other equipment" autofocus>
                                     </div>
                                 </div>
 
                                 <div class="col-sm-12 col-md-6" id="brandModelContainer">
                                     <div class="form-group mb-3">
                                         <label for="">Brand and Model</label>
-                                        <input type="text" class="form-control mt-1" name="model" id="brandModelInput"
-                                            placeholder="Ex. Logitech 1520" required>
+                                        <input type="text" class="form-control mt-1" name="model" id="brandModelInput" placeholder="Ex. Logitech 1520" required>
                                     </div>
                                 </div>
 
                                 <div class="col-sm-12 col-md-6">
                                     <div class="form-group mb-3">
                                         <label for="">Color</label>
-                                        <input type="text" class="form-control mt-1" name="color" id=""
-                                            placeholder="Equipment Color" required>
+                                        <input type="text" class="form-control mt-1" name="color" id="" placeholder="Equipment Color" required>
                                     </div>
                                 </div>
 
@@ -168,8 +150,7 @@
                                     <div class="form-group mb-3">
                                         <label for="">More Description</label>
                                         <small class="text-muted">(Input N/A if no futher description.)</small>
-                                        <input type="text" class="form-control mt-1" name="description" id=""
-                                            placeholder="Ex. RGB Lights" required>
+                                        <input type="text" class="form-control mt-1" name="description" id="" placeholder="Ex. RGB Lights" required>
                                     </div>
                                 </div>
 
@@ -177,8 +158,7 @@
                                     <div class="form-group mb-3">
                                         <label for="confirmEmail">Picture</label>
                                         <small class="text-muted">(Formats: JPG, PNG | Max size: 5MB)</small>
-                                        <input type="file" class="image-crop-filepond" image-crop-aspect-ratio="1:1"
-                                            data-max-file-size="5MB" data-max-files="1" name="equipment_image" required>
+                                        <input type="file" class="image-crop-filepond" image-crop-aspect-ratio="1:1" data-max-file-size="5MB" data-max-files="1" name="equipment_image" required>
                                     </div>
                                 </div>
                             </div>
@@ -199,8 +179,7 @@
         </div>
 
         <div class="modal fade" id="view_details_equipment_modal" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-centered modal-dialog-scrollable"
-                role="document">
+            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <div class="mx-3">
@@ -214,9 +193,7 @@
                     <div class="modal-body m-3">
                         <div class="row">
                             <div class="col-sm-12 col-md-7">
-                                <img src="" id="modal-view-image" alt="Logo"
-                                    style="width: 100%; max-width: 100%; max-height: 270px; object-fit: contain;"
-                                    srcset="">
+                                <img src="" id="modal-view-image" alt="Logo" style="width: 100%; max-width: 100%; max-height: 270px; object-fit: contain;" srcset="">
                             </div>
 
                             <div class="col-sm-12 col-md-5">
@@ -262,8 +239,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" id="modal-qrcode-download"
-                            class="btn btn-success d-flex align-items-center" onclick="downloadQRCode()">
+                        <button type="button" id="modal-qrcode-download" class="btn btn-success d-flex align-items-center" onclick="downloadQRCode()">
                             <i class="bi bi-download me-2 mb-2"></i>
                             <span>Download</span>
                         </button>
@@ -326,7 +302,7 @@
     // D O W N L O A  D   Q R C O D E
     function downloadQRCode() {
         var canvas = document.querySelector('#modal-student-qrcode canvas');
-        var fileName = '<?= session()->get('logged_code') ?>.png';
+        var fileName = '<?= session()->get('logged_fullname') ?>.png';
 
         if (canvas) {
             var image = canvas.toDataURL("image/png");

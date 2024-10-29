@@ -40,6 +40,10 @@
             <!-- [ Toast ] -->
             <?= $this->include('StudentPages/Components/toast.php'); ?>
         </div>
+
+        <script>
+            <?= $this->include('StudentPages/charts.js'); ?>
+        </script>
     </div>
 
     <script src="/assets/static/js/components/dark.js"></script>

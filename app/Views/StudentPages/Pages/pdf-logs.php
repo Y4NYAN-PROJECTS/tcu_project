@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF Template</title>
+    <title>Logs - <?= $name ?></title>
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -86,35 +86,24 @@
         <small>http://www.tcu.edu.ph | Telefax: 8635-8300</small>
     </div>
 
-    <hr>
+    <hr style="margin-bottom: 20px;">
 
-    <small>Equipments Report as of <?= date('m/d/Y') ?></small>
-
+    <small>Log Records of <strong><?= $name ?></strong> as of <strong><?= date('m/d/Y') ?></strong></small>
     <div class="table-container">
         <table>
             <thead>
                 <tr>
-                    <th>Serial Number</th>
-                    <th>Building</th>
-                    <th>Room #</th>
-                    <th>Equipment</th>
-                    <th>Model</th>
-                    <th>Color</th>
-                    <th>Description</th>
-                    <th>Status</th>
+                    <th>Date</th>
+                    <th>Time In</th>
+                    <th>Time Out</th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($equipment_list as $list): ?>
+                <?php foreach ($logs as $log): ?>
                     <tr>
-                        <td><?= htmlspecialchars($list['serial_number']) ?></td>
-                        <td><?= htmlspecialchars($list['building']) ?></td>
-                        <td><?= htmlspecialchars($list['room_number']) ?></td>
-                        <td><?= htmlspecialchars($list['equipment_name']) ?></td>
-                        <td><?= htmlspecialchars($list['brand_model']) ?></td>
-                        <td><?= htmlspecialchars($list['color']) ?></td>
-                        <td><?= htmlspecialchars($list['description']) ?></td>
-                        <td><?= htmlspecialchars($list['status']) ?></td>
+                        <td><?= (new DateTime($log['date_created']))->format('F j, Y') ?></td>
+                        <td><?= (new DateTime($log['time_in']))->format('g:i A') ?></td>
+                        <td><?= (new DateTime($log['time_out']))->format('g:i A') ?></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>

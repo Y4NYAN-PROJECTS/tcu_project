@@ -2,11 +2,13 @@
 
 namespace App\Controllers;
 use App\Models\DepartmentModel;
+use App\Models\LogsModel;
 use App\Models\ProgramModel;
 use App\Models\UserModel;
 use App\Models\EquipmentTypeModel;
 use App\Models\EquipmentStudentModel;
 use App\Models\FormModel;
+use Dompdf\Dompdf;
 
 class StudentController extends BaseController
 {
@@ -180,8 +182,39 @@ class StudentController extends BaseController
         // [ Active Navigation ]
         session()->set('nav_active', 'history');
 
-        return view('/StudentPages/Pages/history');
+        $user_code = session()->get('logged_code');
+        $logsModel = new LogsModel();
+        $logs = $logsModel->where('user_code', $user_code)->orderBy('date_created', 'asc')->findAll();
+
+        $data = [
+            'logs' => $logs
+        ];
+
+        return view('/StudentPages/Pages/history', $data);
     }
+
+    public function LogsGeneratePDF()
+    {
+        $user_code = session()->get('logged_code');
+        $user_name = session()->get('logged_fullname');
+        $logsModel = new LogsModel();
+        $logs = $logsModel->where('user_code', $user_code)->orderBy('date_created', 'desc')->findAll();
+
+        $data = [
+            'logs' => $logs,
+            'name' => $user_name
+        ];
+
+        $filename = "[$user_name] Log History.pdf";
+
+        $dompdf = new Dompdf();
+        $html = view('/StudentPages/Pages/pdf-logs', $data);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'landscape');
+        $dompdf->render();
+        $dompdf->stream($filename, ['Attachment' => false]);
+    }
+
 
     public function EquipmentDetailsPage($student_equipment_code)
     {

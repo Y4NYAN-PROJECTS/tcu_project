@@ -35,7 +35,54 @@
             </div>
         </div>
 
+        <div class="row">
+            <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+                <div class="card shadow-sm text-center">
+                    <div class="card-body">
+                        <p>Date Today</p>
+                        <h3 id="date-today"></h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+                <div class="card shadow-sm text-center">
+                    <div class="card-body">
+                        <p>Time Today</p>
+                        <h3 id="time-today"></h3>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 </div>
+
+<script>
+    function updateDateTime() {
+        const now = new Date();
+
+        const date_options = {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            timeZone: 'Asia/Manila',
+        };
+
+        const time_options = {
+            hour: 'numeric',
+            minute: 'numeric',
+            second: 'numeric',
+            timeZone: 'Asia/Manila',
+            hour12: true
+        };
+
+        document.getElementById('date-today').innerText = new Intl.DateTimeFormat('en-US', date_options).format(now);
+        document.getElementById('time-today').innerText = new Intl.DateTimeFormat('en-US', time_options).format(now);
+    }
+
+    setInterval(updateDateTime, 1000);
+    updateDateTime();
+</script>
+
 
 <?= $this->endSection(); ?>

@@ -30,7 +30,7 @@
                             <small>Below are your list of log history.</small>
                         </div>
                         <div class="col-12 col-sm-6 col-md-6 col-lg-6 mt-3 text-sm-end">
-                            <button type="button" class="btn btn-primary px-5" data-bs-toggle="modal" data-bs-target="#new_equipment_modal"><i class="bi bi-printer me-2"></i> Print</button>
+                            <a href="/StudentController/LogsGeneratePDF" class="btn btn-primary px-5" target="_blank"><i class="bi bi-printer me-2"></i> Print</a>
                         </div>
                     </div>
                 </div>
@@ -38,8 +38,8 @@
                 <hr class="mt-1">
 
                 <div class="card-body">
-                    <?php if (!empty($logs)): ?>
-                        <div class="text-center">
+                    <?php if (empty($logs)): ?>
+                        <div class="text-center my-5">
                             <h2 class="fst-italic mb-0">No History Found!</h2>
                             <small>No data found. Have a nice day.</small>
                         </div>
@@ -54,31 +54,13 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>July 24, 2024</td>
-                                        <td>10:46 AM</td>
-                                        <td>04:21 PM</td>
-                                    </tr>
-                                    <tr>
-                                        <td>July 25, 2024</td>
-                                        <td>09:32 AM</td>
-                                        <td>05:01 PM</td>
-                                    </tr>
-                                    <tr>
-                                        <td>July 26, 2024</td>
-                                        <td>06:52 AM</td>
-                                        <td>08:21 PM</td>
-                                    </tr>
-                                    <tr>
-                                        <td>August 2, 2024</td>
-                                        <td>05:16 PM</td>
-                                        <td>07:51 PM</td>
-                                    </tr>
-                                    <tr>
-                                        <td>September 13, 2024</td>
-                                        <td>06:36 AM</td>
-                                        <td>05:21 PM</td>
-                                    </tr>
+                                    <?php foreach ($logs as $log): ?>
+                                        <tr>
+                                            <td><?= (new DateTime($log['date_created']))->format('F j, Y') ?></td>
+                                            <td><?= (new DateTime($log['time_in']))->format('g:i A') ?></td>
+                                            <td><?= (new DateTime($log['time_out']))->format('g:i A') ?></td>
+                                        </tr>
+                                    <?php endforeach; ?>
                                 </tbody>
                             </table>
                         </div>
