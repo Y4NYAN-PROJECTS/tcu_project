@@ -103,18 +103,9 @@
                                 <div class="form-group mb-3">
                                     <label for="confirmEmail">Picture</label>
                                     <small class="text-muted">(Formats: JPG, PNG | Max size: 5MB)</small>
-                                    <input type="file" class="image-crop-filepond" image-crop-aspect-ratio="1:1" data-max-file-size="5MB" data-max-files="1" name="equipment_image">
+                                    <input type="file" class="image-crop-filepond" image-crop-aspect-ratio="1:1" data-max-file-size="5MB" data-max-files="1" name="equipment_image" required>
                                 </div>
                             </div>
-
-                            <!-- <input type="file" id="qr-file" name="qrcode_file" class="d-none">
-                                <input type="hidden" id="qr-file-name" name="qrcode_file_name"> -->
-
-                            <!-- <div class="col-md-12 d-none" id="school-equipment-qrcode">
-                                    <div class="text-center">
-                                        <div id="qrcode" class="mt-4 d-flex justify-content-center"></div>
-                                    </div>
-                                </div> -->
                         </div>
                     </div>
 

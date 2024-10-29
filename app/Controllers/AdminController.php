@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 use App\Models\DepartmentModel;
+use App\Models\EquipmentVisitorModel;
 use App\Models\LogsVisitorModel;
 use App\Models\ProgramModel;
 use App\Models\UserModel;
@@ -20,7 +21,6 @@ class AdminController extends BaseController
         session()->set('nav_active', 'dashboard');
 
         $current_date = Time::today()->toDateString();
-
         $logsModel = new LogsModel();
         $student_total_logs = $logsModel->where('date_created', $current_date)->countAllResults();
 
@@ -28,10 +28,6 @@ class AdminController extends BaseController
         $visitor_total_logs = $logsVisitorModel->where('date_created', $current_date)->countAllResults();
 
         $total_logs = $student_total_logs + $visitor_total_logs;
-
-        // total visitor logs = total_logs_chart
-        // student logs today = student_total_logs_chart
-        // visitor logs today = visitor_total_logs_chart
 
         $data = [
             'student_total' => $student_total_logs,
@@ -42,38 +38,90 @@ class AdminController extends BaseController
         return view('/AdminPages/Pages/dashboard', $data);
     }
 
-    public function HistoryPage()
+    public function StudentHistoryPage()
     {
         // [ Active Navigation ]
         session()->set('nav_active', 'history');
 
         $logsModel = new LogsModel();
-        $logs = $logsModel->orderBy('date_created', 'asc')->findAll();
+        $student_logs = $logsModel->orderBy('date_created', 'asc')->findAll();
+
+        $equipmentStudentModel = new EquipmentStudentModel();
+        $student_equipments = $equipmentStudentModel->findAll();
 
         $data = [
-            'logs' => $logs
+            'student_logs' => $student_logs,
+            'student_equipments' => $student_equipments
         ];
 
-        return view('/AdminPages/Pages/history', $data);
+        return view('/AdminPages/Pages/history-student', $data);
     }
 
-    public function LogsGeneratePDF()
+    public function StudentLogsGeneratePDF()
     {
         $logsModel = new LogsModel();
-        $logs = $logsModel->orderBy('date_created', 'asc')->findAll();
+        $student_logs = $logsModel->orderBy('date_created', 'asc')->findAll();
 
-        date_default_timezone_set('Asia/Manila');
-        $current_date = date('F d, Y');
+        $equipmentStudentModel = new EquipmentStudentModel();
+        $student_equipments = $equipmentStudentModel->findAll();
+
+        $current_date = Time::today()->toDateString();
 
         $data = [
-            'logs' => $logs,
+            'student_logs' => $student_logs,
+            'student_equipments' => $student_equipments,
             'date' => $current_date
         ];
 
         $filename = "Log History [$current_date] .pdf";
 
         $dompdf = new Dompdf();
-        $html = view('/AdminPages/Pages/pdf-logs', $data);
+        $html = view('/AdminPages/Pages/pdf-logs-student', $data);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'landscape');
+        $dompdf->render();
+        $dompdf->stream($filename, ['Attachment' => false]);
+    }
+
+    public function VisitorHistoryPage()
+    {
+        // [ Active Navigation ]
+        session()->set('nav_active', 'history');
+
+        $logsVisitorModel = new LogsVisitorModel();
+        $visitor_logs = $logsVisitorModel->orderBy('date_created', 'asc')->findAll();
+
+        $equipmentVisitorModel = new EquipmentVisitorModel();
+        $visitor_equipments = $equipmentVisitorModel->findAll();
+
+        $data = [
+            'visitor_logs' => $visitor_logs,
+            'visitor_equipments' => $visitor_equipments
+        ];
+
+        return view('/AdminPages/Pages/history-visitor', $data);
+    }
+
+    public function VisitorLogsGeneratePDF()
+    {
+        $logsVisitorModel = new LogsVisitorModel();
+        $visitor_logs = $logsVisitorModel->orderBy('date_created', 'asc')->findAll();
+
+        $equipmentVisitorModel = new EquipmentVisitorModel();
+        $visitor_equipments = $equipmentVisitorModel->findAll();
+
+        $current_date = Time::today()->toDateString();
+
+        $data = [
+            'visitor_logs' => $visitor_logs,
+            'visitor_equipments' => $visitor_equipments,
+            'date' => $current_date
+        ];
+
+        $filename = "Log History [$current_date] .pdf";
+
+        $dompdf = new Dompdf();
+        $html = view('/AdminPages/Pages/pdf-logs-visitor', $data);
         $dompdf->loadHtml($html);
         $dompdf->setPaper('A4', 'landscape');
         $dompdf->render();
@@ -106,9 +154,8 @@ class AdminController extends BaseController
             $log_code .= $characters[rand(0, $characters_length - 1)];
         }
 
-        date_default_timezone_set('Asia/Manila');
-        $current_date = date('Y-m-d');
-        $current_time = date('H:i:s');
+        $current_date = Time::today()->toDateString();
+        $current_time = Time::today()->toTimeString();
 
         $logsModel = new LogsModel();
         $logs_check = $logsModel->where('date_created', $current_date)->where('user_code', $scanned_qr_code_value)->first();
@@ -375,8 +422,6 @@ class AdminController extends BaseController
         return redirect()->to('/AdminController/EquipmentPage');
     }
 
-    // EQUIPMENT REGISTRATION
-
     public function EquipmentListPage()
     {
 
@@ -412,14 +457,14 @@ class AdminController extends BaseController
         $rqst_description = $this->request->getPost('description');
         $rqst_equipment_image = $this->request->getFile('equipment_image');
 
-        $img_path = "/$rqst_building/$rqst_room_number/$rqst_serial_number/";
+        $img_path = "/schoolEquipments";
         $directoryPath = FCPATH . $img_path;
 
         if (!is_dir($directoryPath)) {
             mkdir($directoryPath, 0777, true);
         }
 
-        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@_-?';
+        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $characters_length = strlen($characters);
         $school_equipment_code = '';
 
@@ -428,12 +473,9 @@ class AdminController extends BaseController
         }
 
         if ($rqst_equipment_image->isValid()) {
-
             $file_extension = $rqst_equipment_image->getClientExtension();
             $equipment_name = $rqst_equipment_type . '.' . $file_extension;
-
-            $equipment_path = $img_path . $equipment_name;
-
+            $equipment_path = $img_path . "/$equipment_name";
             $target_equipment_path = $directoryPath . '/' . $equipment_name;
 
             if (file_exists($target_equipment_path)) {
@@ -552,7 +594,7 @@ class AdminController extends BaseController
         session()->set('nav_active', 'accounts');
 
         $userModel = new UserModel();
-        $user_pending_list = $userModel->where('user_type', 2)->where('is_approve', 0)->findAll();
+        $user_pending_list = $userModel->where('is_approve', 0)->findAll();
 
         $departmentModel = new DepartmentModel();
         $department_list = $departmentModel->findAll();
@@ -589,9 +631,11 @@ class AdminController extends BaseController
 
     public function AccountStudents()
     {
+        // [ Active Navigation ]
+        session()->set('nav_active', 'accounts');
+
         $userModel = new UserModel();
         $user_student_list = $userModel->where('user_type', 2)->where('is_approve', 1)->findAll();
-
 
         $departmentModel = new DepartmentModel();
         $department_list = $departmentModel->findAll();
@@ -619,9 +663,11 @@ class AdminController extends BaseController
 
     public function AccountAdmin()
     {
+        // [ Active Navigation ]
+        session()->set('nav_active', 'accounts');
+
         $userModel = new UserModel();
         $user_admin_list = $userModel->where('user_type', 1)->where('is_approve', 1)->findAll();
-
 
         $departmentModel = new DepartmentModel();
         $department_list = $departmentModel->findAll();

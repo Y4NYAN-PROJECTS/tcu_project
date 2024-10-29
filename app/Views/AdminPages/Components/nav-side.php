@@ -88,11 +88,20 @@
                     </ul>
                 </li>
 
-                <li class="sidebar-item  <?= $nav_active == 'history' ? 'active' : '' ?>">
-                    <a href="/AdminController/HistoryPage" class='sidebar-link'>
+                <li class="sidebar-item has-sub <?= $nav_active == 'history' ? 'active' : '' ?>">
+                    <a href="#" class='sidebar-link'>
                         <i class="bi bi-hourglass-split"></i>
                         <span>History</span>
                     </a>
+                    <ul class="submenu">
+                        <li class="submenu-item">
+                            <a href="/AdminController/StudentHistoryPage" class="submenu-link">Student</a>
+                        </li>
+
+                        <li class="submenu-item">
+                            <a href="/AdminController/VisitorHistoryPage" class="submenu-link">Visitor</a>
+                        </li>
+                    </ul>
                 </li>
 
                 <li class="sidebar-title">School Equipments</li>

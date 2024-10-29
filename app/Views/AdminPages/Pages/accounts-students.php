@@ -2,18 +2,18 @@
 <?= $this->section('content'); ?>
 
 <div id="main-content">
-    <div class="page-heading mb-3">
+    <div class="page-heading mt-5">
         <div class="page-title">
             <div class="row">
-                <div class="col-12 col-md-6 order-md-1 order-last">
-                    <h3>Student Accounts</h3>
+                <div class="col-12 col-md-6 order-md-1 order-first">
+                    <h3>Students Accounts</h3>
                 </div>
-                <div class="col-12 col-md-6 order-md-2 order-first">
+                <div class="col-12 col-md-6 order-md-2 order-last">
                     <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                            <li class="breadcrumb-item active">Accounts</li>
-                            <li class="breadcrumb-item active">Student</li>
+                            <li class="breadcrumb-item">Accounts</li>
+                            <li class="breadcrumb-item active">Students</li>
                         </ol>
                     </nav>
                 </div>
@@ -23,12 +23,11 @@
 
     <section class="section">
         <div class="card shadow-sm">
-            <div class="card-header mb-0 pb-0 text-center">
-                <h5>Student Account List</h5>
+            <div class="card-header text-center">
+                <h5 class="mb-0 mt-2">Student Accounts List</h5>
+                <small>List of all Students.</small>
             </div>
-
             <hr class="mt-1">
-
             <div class="card-body">
                 <?php if (empty($student_list)): ?>
                     <div class="text-center">
@@ -40,13 +39,13 @@
                         <table class="table" id="table1">
                             <thead>
                                 <tr>
-                                    <th>Full Name</th>
-                                    <th>Email Adrress</th>
-                                    <th>Username</th>
-                                    <th>Department</th>
-                                    <th>Program</th>
-                                    <th>Date Created</th>
-                                    <th>Actions</th>
+                                    <th class="col-3">Full Name</th>
+                                    <th class="col-3">Email Adrress</th>
+                                    <th class="col-2">Username</th>
+                                    <th class="col-1">Department</th>
+                                    <th class="col-1">Program</th>
+                                    <th class="col-1">Date Created</th>
+                                    <th class="col-1">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -77,35 +76,27 @@
                                         <td><?= $user['date_created'] ?></td>
                                         <td>
                                             <div class="">
-                                                <button class="btn btn-primary btn-sm dropdown-toggle me-1" type="button"
-                                                    id="dropdownMenuButtonIcon" data-bs-toggle="dropdown">
+                                                <button class="btn btn-primary btn-sm dropdown-toggle me-1" type="button" id="dropdownMenuButtonIcon" data-bs-toggle="dropdown">
                                                     <i class="bi bi-error-circle"></i> Actions
                                                 </button>
                                                 <div class="dropdown-menu shadow-lg">
-                                                    <a class="dropdown-item" href="#" data-bs-toggle="modal"
-                                                        data-bs-target="#view_profile" data-image="<?= $user['profile_path'] ?>"
-                                                        data-student-id="<?= $user['student_id'] ?>"
-                                                        data-first-name="<?= $user['first_name'] ?>"
-                                                        data-middle-name="<?= $user['middle_name'] ?>"
-                                                        data-last-name="<?= $user['last_name'] ?>" data-department="<?php
-                                                          foreach ($departments as $department) {
-                                                              if ($user['department_id'] == $department['department_id']) {
-                                                                  echo $department['department_acronym'];
-                                                                  break;
+                                                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#view_profile" data-image="<?= $user['profile_path'] ?>" data-student-id="<?= $user['student_id'] ?>" data-first-name="<?= $user['first_name'] ?>" data-middle-name="<?= $user['middle_name'] ?>" data-last-name="<?= $user['last_name'] ?>" data-department="<?php
+                                                              foreach ($departments as $department) {
+                                                                  if ($user['department_id'] == $department['department_id']) {
+                                                                      echo $department['department_acronym'];
+                                                                      break;
+                                                                  }
                                                               }
-                                                          }
-                                                          ?>" data-program=" <?php
-                                                          foreach ($programs as $program) {
-                                                              if ($user['program_id'] == $program['program_id']) {
-                                                                  echo $program['program_acronym'];
-                                                                  break;
+                                                              ?>" data-program=" <?php
+                                                              foreach ($programs as $program) {
+                                                                  if ($user['program_id'] == $program['program_id']) {
+                                                                      echo $program['program_acronym'];
+                                                                      break;
+                                                                  }
                                                               }
-                                                          }
-                                                          ?>"><i class="bi bi-box-arrow-in-up-right me-3"></i> View
+                                                              ?>"><i class="bi bi-box-arrow-in-up-right me-3"></i> View
                                                         Profile</a>
-                                                    <a class="dropdown-item text-danger"
-                                                        href="/AdminController/DeleteAccountStudent/<?= $user['user_id'] ?>"><i
-                                                            class="bi bi-x me-3"></i> Remove</a>
+                                                    <a class="dropdown-item text-danger" href="/AdminController/DeleteAccountStudent/<?= $user['user_id'] ?>"><i class="bi bi-x me-3"></i> Remove</a>
                                                 </div>
                                             </div>
                                         </td>
@@ -120,10 +111,8 @@
     </section>
 </div>
 
-<div class="modal fade" id="view_profile" tabindex="-1" data-bs-toggle="modal"
-    data-bs-target="#view_details_equipment_modal" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-centered modal-dialog-scrollable"
-        role="document">
+<div class="modal fade" id="view_profile" tabindex="-1" data-bs-toggle="modal" data-bs-target="#view_details_equipment_modal" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <div class="mx-3 mt-3 d-flex align-items-center">
@@ -139,8 +128,7 @@
             <div class="modal-body m-3">
                 <div class="row">
                     <div class="col-sm-12 col-md-6">
-                        <img src="" id="modal-profile-image" class="rounded-circle mx-auto mb-3"
-                            style="width: 100%; max-width: 100%; max-height: 270px; object-fit: contain;" srcset="">
+                        <img src="" id="modal-profile-image" class="rounded-circle mx-auto mb-3" style="width: 100%; max-width: 100%; max-height: 270px; object-fit: contain;" srcset="">
                         <h4 class="text-center"></h4>
                     </div>
 

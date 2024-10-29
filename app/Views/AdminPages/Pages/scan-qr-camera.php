@@ -13,7 +13,8 @@
                         <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                                <li class="breadcrumb-item active">Camera QR Code Scanner</li>
+                                <li class="breadcrumb-item">Scan Now!</li>
+                                <li class="breadcrumb-item active">Camera</li>
                             </ol>
                         </nav>
                     </div>

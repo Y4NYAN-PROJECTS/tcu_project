@@ -51,12 +51,12 @@
                                 <table class="table" id="table1">
                                     <thead>
                                         <tr>
-                                            <th>Serial #</th>
-                                            <th>Building</th>
-                                            <th>Room #</th>
-                                            <th>Equipment</th>
-                                            <th>Status</th>
-                                            <th>Actions</th>
+                                            <th class="col-2">Serial #</th>
+                                            <th class="col-2">Building</th>
+                                            <th class="col-2">Room #</th>
+                                            <th class="col-3">Equipment</th>
+                                            <th class="col-2">Status</th>
+                                            <th class="col-1">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -69,47 +69,19 @@
                                                 <td><?= $equipment['status'] ?></td>
                                                 <td>
                                                     <div class="">
-                                                        <button class="btn btn-primary btn-sm me-1" type="button"
-                                                            id="dropdownMenuButtonIcon" data-bs-toggle="dropdown">
+                                                        <button class="btn btn-primary btn-sm me-1" type="button" id="dropdownMenuButtonIcon" data-bs-toggle="dropdown">
                                                             <i class="bi bi-error-circle"></i> Actions
                                                         </button>
                                                         <div class="dropdown-menu shadow-lg">
-                                                            <a class="dropdown-item" href="#" data-bs-toggle="modal"
-                                                                data-bs-target="#update_equipment_modal"
-                                                                data-equipment-id="<?= $equipment['school_equipment_id'] ?>"
-                                                                data-serial-number="<?= $equipment['serial_number'] ?>"
-                                                                data-building="<?= $equipment['building'] ?>"
-                                                                data-room-number="<?= $equipment['room_number'] ?>"
-                                                                data-equipment-name="<?= $equipment['equipment_name'] ?>"
-                                                                data-brand-model="<?= $equipment['brand_model'] ?>"
-                                                                data-color="<?= $equipment['color'] ?>"
-                                                                data-description="<?= $equipment['description'] ?>"
-                                                                data-status="<?= $equipment['status'] ?>">
+                                                            <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#update_equipment_modal" data-equipment-id="<?= $equipment['school_equipment_id'] ?>" data-serial-number="<?= $equipment['serial_number'] ?>" data-building="<?= $equipment['building'] ?>" data-room-number="<?= $equipment['room_number'] ?>" data-equipment-name="<?= $equipment['equipment_name'] ?>" data-brand-model="<?= $equipment['brand_model'] ?>" data-color="<?= $equipment['color'] ?>" data-description="<?= $equipment['description'] ?>" data-status="<?= $equipment['status'] ?>">
                                                                 <i class="bi bi-pencil-square me-3"></i> Update Status</a>
 
-                                                            <a class="dropdown-item" href="#" data-bs-toggle="modal"
-                                                                data-bs-target="#view_details_equipment_modal"
-                                                                data-view-image="<?= $equipment['image_path'] ?>"
-                                                                data-view-serial-number="<?= $equipment['serial_number'] ?>"
-                                                                data-view-building="<?= $equipment['building'] ?>"
-                                                                data-view-room-number="<?= $equipment['room_number'] ?>"
-                                                                data-view-equipment-name="<?= $equipment['equipment_name'] ?>"
-                                                                data-view-brand-model="<?= $equipment['brand_model'] ?>"
-                                                                data-view-color="<?= $equipment['color'] ?>"
-                                                                data-view-description="<?= $equipment['description'] ?>"
-                                                                data-view-status="<?= $equipment['status'] ?>">
+                                                            <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#view_details_equipment_modal" data-view-image="<?= $equipment['image_path'] ?>" data-view-serial-number="<?= $equipment['serial_number'] ?>" data-view-building="<?= $equipment['building'] ?>" data-view-room-number="<?= $equipment['room_number'] ?>" data-view-equipment-name="<?= $equipment['equipment_name'] ?>" data-view-brand-model="<?= $equipment['brand_model'] ?>" data-view-color="<?= $equipment['color'] ?>" data-view-description="<?= $equipment['description'] ?>" data-view-status="<?= $equipment['status'] ?>">
                                                                 <i class="bi bi-box-arrow-in-up-right me-3"></i> More
                                                                 Details</a>
 
-                                                            <a class="dropdown-item" href="" data-bs-toggle="modal"
-                                                                data-bs-target="#show_qrcode"
-                                                                data-qrcode-serial-number="<?= $equipment['serial_number'] ?>"
-                                                                data-qrcode-equipment-name="<?= $equipment['equipment_name'] ?>"
-                                                                data-qrcode-equipment-code="<?= $equipment['school_equipment_code'] ?>"><i
-                                                                    class="bi bi-qr-code-scan me-3"></i> Show QR Code</a>
-                                                            <a class="dropdown-item text-danger"
-                                                                href="/AdminController/DeleteSchoolEquipment/<?= $equipment['school_equipment_id'] ?>"><i
-                                                                    class="bi bi-trash me-3"></i> Delete</a>
+                                                            <a class="dropdown-item" href="" data-bs-toggle="modal" data-bs-target="#show_qrcode" data-qrcode-serial-number="<?= $equipment['serial_number'] ?>" data-qrcode-equipment-name="<?= $equipment['equipment_name'] ?>" data-qrcode-equipment-code="<?= $equipment['school_equipment_code'] ?>"><i class="bi bi-qr-code-scan me-3"></i> Show QR Code</a>
+                                                            <a class="dropdown-item text-danger" href="/AdminController/DeleteSchoolEquipment/<?= $equipment['school_equipment_id'] ?>"><i class="bi bi-trash me-3"></i> Delete</a>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -125,8 +97,7 @@
         </div>
 
         <div class="modal fade" id="update_equipment_modal" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-centered modal-dialog-scrollable"
-                role="document">
+            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <div class="mx-3 mt-3">
@@ -146,48 +117,42 @@
                                 <div class="col-sm-12 col-md-6">
                                     <div class="form-group mb-3">
                                         <label for="">Serial Number</label>
-                                        <input type="text" class="form-control mt-1" name="serial_number"
-                                            id="modal-update-serial-number" placeholder="" disabled>
+                                        <input type="text" class="form-control mt-1" name="serial_number" id="modal-update-serial-number" placeholder="" disabled>
                                     </div>
                                 </div>
 
                                 <div class="col-sm-12 col-md-6">
                                     <div class="form-group mb-3">
                                         <label for="">Building</label>
-                                        <input type="text" class="form-control mt-1" name="building"
-                                            id="modal-update-building" placeholder="" disabled>
+                                        <input type="text" class="form-control mt-1" name="building" id="modal-update-building" placeholder="" disabled>
                                     </div>
                                 </div>
 
                                 <div class="col-sm-12 col-md-6">
                                     <div class="form-group mb-3">
                                         <label for="">Room Number</label>
-                                        <input type="text" class="form-control mt-1" name="room_number"
-                                            id="modal-update-room-number" placeholder="" disabled>
+                                        <input type="text" class="form-control mt-1" name="room_number" id="modal-update-room-number" placeholder="" disabled>
                                     </div>
                                 </div>
 
                                 <div class="col-sm-12 col-md-6">
                                     <div class="form-group mb-3">
                                         <label for="">Equipment</label>
-                                        <input type="text" class="form-control mt-1" name="equipment_type"
-                                            id="modal-update-equipment-name" placeholder="" disabled>
+                                        <input type="text" class="form-control mt-1" name="equipment_type" id="modal-update-equipment-name" placeholder="" disabled>
                                     </div>
                                 </div>
 
                                 <div class="col-sm-12 col-md-6">
                                     <div class="form-group mb-3">
                                         <label for="">Brand and Model</label>
-                                        <input type="text" class="form-control mt-1" name="model"
-                                            id="modal-update-model" placeholder="" disabled>
+                                        <input type="text" class="form-control mt-1" name="model" id="modal-update-model" placeholder="" disabled>
                                     </div>
                                 </div>
 
                                 <div class="col-sm-12 col-md-6">
                                     <div class="form-group mb-3">
                                         <label for="">Color</label>
-                                        <input type="text" class="form-control mt-1" name="color"
-                                            id="modal-update-color" placeholder="" disabled>
+                                        <input type="text" class="form-control mt-1" name="color" id="modal-update-color" placeholder="" disabled>
                                     </div>
                                 </div>
 
@@ -208,8 +173,7 @@
                                     <div class="form-group mb-3">
                                         <label for="">More Description</label>
                                         <small class="text-muted">(Input N/A if no futher description.)</small>
-                                        <input type="text" class="form-control mt-1" name="update_description"
-                                            id="modal-update-description" placeholder="" required>
+                                        <input type="text" class="form-control mt-1" name="update_description" id="modal-update-description" placeholder="" required>
                                     </div>
                                 </div>
 
@@ -238,8 +202,7 @@
         </div>
 
         <div class="modal fade" id="view_details_equipment_modal" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-centered modal-dialog-scrollable"
-                role="document">
+            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <div class="mx-3 mt-3">
@@ -252,9 +215,7 @@
                     <div class="modal-body m-3">
                         <div class="row">
                             <div class="col-sm-12 col-md-5 mt-3">
-                                <img src="" id="modal-view-image" alt="Logo"
-                                    style="width: 100%; max-width: 100%; max-height: 270px; object-fit: contain;"
-                                    srcset="">
+                                <img src="" id="modal-view-image" alt="Logo" style="width: 100%; max-width: 100%; max-height: 270px; object-fit: contain;" srcset="">
                             </div>
 
                             <div class="col-sm-12 col-md-7">
@@ -338,8 +299,7 @@
                             <span class="d-none d-sm-block">Close</span>
                         </button>
 
-                        <button type="submit" id="modal-qrcode-download"
-                            class="btn btn-success d-flex align-items-center" onclick="downloadQRCode()">
+                        <button type="submit" id="modal-qrcode-download" class="btn btn-success d-flex align-items-center" onclick="downloadQRCode()">
                             <i class="bi bi-download me-2 mb-2"></i>
                             <span>Download</span>
                         </button>

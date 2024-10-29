@@ -93,19 +93,38 @@
         <table>
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Date</th>
-                    <th>Time In</th>
-                    <th>Time Out</th>
+                    <th style="width: 15%;">Date</th>
+                    <th style="width: 20%;">Name</th>
+                    <th style="width: 70%;">Equipments</th>
+                    <th style="width: 10%;">Time In</th>
+                    <th style="width: 10%;">Time Out</th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($logs as $log): ?>
+                <?php foreach ($student_logs as $log): ?>
                     <tr>
-                        <td><?= $log['full_name'] ?></td>
-                        <td><?= (new DateTime($log['date_created']))->format('F j, Y') ?></td>
+                        <td><?= $log['date_created'] ?></td>
+                        <td><?= $log['full_name']; ?></td>
+                        <td>
+                            <?php
+                            foreach ($student_equipments as $equipment) {
+                                if ($equipment['user_code'] === $log['user_code']) {
+                                    echo " [" . $equipment['model'] . "]";
+                                    echo '</a>';
+                                }
+                            }
+                            ?>
+                        </td>
                         <td><?= (new DateTime($log['time_in']))->format('g:i A') ?></td>
-                        <td><?= (new DateTime($log['time_out']))->format('g:i A') ?></td>
+                        <td>
+                            <?php
+                            if ($log['time_out'] == '-') {
+                                echo "-";
+                            } else {
+                                echo (new DateTime($log['time_out']))->format('g:i A');
+                            }
+                            ?>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>

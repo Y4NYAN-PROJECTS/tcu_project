@@ -24,12 +24,9 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="card shadow-sm">
-                    <div class="card-header mb-0 pb-0 text-center">
-                        <h1>Dashboard Page</h1>
-                    </div>
-                    <hr class="mt-1">
-                    <div class="card-body text-center">
-                        <p>Welcome back to Digital Equipment and Appliances Logging System! Your journey continues here. <span>&#128640;</span></p>
+                    <div class="card-header text-center mb-2">
+                        <h2 class="mb-0 mt-2">Dashboard</h2>
+                        <small>Welcome back to Digital Equipment and Appliances Logging System! Your journey continues here. <span>&#128640;</span></small>
                     </div>
                 </div>
             </div>

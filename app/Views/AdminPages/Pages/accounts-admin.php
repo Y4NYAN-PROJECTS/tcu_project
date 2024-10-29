@@ -20,14 +20,14 @@
             </div>
         </div>
     </div>
+
     <section class="section">
         <div class="card shadow-sm">
             <div class="card-header text-center">
-                <h5 class="mb-0">Administrator Accounts List</h5>
+                <h5 class="mb-0 mt-2">Administrator Accounts List</h5>
+                <small>List of all administrators.</small>
             </div>
-
             <hr class="mt-0">
-
             <div class="card-body">
                 <?php if (empty($admin_list)): ?>
                     <div class="text-center my-5">
@@ -39,13 +39,11 @@
                         <table class="table" id="table1">
                             <thead>
                                 <tr>
-                                    <th>Full Name</th>
-                                    <th>Email Adrress</th>
-                                    <th>Username</th>
-                                    <th>Department</th>
-                                    <th>Program</th>
-                                    <th>Date Created</th>
-                                    <th>Actions</th>
+                                    <th class="col-3">Full Name</th>
+                                    <th class="col-4">Email Adrress</th>
+                                    <th class="col-2">Username</th>
+                                    <th class="col-2">Date Created</th>
+                                    <th class="col-1">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -54,51 +52,9 @@
                                         <td><?= $user['full_name'] ?></td>
                                         <td><?= $user['email'] ?></td>
                                         <td><?= $user['username'] ?></td>
-                                        <td>
-                                            <?php
-                                            foreach ($departments as $department):
-                                                if ($user['department_id'] == $department['department_id']) {
-                                                    echo $department['department_acronym'];
-                                                }
-                                            endforeach;
-                                            ?>
-                                        </td>
-
-                                        <td>
-                                            <?php
-                                            foreach ($programs as $program):
-                                                if ($user['program_id'] == $program['program_id']) {
-                                                    echo $program['program_acronym'];
-                                                }
-                                            endforeach;
-                                            ?>
-                                        </td>
                                         <td><?= $user['date_created'] ?></td>
                                         <td>
-                                            <div class="">
-                                                <button class="btn btn-primary btn-sm dropdown-toggle me-1" type="button" id="dropdownMenuButtonIcon" data-bs-toggle="dropdown">
-                                                    <i class="bi bi-error-circle"></i> Actions
-                                                </button>
-                                                <div class="dropdown-menu shadow-lg">
-                                                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#view_profile" data-image="<?= $user['profile_path'] ?>" data-student-id="<?= $user['student_id'] ?>" data-first-name="<?= $user['first_name'] ?>" data-middle-name="<?= $user['middle_name'] ?>" data-last-name="<?= $user['last_name'] ?>" data-department="<?php
-                                                              foreach ($departments as $department) {
-                                                                  if ($user['department_id'] == $department['department_id']) {
-                                                                      echo $department['department_acronym'];
-                                                                      break;
-                                                                  }
-                                                              }
-                                                              ?>" data-program=" <?php
-                                                              foreach ($programs as $program) {
-                                                                  if ($user['program_id'] == $program['program_id']) {
-                                                                      echo $program['program_acronym'];
-                                                                      break;
-                                                                  }
-                                                              }
-                                                              ?>"><i class="bi bi-box-arrow-in-up-right me-3"></i> View
-                                                        Profile</a>
-                                                    <a class="dropdown-item text-danger" href="/AdminController/DeleteAccountAdmin/<?= $user['user_id'] ?>"><i class="bi bi-x me-3"></i> Remove</a>
-                                                </div>
-                                            </div>
+                                            <a href="#" class="btn btn-sm btn-outline-danger px-3">Remove</a>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
