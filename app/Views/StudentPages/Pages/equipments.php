@@ -95,7 +95,7 @@
         </div>
 
         <div class="modal fade" id="new_equipment_modal" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <div class="mx-3 mt-3">
@@ -179,7 +179,7 @@
         </div>
 
         <div class="modal fade" id="view_details_equipment_modal" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <div class="mx-3">
@@ -301,7 +301,7 @@
     // D O W N L O A  D   Q R C O D E
     function downloadQRCode() {
         var canvas = document.querySelector('#modal-student-qrcode canvas');
-        var fileName = '<?= session()->get('logged_code') ?>.png';
+        var fileName = '<?= session()->get('logged_fullname') ?>.png';
 
         if (canvas) {
             var image = canvas.toDataURL("image/png");

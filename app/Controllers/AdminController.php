@@ -396,7 +396,7 @@ class AdminController extends BaseController
                 'color' => $rqst_color,
                 'description' => $rqst_description,
                 'status' => $rqst_status,
-                'school_equpment_image_path' => $equipment_path,
+                'school_equipment_image_path' => $equipment_path,
             ];
             $equipmentSchoolModel->save($equipment_image_data);
 
@@ -415,7 +415,7 @@ class AdminController extends BaseController
         $dompdf = new Dompdf();
         $html = view('/AdminPages/Pages/pdf-template', $data);
         $dompdf->loadHtml($html);
-        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->setPaper('A4', 'landscape');
         $dompdf->render();
         $dompdf->stream("output.pdf", ['Attachment' => false]);
     }

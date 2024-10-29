@@ -44,7 +44,7 @@
                         <div id="reader" style="width: 100%; max-width: 600px; height: auto;"></div>
                     </div>
 
-                    <div class="d-flex justify-content-center my-5 d-none" id="barcode-scanner">
+                    <div class="my-5 d-none" id="barcode-scanner">
                         <form id="qrFormBarcode" action="/AdminController/scannedQRCode" method="post">
                             <input type="text" class="form-control form-control-xl text-center" name="scanned_qr_code_value" id="barcode-input" placeholder="Scanning..." oninput="validateNumber(this)" autofocus>
                         </form>
