@@ -31,11 +31,11 @@
                 <hr class="mt-1">
 
                 <div class="card-body text-center">
-                    <div class="d-flex justify-content-center my-5" id="barcode-scanner">
+                    <h3 class="mb-0 mt-3">Barcode Scanning</h3>
+                    <small>Ready for Scanning...</small>
+                    <div class=" my-5" id="barcode-scanner">
                         <form id="qrFormBarcode" action="/AdminController/scannedQRCode" method="post">
-                            <input type="text" class="form-control form-control-xl text-center"
-                                name="scanned_qr_code_value" id="barcode-input" placeholder="Scanning..."
-                                oninput="validateNumber(this)" autofocus>
+                            <input type="text" class="form-control form-control-xl text-center" name="scanned_qr_code_value" id="barcode-input" placeholder="Scanning..." autofocus>
                         </form>
                     </div>
                 </div>

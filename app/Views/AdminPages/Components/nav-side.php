@@ -4,8 +4,7 @@
     <div class="sidebar-wrapper active">
         <div class="sidebar-header position-relative">
             <div class="logo text-center">
-                <a href="#"><img src="/assets/tcu/logo-square.png" style="width: auto; height: 100px;" alt="Logo"
-                        srcset=""></a>
+                <a href="#"><img src="/assets/tcu/logo-square.png" style="width: auto; height: 100px;" alt="Logo" srcset=""></a>
             </div>
             <h5 class="mt-3 text-center">Digital Equipment and Appliances Logging System</h5>
         </div>
@@ -53,6 +52,22 @@
                     </a>
                 </li>
 
+                <li class="sidebar-item has-sub <?= $nav_active == 'scan' ? 'active' : '' ?>">
+                    <a href="#" class='sidebar-link'>
+                        <i class="bi bi-qr-code-scan"></i>
+                        <span>Scan Now!</span>
+                    </a>
+                    <ul class="submenu">
+                        <li class="submenu-item">
+                            <a href="/AdminController/ScanQRCamera" class="submenu-link">Camera</a>
+                        </li>
+
+                        <li class="submenu-item">
+                            <a href="/AdminController/ScanQRBarcode" class="submenu-link">Barcode</a>
+                        </li>
+                    </ul>
+                </li>
+
                 <li class="sidebar-item has-sub <?= $nav_active == 'accounts' ? 'active' : '' ?>">
                     <a href="#" class='sidebar-link'>
                         <i class="bi bi-people"></i>
@@ -95,28 +110,6 @@
                         <li class="submenu-item">
                             <a href="/AdminController/EquipmentListPage" class="submenu-link">List</a>
                         </li>
-
-                        <li class="submenu-item">
-                            <a href="/AdminController/EquipmentAnalyticsPage" class="submenu-link">Analytics</a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="sidebar-title">Equipment Logs</li>
-
-                <li class="sidebar-item has-sub <?= $nav_active == 'school-equipment' ? 'active' : '' ?>">
-                    <a href="#" class='sidebar-link'>
-                        <i class="bi bi-qr-code-scan"></i>
-                        <span>Scan Now!</span>
-                    </a>
-                    <ul class="submenu">
-                        <li class="submenu-item">
-                            <a href="/AdminController/ScanQRCamera" class="submenu-link">Camera</a>
-                        </li>
-
-                        <li class="submenu-item">
-                            <a href="/AdminController/ScanQRBarcode" class="submenu-link">Barcode</a>
-                        </li>
                     </ul>
                 </li>
 
@@ -145,8 +138,7 @@
 
                 <br>
 
-                <a href="/LoginController/Logout" class="btn btn-secondary w-100"><i
-                        class="bi bi-box-arrow-in-left me-2"></i><small>Logout</small></a>
+                <a href="/LoginController/Logout" class="btn btn-secondary w-100"><i class="bi bi-box-arrow-in-left me-2"></i><small>Logout</small></a>
             </ul>
         </div>
     </div>

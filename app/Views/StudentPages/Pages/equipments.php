@@ -46,8 +46,8 @@
                     <?php else: ?>
                         <div class="col-sm-12 col-md-4 d-none">
                             <div class="text-center">
-                                <div id="qrcode" class="d-flex justify-content-center p-3 bg-white"></div>
-                                <button type="button" class="btn btn-sm btn-primary px-5" data-bs-toggle="modal" data-bs-target="#show_qrcode">Show QR Code</button>
+                                <div id="qrcode" class="d-flex justify-content-center p-5 bg-white"></div>
+                                <button type="button" class="btn btn-sm btn-primary px-5 mt-2" data-bs-toggle="modal" data-bs-target="#show_qrcode">Show QR Code</button>
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-8" id="equipmentTableContainer">

@@ -32,7 +32,7 @@
 
                 <div class="card-body text-center">
                     <h3 class="mb-0 mt-3">QR Code Scanning</h3>
-                    <small>Value: <small id="scanned-qr-code-value-display">Scanning QR</small></small>
+                    <small>Ready for Scanning...</small>
                     <div class="d-flex justify-content-center my-2" id="camera-scanner">
                         <div id="reader" style="width: 100%; max-width: 600px; height: auto;"></div>
                     </div>

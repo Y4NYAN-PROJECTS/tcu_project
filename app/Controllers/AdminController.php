@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 use App\Models\DepartmentModel;
+use App\Models\LogsVisitorModel;
 use App\Models\ProgramModel;
 use App\Models\UserModel;
 use App\Models\EquipmentTypeModel;
@@ -9,6 +10,7 @@ use App\Models\EquipmentStudentModel;
 use App\Models\EquipmentSchoolModel;
 use App\Models\LogsModel;
 use Dompdf\Dompdf;
+use CodeIgniter\I18n\Time;
 
 class AdminController extends BaseController
 {
@@ -17,17 +19,24 @@ class AdminController extends BaseController
         // [ Active Navigation ]
         session()->set('nav_active', 'dashboard');
 
-        $logged_department = session()->get('logged_department');
-        $departmentModel = new DepartmentModel();
-        $department = $departmentModel->where('department_id', $logged_department)->first();
+        $current_date = Time::today()->toDateString();
 
-        $logged_program = session()->get('logged_program');
-        $programModel = new ProgramModel();
-        $program = $programModel->where('program_id', $logged_program)->first();
+        $logsModel = new LogsModel();
+        $student_total_logs = $logsModel->where('date_created', $current_date)->countAllResults();
+
+        $logsVisitorModel = new LogsVisitorModel();
+        $visitor_total_logs = $logsVisitorModel->where('date_created', $current_date)->countAllResults();
+
+        $total_logs = $student_total_logs + $visitor_total_logs;
+
+        // total visitor logs = total_logs_chart
+        // student logs today = student_total_logs_chart
+        // visitor logs today = visitor_total_logs_chart
 
         $data = [
-            'department' => $department,
-            'program' => $program,
+            'student_total' => $student_total_logs,
+            'visitor_total' => $visitor_total_logs,
+            'overall_total' => $total_logs
         ];
 
         return view('/AdminPages/Pages/dashboard', $data);
@@ -38,15 +47,37 @@ class AdminController extends BaseController
         // [ Active Navigation ]
         session()->set('nav_active', 'history');
 
-        return view('/AdminPages/Pages/history');
+        $logsModel = new LogsModel();
+        $logs = $logsModel->orderBy('date_created', 'asc')->findAll();
+
+        $data = [
+            'logs' => $logs
+        ];
+
+        return view('/AdminPages/Pages/history', $data);
     }
 
-    public function ScanQRPage()
+    public function LogsGeneratePDF()
     {
-        // [ Active Navigation ]
-        session()->set('nav_active', 'scan');
+        $logsModel = new LogsModel();
+        $logs = $logsModel->orderBy('date_created', 'asc')->findAll();
 
-        return view('/AdminPages/Pages/scan-qr');
+        date_default_timezone_set('Asia/Manila');
+        $current_date = date('F d, Y');
+
+        $data = [
+            'logs' => $logs,
+            'date' => $current_date
+        ];
+
+        $filename = "Log History [$current_date] .pdf";
+
+        $dompdf = new Dompdf();
+        $html = view('/AdminPages/Pages/pdf-logs', $data);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'landscape');
+        $dompdf->render();
+        $dompdf->stream($filename, ['Attachment' => false]);
     }
 
     public function scannedQRCode()
@@ -100,11 +131,16 @@ class AdminController extends BaseController
 
     public function ScanQRCamera()
     {
+        // [ Active Navigation ]
+        session()->set('nav_active', 'scan');
+
         return view('/AdminPages/Pages/scan-qr-camera');
     }
 
     public function ScanQRBarcode()
     {
+        // [ Active Navigation ]
+        session()->set('nav_active', 'scan');
         return view('/AdminPages/Pages/scan-qr-barcode');
     }
 
@@ -436,7 +472,7 @@ class AdminController extends BaseController
         $dompdf = new Dompdf();
         $html = view('/AdminPages/Pages/pdf-template', $data);
         $dompdf->loadHtml($html);
-        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->setPaper('A4', 'landscape');
         $dompdf->render();
         $dompdf->stream("output.pdf", ['Attachment' => false]);
     }

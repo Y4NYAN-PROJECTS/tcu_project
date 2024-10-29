@@ -40,6 +40,10 @@
             <!-- [ Toast ] -->
             <?= $this->include('AdminPages/Components/toast.php'); ?>
         </div>
+
+        <script>
+            <?= $this->include('AdminPages/charts.js'); ?>
+        </script>
     </div>
 
     <script src="/assets/static/js/components/dark.js"></script>

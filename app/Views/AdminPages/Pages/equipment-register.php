@@ -22,21 +22,20 @@
 
     <section class="section">
         <div class="card shadow-sm">
-            <div class="card-header mb-0 pb-0 text-center">
-                <h5>Register School Equipment</h5>
+            <div class="card-header text-center">
+                <h5 class="mb-0 mt-2">Register School Equipment</h5>
+                <small>Fill in the details.</small>
             </div>
             <hr class="mt-1">
             <div class="card-body mb-3">
-                <form action="/AdminController/EquipmentRegister" id="school-equipment" method="post"
-                    enctype="multipart/form-data">
+                <form action="/AdminController/EquipmentRegister" id="school-equipment" method="post" enctype="multipart/form-data">
                     <div class="modal-body m-3">
                         <div class="row">
 
                             <div class="col-sm-12 col-md-6" id="brandModelContainer">
                                 <div class="form-group mb-3">
                                     <label for="school_equipment_serial_number">Serial Number</label>
-                                    <input type="text" class="form-control mt-1" name="serial_number"
-                                        id="school_equipment_serial_number" placeholder="Ex. 123ABC" required>
+                                    <input type="text" class="form-control mt-1" name="serial_number" id="school_equipment_serial_number" placeholder="Ex. 123ABC" required>
                                     <div id="serialNumberFeedback" class="invalid-feedback">
                                         <i class="bx bx-radio-circle"></i>
                                         Invalid Serial Number
@@ -47,40 +46,35 @@
                             <div class="col-sm-12 col-md-6" id="brandModelContainer">
                                 <div class="form-group mb-3">
                                     <label for="">Building</label>
-                                    <input type="text" class="form-control mt-1" name="building"
-                                        placeholder="Ex. Main Building" required>
+                                    <input type="text" class="form-control mt-1" name="building" placeholder="Ex. Main Building" required>
                                 </div>
                             </div>
 
                             <div class="col-sm-12 col-md-6" id="brandModelContainer">
                                 <div class="form-group mb-3">
                                     <label for="">Room Number</label>
-                                    <input type="text" class="form-control mt-1" name="room_number"
-                                        placeholder="Ex. Room 001" required>
+                                    <input type="text" class="form-control mt-1" name="room_number" placeholder="Ex. Room 001" required>
                                 </div>
                             </div>
 
                             <div class="col-sm-12 col-md-6" id="brandModelContainer">
                                 <div class="form-group mb-3">
                                     <label for="">Equipment</label>
-                                    <input type="text" class="form-control mt-1" name="equipment_type"
-                                        placeholder="Ex. Electricfan" required>
+                                    <input type="text" class="form-control mt-1" name="equipment_type" placeholder="Ex. Electricfan" required>
                                 </div>
                             </div>
 
                             <div class="col-sm-12 col-md-6" id="brandModelContainer">
                                 <div class="form-group mb-3">
                                     <label for="">Brand and Model</label>
-                                    <input type="text" class="form-control mt-1" name="model"
-                                        placeholder="Ex. Logitech 1520" required>
+                                    <input type="text" class="form-control mt-1" name="model" placeholder="Ex. Logitech 1520" required>
                                 </div>
                             </div>
 
                             <div class="col-sm-12 col-md-6">
                                 <div class="form-group mb-3">
                                     <label for="">Color</label>
-                                    <input type="text" class="form-control mt-1" name="color" id=""
-                                        placeholder="Equipment Color" required>
+                                    <input type="text" class="form-control mt-1" name="color" id="" placeholder="Equipment Color" required>
                                 </div>
                             </div>
 
@@ -101,8 +95,7 @@
                                 <div class="form-group mb-3">
                                     <label for="">More Description</label>
                                     <small class="text-muted">(Input N/A if no futher description.)</small>
-                                    <input type="text" class="form-control mt-1" name="description" id=""
-                                        placeholder="Ex. RGB Lights" required>
+                                    <input type="text" class="form-control mt-1" name="description" id="" placeholder="Ex. RGB Lights" required>
                                 </div>
                             </div>
 
@@ -110,8 +103,7 @@
                                 <div class="form-group mb-3">
                                     <label for="confirmEmail">Picture</label>
                                     <small class="text-muted">(Formats: JPG, PNG | Max size: 5MB)</small>
-                                    <input type="file" class="image-crop-filepond" image-crop-aspect-ratio="1:1"
-                                        data-max-file-size="5MB" data-max-files="1" name="equipment_image">
+                                    <input type="file" class="image-crop-filepond" image-crop-aspect-ratio="1:1" data-max-file-size="5MB" data-max-files="1" name="equipment_image">
                                 </div>
                             </div>
 
