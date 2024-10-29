@@ -51,11 +51,18 @@ class AdminController extends BaseController
 
     public function scannedQRCode()
     {
-        $scanned_value = $this->request->getPost('scanned_qr_code_value');
+        $scanned_qr_code_value = $this->request->getPost('scanned_qr_code_value');
 
-        $studentEquipment = new UserModel();
-        $user_information = $studentEquipment->where('user_code', $scanned_value)->first();
+        $checkStudentEquipment = new UserModel();
+        $user_information = $checkStudentEquipment->where('user_code', $scanned_qr_code_value)->first();
 
+        $studentEquipment = new EquipmentStudentModel();
+        $equipment_information = $studentEquipment->where('user_code', $scanned_qr_code_value)->findAll();
+
+        if (!$equipment_information) {
+            session()->setFlashdata('danger', 'No Equipments Found.');
+            return redirect()->back();
+        }
         $user_id = $user_information['user_id'];
         $user_code = $user_information['user_code'];
         $full_name = $user_information['full_name'];
@@ -73,7 +80,7 @@ class AdminController extends BaseController
         $current_time = date('H:i:s');
 
         $logsModel = new LogsModel();
-        $logs_check = $logsModel->where('date_created', $current_date)->where('user_code', $scanned_value)->first();
+        $logs_check = $logsModel->where('date_created', $current_date)->where('user_code', $scanned_qr_code_value)->first();
         if (!$logs_check) {
             $logs_data = [
                 'log_code' => $log_code,
@@ -87,8 +94,18 @@ class AdminController extends BaseController
             $logs_id = $logs_check['logs_id'];
             $logsModel->update($logs_id, ['time_out' => $current_time]);
         }
-
+        session()->setFlashdata('success', 'Equipment Logged Successfully .');
         return redirect()->back();
+    }
+
+    public function ScanQRCamera()
+    {
+        return view('/AdminPages/Pages/scan-qr-camera');
+    }
+
+    public function ScanQRBarcode()
+    {
+        return view('/AdminPages/Pages/scan-qr-barcode');
     }
 
     public function ProgramPage()
@@ -324,7 +341,7 @@ class AdminController extends BaseController
 
     // EQUIPMENT REGISTRATION
 
-    public function EquipmentRegistrationPage()
+    public function EquipmentListPage()
     {
 
         // [ Active Navigation ]
@@ -339,7 +356,12 @@ class AdminController extends BaseController
             'school_equipments' => $school_equipment_list,
         ];
 
-        return view('/AdminPages/Pages/equipments-register', $data);
+        return view('/AdminPages/Pages/equipment-list', $data);
+    }
+
+    public function EquipmentRegisterPage()
+    {
+        return view('/AdminPages/Pages/equipment-register');
     }
 
     public function EquipmentRegister()
@@ -382,7 +404,6 @@ class AdminController extends BaseController
                 unlink($target_equipment_path);
             }
 
-
             $rqst_equipment_image->move($directoryPath, $equipment_name);
 
             $equipmentSchoolModel = new EquipmentSchoolModel();
@@ -396,7 +417,7 @@ class AdminController extends BaseController
                 'color' => $rqst_color,
                 'description' => $rqst_description,
                 'status' => $rqst_status,
-                'school_equpment_image_path' => $equipment_path,
+                'image_path' => $equipment_path,
             ];
             $equipmentSchoolModel->save($equipment_image_data);
 
@@ -450,14 +471,23 @@ class AdminController extends BaseController
 
     public function DeleteSchoolEquipment($school_equipment_id)
     {
-
         $schoolEquipmentModel = new EquipmentSchoolModel();
-        $schoolEquipmentModel->where('school_equipment_id', $school_equipment_id)->delete();
+        $equipment = $schoolEquipmentModel->find($school_equipment_id);
+
+        if ($equipment) {
+            $schoolEquipmentModel->where('school_equipment_id', $school_equipment_id)->delete();
+
+            $img_path = FCPATH . $equipment['image_path'];
+
+            if (file_exists($img_path)) {
+                unlink($img_path);
+            }
+        }
 
         session()->setFlashdata('success', 'Equipment Deleted Successfully.');
         return redirect()->back();
-
     }
+
 
     public function AccountPage()
     {
@@ -579,27 +609,6 @@ class AdminController extends BaseController
         session()->setFlashdata('success', 'Admin Account Deleted Successfully.');
         return redirect()->back();
 
-    }
-
-    public function AccountView($id)
-    {
-        $userModel = new UserModel();
-        $view_profile = $userModel->where('user_id', $id)->first();
-
-        $departmentModel = new DepartmentModel();
-        $department_name = $departmentModel->where('department_code', $view_profile['department_code'])->first();
-
-        $programModel = new ProgramModel();
-        $program_name = $programModel->where('program_code', $view_profile['program_code'])->first();
-
-
-        $data = [
-            'profile' => $view_profile,
-            'department' => $department_name,
-            'program' => $program_name,
-
-        ];
-        return view('/AdminPages/Pages/account-view', $data);
     }
 
     public function UpdateProfilePage()

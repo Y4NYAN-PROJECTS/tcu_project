@@ -6,14 +6,14 @@
         <div class="page-title">
             <div class="row">
                 <div class="col-12 col-md-6 order-md-1 order-last">
-                    <h3>Pending Accounts</h3>
+                    <h3>Student Accounts</h3>
                 </div>
                 <div class="col-12 col-md-6 order-md-2 order-first">
                     <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
                             <li class="breadcrumb-item active">Accounts</li>
-                            <li class="breadcrumb-item active">Pending</li>
+                            <li class="breadcrumb-item active">Student</li>
                         </ol>
                     </nav>
                 </div>
@@ -84,7 +84,7 @@
                                                 <div class="dropdown-menu shadow-lg">
                                                     <a class="dropdown-item" href="#" data-bs-toggle="modal"
                                                         data-bs-target="#view_profile" data-image="<?= $user['profile_path'] ?>"
-                                                        data-full-name="<?= $user['full_name'] ?>"
+                                                        data-student-id="<?= $user['student_id'] ?>"
                                                         data-first-name="<?= $user['first_name'] ?>"
                                                         data-middle-name="<?= $user['middle_name'] ?>"
                                                         data-last-name="<?= $user['last_name'] ?>" data-department="<?php
@@ -126,69 +126,32 @@
         role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <div class="mx-3 mt-3">
-                    <h2> Account View</h2>
+                <div class="mx-3 mt-3 d-flex align-items-center">
+                    <h5 class="mb-0">Student No:</h5>
+                    <h5 id="modal-student-id" class="ms-2" style="font-size: 30px;"></h5>
                 </div>
+
+
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <i data-feather="x"></i>
                 </button>
             </div>
             <div class="modal-body m-3">
-                <div class="row d-flex justify-content-center align-items-center mt-3">
-                    <div class="text-center mb-3">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
                         <img src="" id="modal-profile-image" class="rounded-circle mx-auto mb-3"
-                            style="width: 15%; object-fit: cover; aspect-ratio: 1/1;">
-                        <h3 id="modal-full-name"></h3>
+                            style="width: 100%; max-width: 100%; max-height: 270px; object-fit: contain;" srcset="">
+                        <h4 class="text-center"></h4>
                     </div>
-                    <hr class="mb-5">
-                    <div class="col-md-8">
-                        <div class="row">
-                            <div class="col-sm-12 col-md-12 col-xl-4">
-                                <div class="form-group">
-                                    <div class="form-group mb-4">
-                                        <label class="text-sm" for="">First Name</label>
-                                        <input type="text" class="form-control" id="modal-first-name" disabled>
-                                    </div>
-                                </div>
-                            </div>
 
-                            <div class="col-sm-12 col-md-6 col-xl-4">
-                                <div class="form-group">
-                                    <div class="form-group mb-3">
-                                        <label class="text-sm" for="">Middle Name</label>
-                                        <input type="text" class="form-control" id="modal-middle-name" disabled>
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="col-sm-12 col-md-6 ">
+                        <div class="ms-3">
+                            <small>First Name: <h5 id="modal-first-name"></h5></small>
+                            <small>Middle Name: <h5 id="modal-middle-name"></h5></small>
+                            <small>Last Name: <h5 id="modal-last-name"></h5></small>
+                            <small>Department: <h5 id="modal-department"></h5></small>
+                            <small>Program: <h5 id="modal-program"></h5></small>
 
-                            <div class="col-sm-12 col-md-6 col-xl-4">
-                                <div class="form-group">
-                                    <div class="form-group mb-3">
-                                        <label class="text-sm" for="">Last Name</label>
-                                        <input type="text" class="form-control" id="modal-last-name" disabled>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-sm-12 col-md-6 col-xl-6">
-                                <div class="form-group">
-                                    <div class="form-group mb-4">
-                                        <label class="text-sm" for="">Department</label>
-                                        <input type="text" id="modal-department" class="form-control" disabled>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-12 col-md-6 col-xl-6">
-                                <div class="form-group">
-                                    <div class="form-group mb-3">
-                                        <label class="text-sm" for="">Program</label>
-                                        <input type="text" id="modal-program" class="form-control" disabled>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -211,7 +174,7 @@
         viewProfileLinks.forEach(link => {
             link.addEventListener('click', function () {
                 const image = link.getAttribute('data-image');
-                const fullName = link.getAttribute('data-full-name');
+                const fullName = link.getAttribute('data-student-id');
                 const firstName = link.getAttribute('data-first-name');
                 const middleName = link.getAttribute('data-middle-name');
                 const lastName = link.getAttribute('data-last-name');
@@ -219,15 +182,15 @@
                 const program = link.getAttribute('data-program');
 
                 document.getElementById('modal-profile-image').src = image;
-                document.getElementById('modal-full-name').textContent = fullName;
-                document.getElementById('modal-first-name').value = firstName;
-                document.getElementById('modal-middle-name').value = middleName;
-                document.getElementById('modal-last-name').value = lastName;
-                document.getElementById('modal-department').value = department;
-                document.getElementById('modal-program').value = program;
+                document.getElementById('modal-student-id').textContent = fullName;
+                document.getElementById('modal-first-name').textContent = firstName;
+                document.getElementById('modal-middle-name').textContent = middleName;
+                document.getElementById('modal-last-name').textContent = lastName;
+                document.getElementById('modal-department').textContent = department;
+                document.getElementById('modal-program').textContent = program;
             });
         });
     });
-
 </script>
+
 <?= $this->endSection(); ?>

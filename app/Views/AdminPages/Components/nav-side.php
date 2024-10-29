@@ -73,13 +73,6 @@
                     </ul>
                 </li>
 
-                <li class="sidebar-item  <?= $nav_active == 'scan' ? 'active' : '' ?>">
-                    <a href="/AdminController/ScanQRPage" class='sidebar-link'>
-                        <i class="bi bi-qr-code-scan"></i>
-                        <span>Scan Now!</span>
-                    </a>
-                </li>
-
                 <li class="sidebar-item  <?= $nav_active == 'history' ? 'active' : '' ?>">
                     <a href="/AdminController/HistoryPage" class='sidebar-link'>
                         <i class="bi bi-hourglass-split"></i>
@@ -96,7 +89,7 @@
                     </a>
                     <ul class="submenu">
                         <li class="submenu-item">
-                            <a href="/AdminController/EquipmentRegistrationPage" class="submenu-link">Registration</a>
+                            <a href="/AdminController/EquipmentRegisterPage" class="submenu-link">Registration</a>
                         </li>
 
                         <li class="submenu-item">
@@ -105,6 +98,24 @@
 
                         <li class="submenu-item">
                             <a href="/AdminController/EquipmentAnalyticsPage" class="submenu-link">Analytics</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="sidebar-title">Equipment Logs</li>
+
+                <li class="sidebar-item has-sub <?= $nav_active == 'school-equipment' ? 'active' : '' ?>">
+                    <a href="#" class='sidebar-link'>
+                        <i class="bi bi-qr-code-scan"></i>
+                        <span>Scan Now!</span>
+                    </a>
+                    <ul class="submenu">
+                        <li class="submenu-item">
+                            <a href="/AdminController/ScanQRCamera" class="submenu-link">Camera</a>
+                        </li>
+
+                        <li class="submenu-item">
+                            <a href="/AdminController/ScanQRBarcode" class="submenu-link">Barcode</a>
                         </li>
                     </ul>
                 </li>
