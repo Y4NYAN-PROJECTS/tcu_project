@@ -24,6 +24,9 @@
         <!-- [ Footer ] -->
         <?= $this->include('UserTypePage/Components/footer.php'); ?>
 
+        <!-- [ Toast ] -->
+        <?= $this->include('StudentPages/Components/toast.php'); ?>
+
         <script src="/assets/static/js/components/dark.js"></script>
         <script src="/assets/static/js/pages/horizontal-layout.js"></script>
         <script src="/assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>

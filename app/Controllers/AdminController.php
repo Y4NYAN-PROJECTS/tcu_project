@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controllers;
+
 use App\Models\DepartmentModel;
 use App\Models\EquipmentVisitorModel;
 use App\Models\LogsVisitorModel;
@@ -155,7 +156,7 @@ class AdminController extends BaseController
         }
 
         $current_date = Time::today()->toDateString();
-        $current_time = Time::today()->toTimeString();
+        $current_time = Time::now()->toTimeString();
 
         $logsModel = new LogsModel();
         $logs_check = $logsModel->where('date_created', $current_date)->where('user_code', $scanned_qr_code_value)->first();
@@ -351,7 +352,6 @@ class AdminController extends BaseController
             } else {
                 session()->setFlashdata('danger', 'Department Deletion Failed.');
             }
-
         } else {
             session()->setFlashdata('danger', 'Department Deletion Failed.');
         }
@@ -534,7 +534,6 @@ class AdminController extends BaseController
         $schoolEquipmentModel->update($schoolEquipmentID, $data);
         session()->setFlashdata('success', 'Equipment Updated Successfully');
         return redirect()->back();
-
     }
 
     public function ViewDetailsSchoolEquipment($school_equipment_id)
@@ -544,7 +543,6 @@ class AdminController extends BaseController
         $schoolEquipmentModel->where('school_equipment_id', $school_equipment_id)->first();
 
         return redirect()->back();
-
     }
 
     public function DeleteSchoolEquipment($school_equipment_id)
@@ -658,7 +656,6 @@ class AdminController extends BaseController
 
         session()->setFlashdata('success', 'Student Account Deleted Successfully.');
         return redirect()->back();
-
     }
 
     public function AccountAdmin()
@@ -690,7 +687,6 @@ class AdminController extends BaseController
 
         session()->setFlashdata('success', 'Admin Account Deleted Successfully.');
         return redirect()->back();
-
     }
 
     public function UpdateProfilePage()
@@ -848,7 +844,4 @@ class AdminController extends BaseController
 
         return view('/AdminPages/Pages/change-password', $data);
     }
-
-
-
 }
