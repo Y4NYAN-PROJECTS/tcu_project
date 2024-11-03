@@ -192,6 +192,21 @@ class AdminController extends BaseController
         return view('/AdminPages/Pages/scan-qr-barcode');
     }
 
+    public function ScanQREquipment($scanned)
+    {
+        // [ Active Navigation ]
+        session()->set('nav_active', 'school-equipment');
+
+        $equipmentSchoolModel = new EquipmentSchoolModel();
+        $equipments = $equipmentSchoolModel->findAll();
+
+        $data = [
+            'equipments' => $equipments,
+            'scanned' => $scanned
+        ];
+        return view('/AdminPages/Pages/scan-qr-equipment', $data);
+    }
+
     public function ProgramPage()
     {
         // [ Active Navigation ]
@@ -424,7 +439,6 @@ class AdminController extends BaseController
 
     public function EquipmentListPage()
     {
-
         // [ Active Navigation ]
         session()->set('nav_active', 'school-equipment');
 
@@ -442,6 +456,8 @@ class AdminController extends BaseController
 
     public function EquipmentRegisterPage()
     {
+        // [ Active Navigation ]
+        session()->set('nav_active', 'school-equipment');
         return view('/AdminPages/Pages/equipment-register');
     }
 
@@ -652,7 +668,7 @@ class AdminController extends BaseController
     public function DeleteAccountStudent($student_id)
     {
         $userModel = new UserModel();
-        $userModel->where('user_code', $student_id)->delete();
+        $userModel->where('user_id', $student_id)->delete();
 
         session()->setFlashdata('success', 'Student Account Deleted Successfully.');
         return redirect()->back();
@@ -683,7 +699,7 @@ class AdminController extends BaseController
     public function DeleteAccountAdmin($admin_id)
     {
         $userModel = new UserModel();
-        $userModel->where('user_code', $admin_id)->delete();
+        $userModel->where('user_id', $admin_id)->delete();
 
         session()->setFlashdata('success', 'Admin Account Deleted Successfully.');
         return redirect()->back();

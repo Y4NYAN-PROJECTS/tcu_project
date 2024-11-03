@@ -12,7 +12,8 @@
                     <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                            <li class="breadcrumb-item active">Equipments</li>
+                            <li class="breadcrumb-item">Equipments</li>
+                            <li class="breadcrumb-item active">List</li>
                         </ol>
                     </nav>
                 </div>
@@ -88,9 +89,9 @@
                                             </tr>
                                         <?php endforeach; ?>
                                     <?php endif; ?>
-                                </tbody>
-                            </table>
-                        </div>
+                                    </tbody>
+                                </table>
+                            </div>
                     </div>
                 </div>
             </div>
@@ -315,9 +316,9 @@
 
 <script>
     // U P D A T E   E Q U I P M E N T   S T A T U S
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         var updateModal = document.getElementById('update_equipment_modal');
-        updateModal.addEventListener('show.bs.modal', function (event) {
+        updateModal.addEventListener('show.bs.modal', function(event) {
             var button = event.relatedTarget;
 
             var schoolEquipmentId = button.getAttribute('data-equipment-id');
@@ -354,9 +355,9 @@
 
 
     // V I E  W  E Q U I P M E N T  D E T A I L S
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         var viewModal = document.getElementById('view_details_equipment_modal');
-        viewModal.addEventListener('show.bs.modal', function (event) {
+        viewModal.addEventListener('show.bs.modal', function(event) {
             var button = event.relatedTarget;
 
             var viewImage = button.getAttribute('data-view-image');
@@ -395,10 +396,10 @@
 
 
     // Q R  C O D E
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         var viewModal = document.getElementById('show_qrcode');
 
-        viewModal.addEventListener('show.bs.modal', function (event) {
+        viewModal.addEventListener('show.bs.modal', function(event) {
             var button = event.relatedTarget;
 
             var qrCodeValue = button.getAttribute('data-qrcode-serial-number');
@@ -415,7 +416,7 @@
             qrCodeContainer.innerHTML = '';
 
             var qrCodeSerialNumber = new QRCode(qrCodeContainer);
-            qrCodeSerialNumber.makeCode(qrCodeValue);
+            qrCodeSerialNumber.makeCode(schoolEquipmentCode);
         });
     });
 
@@ -481,7 +482,7 @@
     //     }
     // });
 
-    document.getElementById('equipment').addEventListener('submit', function (event) {
+    document.getElementById('equipment').addEventListener('submit', function(event) {
         let codeInput = document.querySelector('input[name="equipment_type_code"]');
         codeInput.value = generateCode();
         codeInput.disabled = false;
@@ -524,7 +525,7 @@
 
         if (file) {
             const reader = new FileReader(); // Create a FileReader object
-            reader.onload = function (e) {
+            reader.onload = function(e) {
                 preview.src = e.target.result; // Set the preview image source to the file
                 link.href = e.target.result; // Set the link href to the file for clicking
                 preview.style.display = 'block'; // Show the image
@@ -538,7 +539,6 @@
             link.style.display = 'none'; // Hide the link
         }
     }
-
 </script>
 
 <?= $this->endSection(); ?>

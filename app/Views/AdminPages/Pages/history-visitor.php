@@ -13,7 +13,8 @@
                         <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                                <li class="breadcrumb-item active">History</li>
+                                <li class="breadcrumb-item">History</li>
+                                <li class="breadcrumb-item active">Visitor</li>
                             </ol>
                         </nav>
                     </div>
@@ -150,9 +151,9 @@
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         var modal = document.getElementById('view_details_equipment_modal');
-        modal.addEventListener('show.bs.modal', function (event) {
+        modal.addEventListener('show.bs.modal', function(event) {
             var button = event.relatedTarget;
 
             var name = button.getAttribute('data-modal-name');

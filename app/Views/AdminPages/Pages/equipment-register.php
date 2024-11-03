@@ -12,7 +12,8 @@
                     <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                            <li class="breadcrumb-item active">Equipment Registration</li>
+                            <li class="breadcrumb-item">Equipments</li>
+                            <li class="breadcrumb-item active">Registration</li>
                         </ol>
                     </nav>
                 </div>
@@ -31,7 +32,6 @@
                 <form action="/AdminController/EquipmentRegister" id="school-equipment" method="post" enctype="multipart/form-data">
                     <div class="modal-body m-3">
                         <div class="row">
-
                             <div class="col-sm-12 col-md-6" id="brandModelContainer">
                                 <div class="form-group mb-3">
                                     <label for="school_equipment_serial_number">Serial Number</label>
@@ -128,7 +128,7 @@
 
 <script>
     const nameInput = document.getElementById('new_full_name');
-    nameInput.addEventListener('input', function () {
+    nameInput.addEventListener('input', function() {
         const namePattern = /^[a-zA-Z\s]+$/;
         if (namePattern.test(nameInput.value)) {
             nameInput.classList.remove("is-invalid");
@@ -140,7 +140,7 @@
     });
 
     // S E R I A L  N U M B E R  V A L I D A T I O N
-    document.getElementById('school_equipment_serial_number').addEventListener('input', function () {
+    document.getElementById('school_equipment_serial_number').addEventListener('input', function() {
         const serialNumberPattern = /^[^\s]+$/;;
         const serialNumberInput = this;
         const feedbackElement = document.getElementById('serialNumberFeedback');
@@ -156,7 +156,7 @@
         }
     });
 
-    document.getElementById('equipment').addEventListener('submit', function (event) {
+    document.getElementById('equipment').addEventListener('submit', function(event) {
         let codeInput = document.querySelector('input[name="equipment_type_code"]');
         codeInput.value = generateCode();
         codeInput.disabled = false;
@@ -199,7 +199,7 @@
 
         if (file) {
             const reader = new FileReader(); // Create a FileReader object
-            reader.onload = function (e) {
+            reader.onload = function(e) {
                 preview.src = e.target.result; // Set the preview image source to the file
                 link.href = e.target.result; // Set the link href to the file for clicking
                 preview.style.display = 'block'; // Show the image

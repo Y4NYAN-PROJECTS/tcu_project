@@ -113,6 +113,10 @@
                     </a>
                     <ul class="submenu">
                         <li class="submenu-item">
+                            <a href="/AdminController/ScanQREquipment/0" class="submenu-link">Scan</a>
+                        </li>
+
+                        <li class="submenu-item">
                             <a href="/AdminController/EquipmentRegisterPage" class="submenu-link">Registration</a>
                         </li>
 
