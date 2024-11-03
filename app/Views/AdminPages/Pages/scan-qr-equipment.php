@@ -54,6 +54,7 @@
                                 <?php foreach ($equipments as $equipment): ?>
                                     <?php if ($equipment['school_equipment_code'] == $scanned): ?>
                                         <?php $found = true; ?>
+                                        <?php session()->setFlashdata('success', 'Scanned Successfully.'); ?>
                                         <div class="">
                                             <h4 class="mt-3">Equipments Details:</h4>
                                             <div class="row">
@@ -117,6 +118,7 @@
                                     <?php endif; ?>
                                 <?php endforeach; ?>
                                 <?php if (!$found): ?>
+                                    <?php session()->setFlashdata('danger', 'No match found.'); ?>
                                     <div class="text-center">
                                         <h2 class="fst-italic mb-0">No Match Found!</h2>
                                         <small>The equipment is not registered.</small>
